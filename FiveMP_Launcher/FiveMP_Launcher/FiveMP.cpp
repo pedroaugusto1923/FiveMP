@@ -6,7 +6,7 @@ using namespace std;
 int main(void) {
 	SetConsoleTitle("FiveMP Launcher");
 
-	const char *dllname = "FiveMP_Client.dll";
+	const char *dllname = "FiveMP.dll";
 
 	bool GameThread = false;
 	char GamePath[MAX_PATH] = { 0 };
