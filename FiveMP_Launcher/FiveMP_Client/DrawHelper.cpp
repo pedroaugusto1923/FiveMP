@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-void draw_menu_line(std::string caption, float lineWidth, float lineHeight, float lineTop, float lineLeft, float textLeft, bool active, bool title, bool bDrawRect, bool rescaleText)
+float draw_menu_line(std::string caption, float lineWidth, float lineHeight, float lineTop, float lineLeft, float textLeft, bool active, bool title, bool bDrawRect, bool rescaleText)
 {
 	// default values
 	int text_col[4] = { 255, 255, 255, 255 },
@@ -8,7 +8,7 @@ void draw_menu_line(std::string caption, float lineWidth, float lineHeight, floa
 	float text_scale = 0.30f;
 	int font = 0; //Maybe make this a parameter in the future.
 
-	// correcting values for active line
+				  // correcting values for active line
 	if (active)
 	{
 		text_col[0] = 0;
@@ -49,7 +49,7 @@ void draw_menu_line(std::string caption, float lineWidth, float lineHeight, floa
 	UI::SET_TEXT_SCALE(0.0, text_scale);
 	UI::SET_TEXT_COLOUR(text_col[0], text_col[1], text_col[2], text_col[3]);
 	UI::SET_TEXT_CENTRE(0);
-	UI::SET_TEXT_DROPSHADOW(0, 0, 0, 0, 0);
+	UI::SET_TEXT_DROPSHADOW(2, 0, 0, 0, 255);
 	UI::SET_TEXT_EDGE(0, 0, 0, 0, 0);
 	UI::_SET_TEXT_ENTRY("STRING");
 	UI::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME((LPSTR)caption.c_str());
@@ -60,6 +60,8 @@ void draw_menu_line(std::string caption, float lineWidth, float lineHeight, floa
 
 	if (bDrawRect)
 		draw_rect(lineLeftScaled, lineTopScaled + (0.007f), lineWidthScaled, ((((float)(num25)*num26) + (lineHeightScaled * 2.0f)) + 0.005f), rect_col[0], rect_col[1], rect_col[2], rect_col[3]);
+
+	return lineTopScaled;
 }
 
 void draw_text(float x, float y, char* chSampleText, color_t color)

@@ -149,34 +149,76 @@ void BypassOnlineModelRequestBlock()
 	}
 }
 
+bool memory_compare(const BYTE *data, const BYTE *pattern, const char *mask)
+{
+	for (; *mask; ++mask, ++data, ++pattern)
+	{
+		if (*mask == 'x' && *data != *pattern)
+		{
+			return false;
+		}
+	}
+	return (*mask) == NULL;
+}
+UINT64 FindPattern(char *pattern, char *mask)
+{	//Edited, From YSF by Kurta999
+	UINT64 i;
+	UINT64 size;
+	UINT64 address;
+
+	MODULEINFO info = { 0 };
+
+	address = (UINT64)GetModuleHandle(NULL);
+	GetModuleInformation(GetCurrentProcess(), GetModuleHandle(NULL), &info, sizeof(MODULEINFO));
+	size = (UINT64)info.SizeOfImage;
+
+	for (i = 0; i < size; ++i)
+	{
+		if (memory_compare((BYTE *)(address + i), (BYTE *)pattern, mask))
+		{
+			return (UINT64)(address + i);
+		}
+	}
+	return 0;
+}
+
 void NoIntro()
 {
-	DWORD64 dwSplashScreen = Pattern::Scan(g_MainModuleInfo, "72 1F E8 ? ? ? ? 8B 0D");
-	if (dwSplashScreen == NULL)  //If the module is still encrypted at the time of injection, run the No Intro code.
+	//Disable logos since they add loading time
+	UINT64 logos = FindPattern("platform:/movies/rockstar_logos", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+	if (logos != 0)
 	{
-		while (dwSplashScreen == NULL)
+		//memset((void*)(logos + 0x11), 0x00, 0x0E);
+		memcpy((void*)logos, "./nonexistingfilenonexistingfil", 32);
+
+		//DisableLegalMessagesCompletely();
+		DWORD64 dwSplashScreen = Pattern::Scan(g_MainModuleInfo, "72 1F E8 ? ? ? ? 8B 0D");
+		if (dwSplashScreen == NULL)  //If the module is still encrypted at the time of injection, run the No Intro code.
 		{
-			Sleep(10);
-			dwSplashScreen = Pattern::Scan(g_MainModuleInfo, "72 1F E8 ? ? ? ? 8B 0D");
+			while (dwSplashScreen == NULL)
+			{
+				Sleep(10);
+				dwSplashScreen = Pattern::Scan(g_MainModuleInfo, "72 1F E8 ? ? ? ? 8B 0D");
+			}
+
+			if (dwSplashScreen != NULL)
+				*(unsigned short*)(dwSplashScreen) = 0x9090; //NOP out the check to make it think it's time to stop.
+
+			DWORD64 dwRockStarLogo = Pattern::Scan(g_MainModuleInfo, "70 6C 61 74 66 6F 72 6D 3A");
+			int iCounter = 0;
+			while (dwRockStarLogo == NULL)
+			{
+				Sleep(10);
+				dwRockStarLogo = Pattern::Scan(g_MainModuleInfo, "70 6C 61 74 66 6F 72 6D 3A");
+			}
+
+			if (dwRockStarLogo != NULL)
+				*(unsigned char*)(dwRockStarLogo) = 0x71; //Replace the P with some garbage so it won't find the file.
+
+			Sleep(15000); //Wait until the logo code has finished running.
+			//Restore the EXE to its original state.
+			*(unsigned char*)(dwRockStarLogo) = 0x70;
+			*(unsigned short*)(dwSplashScreen) = 0x1F72;
 		}
-
-		if (dwSplashScreen != NULL)
-			*(unsigned short*)(dwSplashScreen) = 0x9090; //NOP out the check to make it think it's time to stop.
-
-		DWORD64 dwRockStarLogo = Pattern::Scan(g_MainModuleInfo, "70 6C 61 74 66 6F 72 6D 3A");
-		int iCounter = 0;
-		while (dwRockStarLogo == NULL)
-		{
-			Sleep(10);
-			dwRockStarLogo = Pattern::Scan(g_MainModuleInfo, "70 6C 61 74 66 6F 72 6D 3A");
-		}
-
-		if (dwRockStarLogo != NULL)
-			*(unsigned char*)(dwRockStarLogo) = 0x71; //Replace the P with some garbage so it won't find the file.
-
-		Sleep(15000); //Wait until the logo code has finished running.
-		//Restore the EXE to its original state.
-		*(unsigned char*)(dwRockStarLogo) = 0x70;
-		*(unsigned short*)(dwSplashScreen) = 0x1F72;
 	}
 }
