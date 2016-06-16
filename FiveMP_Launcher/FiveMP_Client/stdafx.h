@@ -48,6 +48,13 @@ extern MODULEINFO g_MainModuleInfo;
 
 // Main
 #include "script.h"
+#include "main.h"
+
+// Net Code
+#include "nConnect.h"
+
+// Game Functions
+#include "player.h"
 
 void Tick();
 void Run();

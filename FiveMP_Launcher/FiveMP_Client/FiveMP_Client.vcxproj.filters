@@ -13,6 +13,12 @@
     <Filter Include="Include\ScriptHook\Headers">
       <UniqueIdentifier>{dbd454bf-7e28-400c-b749-698a35f3248b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Net">
+      <UniqueIdentifier>{a75f91cb-a14a-4ccc-872a-8f4531c8d35d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Functions">
+      <UniqueIdentifier>{5007e35e-439f-4c74-9beb-587d930a78d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -369,6 +375,13 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Vendor\RakNet\_FindFirst.cpp">
       <Filter>Include\RakNet</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="nConnect.cpp">
+      <Filter>Net</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>Functions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -887,6 +900,16 @@
     </ClInclude>
     <ClInclude Include="WeaponScripts.h">
       <Filter>Include\ScriptHook\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h" />
+    <ClInclude Include="nConnect.h">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx_raknet.h">
+      <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

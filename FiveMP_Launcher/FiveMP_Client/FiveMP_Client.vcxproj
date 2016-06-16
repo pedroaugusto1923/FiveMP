@@ -177,16 +177,20 @@
     <ClInclude Include="Hashes.h" />
     <ClInclude Include="KeyHelper.h" />
     <ClInclude Include="Log.h" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="natives.h" />
+    <ClInclude Include="nConnect.h" />
     <ClInclude Include="NetworkHelper.h" />
     <ClInclude Include="Pattern.h" />
     <ClInclude Include="pgCollection.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="RadioScripts.h" />
     <ClInclude Include="RAGEHelper.h" />
     <ClInclude Include="script.h" />
     <ClInclude Include="scrThread.h" />
     <ClInclude Include="StatScripts.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="stdafx_raknet.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="VehicleHelper.h" />
     <ClInclude Include="vehicleValues.h" />
@@ -315,7 +319,16 @@
     <ClCompile Include="Log.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="nConnect.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="NetworkHelper.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="RAGEHelper.cpp">

@@ -43,6 +43,7 @@ void __stdcall ReliableScriptFunction(LPVOID lpParameter)
 {
 	try
 	{
+		RunMainScript();					// RakNet init etc.
 		while (1)
 		{
 			Run();
@@ -99,30 +100,8 @@ void RunUnreliable() //Put functions that don't really need to be run every fram
 
 void Run() //Only call WAIT(0) here. The Tick() function will ignore wakeAt and call this again regardless of the specified wakeAt time.
 {
-	Player player = PLAYER::PLAYER_ID();
-	Ped playerPed = PLAYER::PLAYER_PED_ID();
-
-	Vehicle playerVeh = NULL;
-
-	VEHICLE::SET_GARBAGE_TRUCKS(false);
-	VEHICLE::SET_RANDOM_BOATS(false);
-	VEHICLE::SET_RANDOM_TRAINS(false);
-	VEHICLE::SET_FAR_DRAW_VEHICLES(false);
-
-	VEHICLE::SET_RANDOM_VEHICLE_DENSITY_MULTIPLIER_THIS_FRAME(0.0);
-	VEHICLE::SET_NUMBER_OF_PARKED_VEHICLES(-1);
-	VEHICLE::SET_ALL_LOW_PRIORITY_VEHICLE_GENERATORS_ACTIVE(false);
-	STREAMING::SET_VEHICLE_POPULATION_BUDGET(0);
-	STREAMING::SET_PED_POPULATION_BUDGET(0);
-	VEHICLE::SET_VEHICLE_DENSITY_MULTIPLIER_THIS_FRAME(0.0);
-
-	color_t test;
-	test.red = 255;
-	test.green = 255;
-	test.blue = 255;
-	test.alpha = 255;
-
-	draw_text(0.005f, 0.050f, "FiveMP Alpha", test);
+	
+	RunGameScript();
 	return;
 }
 

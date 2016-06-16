@@ -6,7 +6,7 @@ BOOL APIENTRY DllMain( HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReser
 {
 	if (ul_reason_for_call == DLL_PROCESS_ATTACH) {
 		Log::Init(hModule);
-		DEBUGOUT("m0d-s0beit-v loaded"); 
+		DEBUGOUT("dll loaded"); 
 
 		if (!GetModuleInformation(GetCurrentProcess(), GetModuleHandle(0), &g_MainModuleInfo, sizeof(g_MainModuleInfo))) {
 			Log::Fatal("Unable to get MODULEINFO from GTA5.exe");
