@@ -14,11 +14,19 @@ BOOL APIENTRY DllMain( HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReser
 
 		DEBUGOUT("GTA5 [0x%I64X][0x%X]", g_MainModuleInfo.lpBaseOfDll, g_MainModuleInfo.SizeOfImage);
 
-		NoIntro();
-		SpawnScriptHook(); //Hook that shit.
-		BypassOnlineModelRequestBlock(); //This allows us to spawn models on the LE XD INTERNET
-	}
+		NoIntro();							// Disable stupid intro, wastes your times. I just don't see the need.
+		SpawnScriptHook();					// I guess this says enough, this allows us to use the game's natives.
+		BypassOnlineModelRequestBlock();	// No idea what the heck this is, could probably remove it.
 
+		if (AllocConsole()) {
+			freopen("CONIN$", "rb", stdin);
+			freopen("CONOUT$", "wb", stdout);
+			freopen("CONOUT$", "wb", stderr);
+		}
+	}
+	if (ul_reason_for_call == DLL_PROCESS_DETACH) {
+		FreeConsole();
+	}
 	return TRUE;
 }
 

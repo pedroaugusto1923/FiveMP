@@ -67,8 +67,8 @@ float draw_menu_line(std::string caption, float lineWidth, float lineHeight, flo
 void draw_text(float x, float y, char* chSampleText, color_t color)
 {
 	UI::SET_TEXT_FONT(0);
-	UI::SET_TEXT_SCALE(0.0, 0.25f);
-	UI::SET_TEXT_COLOUR(color.red, color.green, color.blue, color.alpha); //White
+	UI::SET_TEXT_SCALE(0.35f, 0.35f);
+	UI::SET_TEXT_COLOUR(color.red, color.green, color.blue, color.alpha);
 	UI::SET_TEXT_CENTRE(0);
 	UI::SET_TEXT_DROPSHADOW(0, 0, 0, 0, 0);
 	UI::SET_TEXT_EDGE(0, 0, 0, 0, 0);
