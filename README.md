@@ -8,12 +8,12 @@ This project uses RakNet, OpenVHook and parts of m0d-s0beit and CitizenMP - They
 # Compiling
 
 In order to compile the mod, it is recommended to use *Visual Studio 2015* or [*Visual Studio CE (Community Edition) 2015*](https://www.visualstudio.com/en-us/downloads/download-visual-studio-vs.aspx) if possible. Otherwise the mod may not work / may crash during the loading screen.
-As of now, the mod can be compiled in *debug mode x64* and *release mode x64*. The main solution file can be found in *FiveMP\FiveMP_Launcher (FiveMP_Launcher.sln)*.
+As of now, the mod can be compiled in *debug mode x64* and *release mode x64*. The main solution file can be found in *FiveMP\FiveMP_Launcher (FiveMP_Launcher.sln)*. FiveMP does not support any 32 bit builds due to the fact that Grand Theft Auto V is a 64 bit game!
 
 # Binaries
 
-After compiling the mod, 64 bit Release binaries can be found in FiveMP\bin\Release and 64 bit Debug binaries in FiveMP\bin\Debug.
-Double clicking *FiveMP.exe* should start the mod and start a new game. Binaries don't need to be in any specific location but they should all be within the same directory for the mod to work. Except for the server files.
+After compiling the mod, Release binaries can be found in FiveMP\bin\Release and Debug binaries in FiveMP\bin\Debug.
+Double clicking *FiveMP.exe* should start the mod and start a new game. Binaries need to be in a specific location *C:\FiveMP\* and they should all be within the same directory for the mod to work, this is primarily due to the new .INI file addition which you can find in a released build. Except for the server files, you can place these anywhere as long as their own files are in the same directory.
 
 # Notice
 
