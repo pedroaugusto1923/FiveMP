@@ -39,13 +39,7 @@ void RunGameScript() {
 	test.blue = 255;
 	test.alpha = 255;
 
-	char test2[120];
-	char test3[120];
-	char stupidbs[128];
-
-	//float test4 = ENTITY::GET_ENTITY_ANIM_CURRENT_TIME(playerPed, test2, test3);
-	//sprintf(stupidbs, "%f | %s | %s", test4, test2, test3);
-	//draw_text(0.005f, 0.050f, stupidbs, test);
+	draw_text(0.005f, 0.050f, "FiveMP Alpha - 18|6|16", test);
 
 	if (IsKeyPressed(VK_F8)) {
 		netCode.Connect(server_ipaddress, server_port, client_port);
