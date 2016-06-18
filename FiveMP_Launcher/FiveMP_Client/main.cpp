@@ -172,5 +172,5 @@ void RunMainScript() {
 	client_steam_def	= iniReader.ReadBoolean("Details", "steam", "");
 
 	printf("IP: %s\nPort: %s\nClient Port: %s\n\n", server_ipaddress, server_port, client_port);
-	printf("Username: %s\nUsing Steam:%d\n\n", client_username, client_steam_def);
+	printf("Username: %s\nUsing Steam: %d\n\n", client_username, client_steam_def);
 }
