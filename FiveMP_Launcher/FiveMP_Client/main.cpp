@@ -5,9 +5,12 @@ class GamePlayer player;
 
 unsigned char packetIdentifier;
 
-#define server_ipaddress "127.0.0.1"
-#define server_port		 "2322"
-#define client_port		 "0"
+char *server_ipaddress;
+char *server_port;
+
+char *client_port;
+char *client_username;
+bool client_steam_def;
 
 bool netListen = false;
 
@@ -158,4 +161,16 @@ void RunGameScript() {
 
 void RunMainScript() {
 	netCode.Initialize();
+
+	CIniReader iniReader("C:\\FiveMP\\FiveMP.ini");
+
+	server_ipaddress	= iniReader.ReadString("Connection", "ip", "");
+	server_port			= iniReader.ReadString("Connection", "port", "");
+	client_port			= iniReader.ReadString("Connection", "clientport", "");
+
+	client_username		= iniReader.ReadString("Details", "username", "");
+	client_steam_def	= iniReader.ReadBoolean("Details", "steam", "");
+
+	printf("IP: %s\nPort: %s\nClient Port: %s\n\n", server_ipaddress, server_port, client_port);
+	printf("Username: %s\nUsing Steam:%d\n\n", client_username, client_steam_def);
 }

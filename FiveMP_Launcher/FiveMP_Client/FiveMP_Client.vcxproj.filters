@@ -19,6 +19,9 @@
     <Filter Include="Functions">
       <UniqueIdentifier>{5007e35e-439f-4c74-9beb-587d930a78d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Include\INI">
+      <UniqueIdentifier>{ef948f8b-d04e-4410-9a7c-12e749529e6d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -382,6 +385,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Vendor\RakNet\WSAStartupSingleton.cpp">
       <Filter>Include\RakNet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\inih\IniReader.cpp">
+      <Filter>Include\INI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\inih\IniWriter.cpp">
+      <Filter>Include\INI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -910,6 +919,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Vendor\RakNet\XBox360Includes.h">
       <Filter>Include\RakNet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\inih\IniReader.h">
+      <Filter>Include\INI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\inih\IniWriter.h">
+      <Filter>Include\INI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

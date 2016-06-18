@@ -46,6 +46,10 @@ extern MODULEINFO g_MainModuleInfo;
 #include "RadioScripts.h"
 #include "WeaponScripts.h"
 
+// Custom
+#include "IniWriter.h"
+#include "IniReader.h"
+
 // Main
 #include "script.h"
 #include "main.h"
