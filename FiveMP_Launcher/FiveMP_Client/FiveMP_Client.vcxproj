@@ -183,6 +183,7 @@
     <ClInclude Include="natives.h" />
     <ClInclude Include="nConnect.h" />
     <ClInclude Include="NetworkHelper.h" />
+    <ClInclude Include="nPacket.h" />
     <ClInclude Include="Pattern.h" />
     <ClInclude Include="pgCollection.h" />
     <ClInclude Include="player.h" />
@@ -332,6 +333,7 @@
     <ClCompile Include="NetworkHelper.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="nPacket.cpp" />
     <ClCompile Include="player.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>

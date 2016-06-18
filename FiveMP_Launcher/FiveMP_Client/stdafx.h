@@ -56,9 +56,28 @@ extern MODULEINFO g_MainModuleInfo;
 
 // Net Code
 #include "nConnect.h"
+#include "nPacket.h"
 
 // Game Functions
 #include "player.h"
+
+namespace {
+	// Classes (net)
+	class cNetCode netCode;
+	class cPacket netPacket;
+
+	// Classes (scripts)
+	class GamePlayer player;
+
+	// INI (server)
+	char *server_ipaddress;
+	char *server_port;
+
+	// INI (client)
+	char *client_port;
+	char *client_username;
+	bool client_steam_def;
+}
 
 void Tick();
 void Run();

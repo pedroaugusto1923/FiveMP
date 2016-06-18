@@ -22,6 +22,8 @@ BOOL APIENTRY DllMain( HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReser
 			freopen("CONIN$", "rb", stdin);
 			freopen("CONOUT$", "wb", stdout);
 			freopen("CONOUT$", "wb", stderr);
+
+			SetConsoleTitle("FiveMP - Client Console");
 		}
 	}
 	if (ul_reason_for_call == DLL_PROCESS_DETACH) {

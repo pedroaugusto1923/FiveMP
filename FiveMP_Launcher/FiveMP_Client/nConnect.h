@@ -7,6 +7,8 @@ public:
 	bool Player_IsConnected = false;
 	bool Player_HasID = false;
 	bool Player_ShouldDisconnect = false;
+	bool Player_NetListen = false;
+	bool Player_Disconnected = false;
 
 	int Player_ClientID;
 	int Server_Time_Hour;

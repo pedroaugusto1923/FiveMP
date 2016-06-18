@@ -1,19 +1,5 @@
 #include "stdafx.h"
 
-class cNetCode netCode;
-class GamePlayer player;
-
-unsigned char packetIdentifier;
-
-char *server_ipaddress;
-char *server_port;
-
-char *client_port;
-char *client_username;
-bool client_steam_def;
-
-bool netListen = false;
-
 void RunGameScript() {
 	char *playerUsername = SOCIALCLUB::_SC_GET_NICKNAME();
 
@@ -41,115 +27,17 @@ void RunGameScript() {
 
 	draw_text(0.005f, 0.050f, "FiveMP Alpha - 18|6|16", test);
 
+	if (netCode.Player_NetListen == true) {
+		netPacket.ReceivePacket(netCode.p, netCode.client);
+	}
+
 	if (IsKeyPressed(VK_F8)) {
 		netCode.Connect(server_ipaddress, server_port, client_port);
-		netListen = true;
+		netCode.Player_NetListen = true;
 	}
 	if (IsKeyPressed(VK_F9)) {
 		netCode.Disconnect();
-		netListen = false;
-	}
-
-	if(netListen == true) {
-		for (netCode.p = netCode.client->Receive(); netCode.p; netCode.client->DeallocatePacket(netCode.p), netCode.p = netCode.client->Receive()) {
-			packetIdentifier = netCode.GetPacketIdentifier(netCode.p);
-
-			RakNet::BitStream playerClientID(netCode.p->data + 1, 32, false);
-
-			RakNet::BitStream RequestID;
-
-			char testmessage[128];
-
-			switch (packetIdentifier) {
-			case ID_CONNECTION_REQUEST_ACCEPTED:
-				netCode.Player_IsConnected = true;
-				netCode.Player_ShouldDisconnect = false;
-
-				sprintf(testmessage, "Hi %s, you have successfully connected to the server!", player.GetPlayerSocialClubName());
-				player.ShowMessageAboveMap(testmessage);
-
-				sprintf(testmessage, "GUID is: #%s", netCode.client->GetGuidFromSystemAddress(RakNet::UNASSIGNED_SYSTEM_ADDRESS).ToString());
-				player.ShowMessageAboveMap(testmessage);
-
-				char playerUsernamePacket[64];
-				playerUsernamePacket[0] = 0;
-
-				strncat(playerUsernamePacket, playerUsername, sizeof(playerUsernamePacket));
-
-				RequestID.Write((unsigned char)ID_REQUEST_SERVER_SYNC);
-				RequestID.Write(playerUsernamePacket);
-
-				netCode.client->Send(&RequestID, IMMEDIATE_PRIORITY, RELIABLE, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, false);
-				break;
-
-			case ID_CONNECTION_ATTEMPT_FAILED:
-				netCode.Player_IsConnected = false;
-				netCode.Player_ShouldDisconnect = true;
-
-				player.ShowMessageAboveMap("Failed to connect!");
-				netListen = false;
-				break;
-
-			case ID_NO_FREE_INCOMING_CONNECTIONS:
-				netCode.Player_IsConnected = false;
-				netCode.Player_ShouldDisconnect = true;
-
-				player.ShowMessageAboveMap("Server is full!");
-				netListen = false;
-				break;
-
-			case ID_DISCONNECTION_NOTIFICATION:
-				netCode.Player_IsConnected = false;
-				netCode.Player_ShouldDisconnect = true;
-
-				player.ShowMessageAboveMap("Disconnected!");
-				netListen = false;
-				break;
-
-			case ID_CONNECTION_LOST:
-				netCode.Player_IsConnected = false;
-				netCode.Player_ShouldDisconnect = true;
-
-				player.ShowMessageAboveMap("Connection Lost!");
-				netListen = false;
-				break;
-
-			case ID_CONNECTION_BANNED:
-				netCode.Player_IsConnected = false;
-				netCode.Player_ShouldDisconnect = true;
-
-				player.ShowMessageAboveMap("You're banned from the server!");
-				netListen = false;
-				break;
-
-			case ID_SET_CLIENT_ID:
-				playerClientID.Read(netCode.Player_ClientID);
-
-				playerClientID.Read(netCode.Server_Time_Hour);
-				playerClientID.Read(netCode.Server_Time_Minute);
-				playerClientID.Read(netCode.Server_Time_Pause);
-
-				sprintf(testmessage, "Client ID: %d\n", netCode.Player_ClientID);
-				player.ShowMessageAboveMap(testmessage);
-
-				TIME::SET_CLOCK_TIME(netCode.Server_Time_Hour, netCode.Server_Time_Minute, 01);
-				TIME::PAUSE_CLOCK(netCode.Server_Time_Pause);
-
-				netCode.Player_HasID = true;
-				netCode.Player_ShouldDisconnect = false;
-				break;
-
-			default:
-				sprintf(testmessage, "%s", netCode.p->data);
-				player.ShowMessageAboveMap(testmessage);
-
-				sprintf(testmessage, "Exception from %s\n", netCode.p->data);
-				netCode.client->Send(testmessage, (int)strlen(testmessage) + 1, IMMEDIATE_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, false);
-
-				netCode.Player_ShouldDisconnect = false;
-				break;
-			}
-		}
+		netCode.Player_NetListen = false;
 	}
 }
 

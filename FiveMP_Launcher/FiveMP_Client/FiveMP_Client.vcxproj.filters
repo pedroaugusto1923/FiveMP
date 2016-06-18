@@ -392,6 +392,9 @@
     <ClCompile Include="..\..\Vendor\inih\IniWriter.cpp">
       <Filter>Include\INI</Filter>
     </ClCompile>
+    <ClCompile Include="nPacket.cpp">
+      <Filter>Net</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -925,6 +928,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Vendor\inih\IniWriter.h">
       <Filter>Include\INI</Filter>
+    </ClInclude>
+    <ClInclude Include="nPacket.h">
+      <Filter>Net</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
