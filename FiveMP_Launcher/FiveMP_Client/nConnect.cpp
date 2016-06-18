@@ -2,6 +2,8 @@
 
 #include "stdafx.h"
 
+class GamePlayer playernetcode;
+
 void cNetCode::Initialize()
 {
 	client = RakNet::RakPeerInterface::GetInstance();
@@ -20,6 +22,17 @@ void cNetCode::Connect(char *ipaddress, char *port, char *clientport)
 
 	RakNet::ConnectionAttemptResult car = cNetCode::client->Connect(ipaddress, atoi(port), "Rumpelstiltskin", (int)strlen("Rumpelstiltskin"));
 	RakAssert(car == RakNet::CONNECTION_ATTEMPT_STARTED);
+}
+
+void cNetCode::Disconnect(void)
+{
+	cNetCode::client->Shutdown(300);
+	RakNet::RakPeerInterface::DestroyInstance(cNetCode::client);
+
+	cNetCode::Player_IsConnected = false;
+	cNetCode::Player_ShouldDisconnect = true;
+
+	playernetcode.ShowMessageAboveMap("Successfully disconnected!");
 }
 
 unsigned char cNetCode::GetPacketIdentifier(RakNet::Packet *p)

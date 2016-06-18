@@ -20,5 +20,6 @@ public:
 	unsigned char packetIdentifier;
 
 	void Connect(char *, char *, char *);
+	void Disconnect(void);
 	void Initialize(void);
 };
