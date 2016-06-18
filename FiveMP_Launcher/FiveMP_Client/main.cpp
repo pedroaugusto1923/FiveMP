@@ -27,6 +27,8 @@ void RunGameScript() {
 
 	draw_text(0.005f, 0.050f, "FiveMP Alpha - 18|6|16", test);
 
+	char message[2048];
+
 	if (netCode.Player_NetListen == true) {
 		netPacket.ReceivePacket(netCode.p, netCode.client);
 	}
@@ -53,6 +55,6 @@ void RunMainScript() {
 	client_username		= iniReader.ReadString("Details", "username", "");
 	client_steam_def	= iniReader.ReadBoolean("Details", "steam", "");
 
-	printf("IP: %s\nPort: %s\nClient Port: %s\n\n", server_ipaddress, server_port, client_port);
+	printf("\nIP: %s\nPort: %s\nClient Port: %s\n\n", server_ipaddress, server_port, client_port);
 	printf("Username: %s\nUsing Steam: %d\n\n", client_username, client_steam_def);
 }

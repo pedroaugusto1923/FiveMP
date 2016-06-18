@@ -12,13 +12,6 @@ void cNetCode::Initialize()
 
 void cNetCode::Connect(char *ipaddress, char *port, char *clientport)
 {
-	if (cNetCode::Player_Disconnected == true) {
-		cNetCode::Initialize();
-		cNetCode::Player_Disconnected = false;
-	}
-
-	cNetCode::Player_ShouldDisconnect = false;
-
 	RakNet::SocketDescriptor socketDescriptor(atoi(clientport), 0);
 
 	socketDescriptor.socketFamily = AF_INET;
@@ -31,16 +24,17 @@ void cNetCode::Connect(char *ipaddress, char *port, char *clientport)
 
 void cNetCode::Disconnect(void)
 {
-	cNetCode::client->Shutdown(300);
-	RakNet::RakPeerInterface::DestroyInstance(cNetCode::client);
+	if (cNetCode::Player_NetListen == true) {
+		cNetCode::client->Shutdown(300);
 
-	cNetCode::Player_IsConnected = false;
-	cNetCode::Player_HasID = false;
-	cNetCode::Player_ShouldDisconnect = false;
-	cNetCode::Player_NetListen = false;
-	cNetCode::Player_Disconnected = true;
+		cNetCode::Player_IsConnected = false;
+		cNetCode::Player_HasID = false;
+		cNetCode::Player_ShouldDisconnect = false;
+		cNetCode::Player_NetListen = false;
+		cNetCode::Player_Disconnected = true;
 
-	playernetcode.ShowMessageAboveMap("Successfully disconnected!");
+		playernetcode.ShowMessageAboveMap("Successfully disconnected!");
+	}
 }
 
 unsigned char cNetCode::GetPacketIdentifier(RakNet::Packet *p)
