@@ -13,7 +13,7 @@ As of now, the mod can be compiled in *debug mode x64* and *release mode x64*. T
 # Binaries
 
 After compiling the mod, Release binaries can be found in FiveMP\bin\Release and Debug binaries in FiveMP\bin\Debug.
-Double clicking *FiveMP.exe* should start the mod and start a new game. Binaries need to be in a specific location *C:\FiveMP\* and they should all be within the same directory for the mod to work, this is primarily due to the new .INI file addition which you can find in a released build. Except for the server files, you can place these anywhere as long as their own files are in the same directory.
+Double clicking *FiveMP.exe* should start the mod and start a new game. Binaries need to be in your *Grand Theft Auto V* folder (client files) and they should all be within the same directory for the mod to work, this is primarily due to the new .INI file addition which you can find in a released build. Except for the server files, you can place these anywhere as long as their own files are in the same directory.
 
 # Notice
 
