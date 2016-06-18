@@ -11,6 +11,10 @@ void RunGameScript() {
 	VEHICLE::SET_RANDOM_BOATS(false);
 	VEHICLE::SET_RANDOM_TRAINS(false);
 	VEHICLE::SET_FAR_DRAW_VEHICLES(false);
+	VEHICLE::_DISPLAY_DISTANT_VEHICLES(false);
+	VEHICLE::DELETE_ALL_TRAINS();
+
+	MOBILE::DESTROY_MOBILE_PHONE();
 
 	VEHICLE::SET_RANDOM_VEHICLE_DENSITY_MULTIPLIER_THIS_FRAME(0.0);
 	VEHICLE::SET_NUMBER_OF_PARKED_VEHICLES(-1);
@@ -18,6 +22,8 @@ void RunGameScript() {
 	STREAMING::SET_VEHICLE_POPULATION_BUDGET(0);
 	STREAMING::SET_PED_POPULATION_BUDGET(0);
 	VEHICLE::SET_VEHICLE_DENSITY_MULTIPLIER_THIS_FRAME(0.0);
+
+	CONTROLS::DISABLE_CONTROL_ACTION(2, 19, true);
 
 	color_t test;
 	test.red = 255;
@@ -27,7 +33,17 @@ void RunGameScript() {
 
 	draw_text(0.005f, 0.050f, "FiveMP Alpha - 18|6|16", test);
 
-	char message[2048];
+	/*if (player.usingChat == true) {
+		UI::_SHOW_CURSOR_THIS_FRAME();
+		CONTROLS::DISABLE_ALL_CONTROL_ACTIONS(0);
+		CONTROLS::DISABLE_ALL_CONTROL_ACTIONS(32);
+		
+		if (IsKeyPressed(VK_ESCAPE)) {
+			player.usingChat = false;
+			CONTROLS::ENABLE_ALL_CONTROL_ACTIONS(0);
+			CONTROLS::ENABLE_ALL_CONTROL_ACTIONS(32);
+		}
+	}*/
 
 	if (netCode.Player_NetListen == true) {
 		netPacket.ReceivePacket(netCode.p, netCode.client);
@@ -41,12 +57,15 @@ void RunGameScript() {
 		netCode.Disconnect();
 		netCode.Player_NetListen = false;
 	}
+	/*if(IsKeyPressed(0x54)) {
+		player.usingChat = true;
+	}*/
 }
 
 void RunMainScript() {
 	netCode.Initialize();
 
-	CIniReader iniReader("C:\\FiveMP\\FiveMP.ini");
+	CIniReader iniReader(".\\FiveMP.ini");
 
 	server_ipaddress	= iniReader.ReadString("Connection", "ip", "");
 	server_port			= iniReader.ReadString("Connection", "port", "");

@@ -4,7 +4,7 @@ using namespace std;
 
 //Entry
 int main(void) {
-	SetConsoleTitle("FiveMP Launcher");
+	SetConsoleTitle("FiveMP - Launcher Console");
 
 	const char *dllname = "FiveMP.dll";
 
