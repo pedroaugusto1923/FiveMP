@@ -76,7 +76,9 @@ int main(void) {
 	// Resume game main thread
 	ResumeThread(piProcessInfo.hThread);
 
-	bool GameStarted = false;
+	bool GameStarted			= false;
+	bool Injected_ScriptHook	= false;
+	bool Injected_FiveMP		= false;
 
 	while (GameThread != true) {
 		HWND hWnds = FindWindowA(NULL, "Grand Theft Auto V");
@@ -85,15 +87,17 @@ int main(void) {
 			if (GameStarted == false) {
 				printf("SCAN: GTA5.exe has successfully started!\n\n");
 				GameStarted = true;
-			}
-			else {
+			} else {
 				Sleep(2500);
-				if (InjectDLL("GTA5.exe", dllname2) == true && GameStarted == true) {
+				if (InjectDLL("GTA5.exe", dllname2) == true && GameStarted == true && Injected_ScriptHook == false) {
 					printf("INJECT: Successfully injected %s into Grand Theft Auto V!\n\n", dllname2);
-					if (InjectDLL("GTA5.exe", dllname) == true && GameStarted == true) {
-						printf("INJECT: Successfully injected %s into Grand Theft Auto V!\n\n", dllname);
-						GameThread = true;
-					}
+					Injected_ScriptHook = true;
+				}
+				if (InjectDLL("GTA5.exe", dllname) == true && GameStarted == true && Injected_ScriptHook == true) {
+					printf("INJECT: Successfully injected %s into Grand Theft Auto V!\n\n", dllname);
+
+					Injected_FiveMP = true;
+					GameThread		= true;
 				}
 			}
 		}
