@@ -22,6 +22,8 @@ void InitGameScript() {
 void RunGameScript() {
 	while (true)
 	{
+		Ped playerPed = PLAYER::PLAYER_PED_ID();
+
 		VEHICLE::SET_GARBAGE_TRUCKS(false);
 		VEHICLE::SET_RANDOM_BOATS(false);
 		VEHICLE::SET_RANDOM_TRAINS(false);
@@ -40,11 +42,7 @@ void RunGameScript() {
 
 		CONTROLS::DISABLE_CONTROL_ACTION(2, 19, true);
 
-		//color_t test{ 255, 255, 255, 255 };
-
-		//draw_text(0.002f, 0.002f, "FiveMP Alpha - 20-6-16", test);
-
-		Ped playerPed = PLAYER::PLAYER_PED_ID();
+		draw_text(0.002f, 0.002f, "FiveMP Alpha - 22-6-16", { 255, 255, 255, 255 });
 
 		if (IsKeyDown(VK_F10)) {
 			Vector3 playerOffsetLocation = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(playerPed, 0.0, 3.0, 0.0);
@@ -66,6 +64,19 @@ void RunGameScript() {
 			PED::SET_PED_CAN_RAGDOLL(player33, false);
 
 			AI::TASK_SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(player33, true);
+		}
+
+		if (netCode.Player_NetListen == true) {
+			netPacket.ReceivePacket(netCode.p, netCode.client);
+		}
+
+		if (IsKeyDown(VK_F8)) {
+			netCode.Connect(server_ipaddress, server_port, client_port);
+			netCode.Player_NetListen = true;
+		}
+		if (IsKeyDown(VK_F9)) {
+			netCode.Disconnect();
+			netCode.Player_NetListen = false;
 		}
 
 		WAIT(0); // Don't remove or you'll crash your game. :x
