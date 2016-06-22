@@ -1,12 +1,4 @@
 #pragma once
 
-#include "stdafx.h"
-
-NativeRegistration** GetRegistrationTable();
-NativeHandler GetNativeHandler(UINT64 hash);
-rage::scrThread* GetActiveThread();
-rage::pgPtrCollection<GtaThread>* GetGtaThreadCollection(BlipList*& pBlipList);
-void SetActiveThread(rage::scrThread* thread);
-void CheckPlayer(int& iPlayer, bool direction);
-void BypassOnlineModelRequestBlock();
-void NoIntro();
+bool memory_compare(const BYTE *data, const BYTE *pattern, const char *mask);
+UINT64 FindPattern(char *pattern, char *mask);

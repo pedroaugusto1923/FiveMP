@@ -13,7 +13,7 @@ public:
 	int Player_ClientID;
 	int Server_Time_Hour;
 	int Server_Time_Minute;
-	int Server_Time_Pause;
+	bool Server_Time_Pause;
 
 	RakNet::RakPeerInterface *client;
 	RakNet::Packet* p;

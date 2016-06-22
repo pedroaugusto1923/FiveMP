@@ -11,41 +11,7 @@
 #include <algorithm>
 #include "string.h"
 #include <string>
-//
-// Returns the Citizen root directory.
-//
 
-fwPlatformString GetAbsoluteCitPath(); //Doesn't exist in here. Only exists in citizenmp
-//
-// Returns the game root directory.
-//
-
-fwPlatformString GetAbsoluteGamePath();
-
-//
-// Returns a said path relative to the Citizen base installation directory (containing the launcher executable).
-//
-
-inline fwPlatformString MakeRelativeCitPath(fwPlatformString targetPath)
-{
-	return GetAbsoluteCitPath() + targetPath;
-	//return "";
-}
-
-//
-// Returns a said path relative to the game installation directory (containing the target executable).
-//
-
-inline fwPlatformString MakeRelativeGamePath(fwPlatformString targetPath)
-{
-	return GetAbsoluteGamePath() + targetPath;
-}
-
-//
-// Returns whether or not we are in a test executable.
-//
-
-bool IsRunningTests();
 
 //
 // Base initialization function (for running on library init and so on)

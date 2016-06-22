@@ -20,33 +20,26 @@
 
 extern MODULEINFO g_MainModuleInfo;
 
-// Mine
-#include "Log.h"
-#include "Pattern.h"
+// ScriptHook
+#include "natives.h"
+#include "types.h"
+#include "enums.h"
+#include "sh_main.h"
+#include "keyboard.h"
 
 // Rockstar
-#include "Types.h"
-#include "pgCollection.h"
-#include "scrThread.h"
-#include "Hashes.h"
-#include "VehicleValues.h"
-#include "natives.h"
+#include "Log.h"
 #include "RAGEHelper.h"
 #include "DrawHelper.h"
-#include "KeyHelper.h"
-#include "NetworkHelper.h"
-#include "VehicleHelper.h"
-#include "StatScripts.h"
-#include "RadioScripts.h"
-#include "WeaponScripts.h"
+#include "Pattern.h"
 
-// Custom
+// INI Reader
 #include "IniWriter.h"
 #include "IniReader.h"
 
-// Main
-#include "script.h"
+// Client
 #include "main.h"
+#include "ScriptHook.h"
 
 // Net Code
 #include "nConnect.h"
@@ -59,6 +52,9 @@ namespace {
 	// Classes (net)
 	class cNetCode netCode;
 	class cPacket netPacket;
+	
+	// Classes (scripthook)
+	class ScriptHook hook;
 
 	// Classes (scripts)
 	class GamePlayer player;
@@ -72,7 +68,3 @@ namespace {
 	char *client_username;
 	bool client_steam_def;
 }
-
-void Tick();
-void Run();
-void RunUnreliable();

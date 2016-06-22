@@ -21,15 +21,15 @@ void cPacket::ReceivePacket(RakNet::Packet *packets, RakNet::RakPeerInterface *c
 			sprintf(testmessage, "GUID is: #%s", clients->GetGuidFromSystemAddress(RakNet::UNASSIGNED_SYSTEM_ADDRESS).ToString());
 			player.ShowMessageAboveMap(testmessage);
 
-			/*char playerUsernamePacket[64];
+			char playerUsernamePacket[64];
 			playerUsernamePacket[0] = 0;
 
-			strncat(playerUsernamePacket, client_username, sizeof(playerUsernamePacket));
+			sprintf(playerUsernamePacket, "%s", client_username);
 
 			RequestID.Write((unsigned char)ID_REQUEST_SERVER_SYNC);
 			RequestID.Write(playerUsernamePacket);
 
-			clients->Send(&RequestID, IMMEDIATE_PRIORITY, RELIABLE, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, false);*/
+			clients->Send(&RequestID, HIGH_PRIORITY, RELIABLE, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, false);
 			break;
 
 		case ID_CONNECTION_ATTEMPT_FAILED:
@@ -72,17 +72,22 @@ void cPacket::ReceivePacket(RakNet::Packet *packets, RakNet::RakPeerInterface *c
 			netCode.Player_NetListen = false;
 			break;
 
-		case ID_SET_CLIENT_ID:
+		case ID_REQUEST_SERVER_SYNC:
+			TIME::SET_CLOCK_TIME(20, 00, 00);
+			TIME::PAUSE_CLOCK(false);
+
 			playerClientID.Read(netCode.Player_ClientID);
 
 			playerClientID.Read(netCode.Server_Time_Hour);
 			playerClientID.Read(netCode.Server_Time_Minute);
 			playerClientID.Read(netCode.Server_Time_Pause);
 
+			printf("%d - %d - %d", netCode.Server_Time_Hour, netCode.Server_Time_Minute, netCode.Server_Time_Pause);
+
 			sprintf(testmessage, "Client ID: %d\n", netCode.Player_ClientID);
 			player.ShowMessageAboveMap(testmessage);
 
-			TIME::SET_CLOCK_TIME(netCode.Server_Time_Hour, netCode.Server_Time_Minute, 01);
+			TIME::SET_CLOCK_TIME(netCode.Server_Time_Hour, netCode.Server_Time_Minute, 00);
 			TIME::PAUSE_CLOCK(netCode.Server_Time_Pause);
 
 			netCode.Player_HasID = true;

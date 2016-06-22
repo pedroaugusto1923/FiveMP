@@ -1,11 +1,25 @@
 #include "stdafx.h"
 
+void initpls() {
+	CIniReader iniReader(".\\FiveMP.ini");
+
+	netConfig.ServerPort = iniReader.ReadString("Connection", "port", "");
+	netConfig.ServerName = iniReader.ReadString("Details", "servername", "");
+
+	netConfig.MaxPlayers = iniReader.ReadInteger("Details", "maxplayers", 32);
+
+	netConfig.ServerTimeHour = iniReader.ReadInteger("Details", "hour", 12);
+	netConfig.ServerTimeMinute = iniReader.ReadInteger("Details", "min", 00);
+	netConfig.ServerTimeFreeze = iniReader.ReadBoolean("Details", "freeze", false);
+}
+
 void sPacket::ReceivePacket(RakNet::Packet *packets, RakNet::RakPeerInterface *servers) {
 	for (packets = servers->Receive(); packets; servers->DeallocatePacket(packets), packets = servers->Receive())
 	{
 		netCode.packetIdentifier = netCode.GetPacketIdentifier(packets);
 
 		RakNet::BitStream pid_bitStream;
+		RakNet::BitStream pid_request(packets->data + 1, 32, false);
 
 		switch (netCode.packetIdentifier)
 		{
@@ -21,23 +35,20 @@ void sPacket::ReceivePacket(RakNet::Packet *packets, RakNet::RakPeerInterface *s
 			printf("%s - %d\n", packets->guid.ToString(), netPool.UserAmount);
 			//PlayerInfo[userAmount][name] = userAmount;
 
-			/*pid_bitStream.Write((unsigned char)ID_SET_CLIENT_ID);
-
-			pid_bitStream.Write(netCode.ConnectedClients);
-
-			pid_bitStream.Write(SRV_TIME_H);
-			pid_bitStream.Write(SRV_TIME_M);
-			pid_bitStream.Write(SRV_TIME_P);
-
-			servers->Send(&pid_bitStream, IMMEDIATE_PRIORITY, RELIABLE, 0, packets->systemAddress, false);
-
-			callback.OnPlayerConnect(netCode.ConnectedClients);*/
+			//callback.OnPlayerConnect(netPool.UserAmount);
 
 			netPool.UserAmount++;
 			break;
 
 		case ID_REQUEST_SERVER_SYNC:
-			pid_bitStream.Write((unsigned char)ID_SET_CLIENT_ID);
+			printf("received syncrequest\n");
+			initpls();
+
+			char *notused;
+
+			pid_request.Read(notused);
+
+			pid_bitStream.Write((unsigned char)ID_REQUEST_SERVER_SYNC);
 
 			pid_bitStream.Write(netPool.UserAmount);
 

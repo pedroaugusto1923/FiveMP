@@ -13,10 +13,10 @@ int main(void)
 	netConfig.MaxPlayers		= iniReader.ReadInteger("Details", "maxplayers", 32);
 
 	netConfig.ServerTimeHour	= iniReader.ReadInteger("Details", "hour", 12);
-	netConfig.ServerTimeMinute	= iniReader.ReadInteger("Details", "minute", 00);
+	netConfig.ServerTimeMinute	= iniReader.ReadInteger("Details", "min", 00);
 	netConfig.ServerTimeFreeze	= iniReader.ReadBoolean("Details", "freeze", false);
 
-	printf("\n%s running on Port: %s\n", netConfig.ServerName, netConfig.ServerPort);
+	printf("\n%s running on Port: %s - time: %d - %d - %d\n", netConfig.ServerName, netConfig.ServerPort, netConfig.ServerTimeHour, netConfig.ServerTimeMinute, netConfig.ServerTimeFreeze);
 
 	SetConsoleTitle("FiveMP - Server Console");
 

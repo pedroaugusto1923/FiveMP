@@ -6,11 +6,6 @@
  */
 
 #include <stdafx.h>
-#include "StdInc.h"
-#include "Utils.h"
-#include <sstream>
-#include <iomanip>
-#include <mutex>
 
 static STATIC InitFunctionBase* g_initFunctions;
 
@@ -18,6 +13,11 @@ InitFunctionBase::InitFunctionBase(int order /* = 0 */)
 	: m_order(order)
 {
 
+}
+
+bool CoreIsDebuggerPresent()
+{
+	return 0;
 }
 
 void InitFunctionBase::Register()
@@ -124,7 +124,7 @@ void DoNtRaiseException(EXCEPTION_RECORD* record)
 	CONTEXT context;
 	RtlCaptureContext(&context);
 
-	static NtRaiseExceptionType NtRaiseException = (NtRaiseExceptionType)GetProcAddress(GetModuleHandle(L"ntdll.dll"), "NtRaiseException");
+	static NtRaiseExceptionType NtRaiseException = (NtRaiseExceptionType)GetProcAddress(GetModuleHandle("ntdll.dll"), "NtRaiseException");
 
 	// where will this function return to? hint: it'll return RIGHT AFTER RTLCAPTURECONTEXT, as that's what's in context->Rip!
 	// therefore, check if 'threw' is false first...
@@ -138,17 +138,6 @@ void DoNtRaiseException(EXCEPTION_RECORD* record)
 	}
 }
 #endif
-
-static void PerformFileLog(const char* string)
-{
-	FILE* logFile = _wfopen(MakeRelativeCitPath(L"CitizenFX.log").c_str(), L"a");
-
-	if (logFile)
-	{
-		fprintf(logFile, "[%lld] %s", GetTickCount64(), string);
-		fclose(logFile);
-	}
-}
 
 void trace(const char* string, ...)
 {
@@ -218,8 +207,6 @@ void trace(const char* string, ...)
 #else
 	printf("%s", &buffer[0]);
 #endif
-
-	PerformFileLog(&buffer[0]);
 }
 
 uint32_t HashRageString(const char* string)
@@ -357,13 +344,13 @@ std::vector<std::string> explode(const std::string &delimiter, const std::string
 }
 void OutputToConsole(const wchar_t* szFormat, ...)
 {
-	WCHAR szBuff[1024];
+	/*WCHAR szBuff[1024];
 	va_list arg;
 	va_start(arg, szFormat);
 	_vsnwprintf(szBuff, sizeof(szBuff), szFormat, arg);
 	va_end(arg);
 
-	OutputDebugString(szBuff);
+	OutputDebugString(szBuff);*/
 }
 const char* char_replace(char* string_rep, char match, char replace) {
 	int changes = 0;

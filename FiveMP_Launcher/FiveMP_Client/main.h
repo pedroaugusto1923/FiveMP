@@ -2,5 +2,5 @@
 
 #include "stdafx_raknet.h"
 
+void InitGameScript();
 void RunGameScript();
-void RunMainScript();

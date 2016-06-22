@@ -1,6 +1,7 @@
 #include "stdafx.h"
-#include <stdint.h>
-#include <unordered_set>
+#include "modbaserequired.h"
+#include "StdInc.h"
+#include <thread>
 
 bool memory_compare(const BYTE *data, const BYTE *pattern, const char *mask)
 {
@@ -13,7 +14,6 @@ bool memory_compare(const BYTE *data, const BYTE *pattern, const char *mask)
 	}
 	return (*mask) == NULL;
 }
-
 UINT64 FindPattern(char *pattern, char *mask)
 {	//Edited, From YSF by Kurta999
 	UINT64 i;
