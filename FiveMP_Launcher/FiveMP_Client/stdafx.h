@@ -15,6 +15,7 @@
 #include <fstream>
 #include <timeapi.h>
 #include <time.h>
+#include <tlhelp32.h>
 
 #pragma comment(lib, "winmm.lib")
 

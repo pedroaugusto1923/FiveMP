@@ -29,7 +29,7 @@ void cPacket::ReceivePacket(RakNet::Packet *packets, RakNet::RakPeerInterface *c
 			RequestID.Write((unsigned char)ID_REQUEST_SERVER_SYNC);
 			RequestID.Write(playerUsernamePacket);
 
-			clients->Send(&RequestID, HIGH_PRIORITY, RELIABLE, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, false);
+			clients->Send(&RequestID, IMMEDIATE_PRIORITY, RELIABLE, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, false);
 			break;
 
 		case ID_CONNECTION_ATTEMPT_FAILED:

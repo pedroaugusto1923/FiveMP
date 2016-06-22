@@ -18,3 +18,4 @@ void startProgram(char *lpApplicationName);
 bool Inject(DWORD pId, char *dllName);
 int PrintModules(DWORD processID);
 HMODULE retModuleHandle(DWORD processID, const char* moduleName);
+DWORD FindProcessId(char* processName);

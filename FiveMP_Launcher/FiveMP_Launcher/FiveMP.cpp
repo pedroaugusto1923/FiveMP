@@ -86,18 +86,15 @@ int main(void) {
 				printf("SCAN: GTA5.exe has successfully started!\n\n");
 				GameStarted = true;
 			}
-
-			if (InjectDLL("GTA5.exe", dllname2) == true) {
-				printf("INJECT: Successfully injected %s into Grand Theft Auto V!\n\n", dllname2);
-				if (InjectDLL("GTA5.exe", dllname) == true) {
-					printf("INJECT: Successfully injected %s into Grand Theft Auto V!\n\n", dllname);
-					GameThread = true;
-				}
-			}
 			else {
-				printf("SCAN: Couldn't find GTA5.exe, please try restarting the launcher!\n\n");
-
-				GameThread = false;
+				Sleep(2500);
+				if (InjectDLL("GTA5.exe", dllname2) == true && GameStarted == true) {
+					printf("INJECT: Successfully injected %s into Grand Theft Auto V!\n\n", dllname2);
+					if (InjectDLL("GTA5.exe", dllname) == true && GameStarted == true) {
+						printf("INJECT: Successfully injected %s into Grand Theft Auto V!\n\n", dllname);
+						GameThread = true;
+					}
+				}
 			}
 		}
 		Sleep(500);
