@@ -62,7 +62,7 @@ void RunGameScript() {
 			HasInitialized = true;
 		}
 
-		GAMEPLAY::SET_TIME_SCALE(1.0);
+		//GAMEPLAY::SET_TIME_SCALE(1.0);
 
 		VEHICLE::SET_GARBAGE_TRUCKS(false);
 		VEHICLE::SET_RANDOM_BOATS(false);
