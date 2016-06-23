@@ -42,18 +42,10 @@ extern MODULEINFO g_MainModuleInfo;
 #include "main.h"
 #include "ScriptHook.h"
 
-// Net Code
-#include "nConnect.h"
-#include "nPacket.h"
-
 // Game Functions
 #include "player.h"
 
 namespace {
-	// Classes (net)
-	class cNetCode netCode;
-	class cPacket netPacket;
-	
 	// Classes (scripthook)
 	class ScriptHook hook;
 

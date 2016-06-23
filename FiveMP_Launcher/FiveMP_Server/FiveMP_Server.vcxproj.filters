@@ -479,12 +479,6 @@
     <ClInclude Include="stdafx_raknet.h">
       <Filter>Include</Filter>
     </ClInclude>
-    <ClInclude Include="sConnect.h">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="sPacket.h">
-      <Filter>Net</Filter>
-    </ClInclude>
     <ClInclude Include="sPool.h">
       <Filter>Net</Filter>
     </ClInclude>
@@ -833,13 +827,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Include</Filter>
     </ClCompile>
-    <ClCompile Include="sConnect.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
     <ClCompile Include="sPool.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="sPacket.cpp">
       <Filter>Net</Filter>
     </ClCompile>
     <ClCompile Include="sConfig.cpp">

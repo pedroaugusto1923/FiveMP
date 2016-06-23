@@ -428,13 +428,6 @@ enum DefaultMessageIDTypes
 
 	// For the user to use.  Start your first enumeration at this value.
 	ID_USER_PACKET_ENUM,
-	ID_SET_PLAYER_POS,
-	ID_UPDATE_CLIENT,
-	ID_SEND_GUID,
-	ID_SET_CLIENT_ID,
-	ID_SET_VEHICLE_POS,
-	ID_SET_CLIENT_TIME,
-	ID_SEND_SERVER_VEH,
 
 	ID_REQUEST_SERVER_SYNC
 	//-------------------------------------------------------------------------------------------------------------

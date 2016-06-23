@@ -35,8 +35,6 @@ extern MODULEINFO g_MainModuleInfo;
 #include "GetTime.h"
 
 // Netcode
-#include "sConnect.h"
-#include "sPacket.h"
 #include "sPool.h"
 #include "sConfig.h"
 
@@ -46,8 +44,6 @@ extern MODULEINFO g_MainModuleInfo;
 
 namespace {
 	// Classes (net)
-	class sNetCode	netCode;
-	class sPacket	netPacket;
 	class sConfig	netConfig;
 
 	// Pools (net)

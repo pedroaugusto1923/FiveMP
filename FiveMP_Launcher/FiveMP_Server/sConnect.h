@@ -10,6 +10,7 @@ public:
 
 	unsigned char packetIdentifier;
 
-	void Connect(char *port, int maxplayers);
 	void Initialize(void);
+	void Connect(char *port, int maxplayers);
+	void ReceivePacket();
 };

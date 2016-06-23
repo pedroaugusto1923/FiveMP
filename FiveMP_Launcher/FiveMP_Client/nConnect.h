@@ -21,7 +21,9 @@ public:
 
 	unsigned char packetIdentifier;
 
+	void Initialize(void);
 	void Connect(char *, char *, char *);
 	void Disconnect(void);
-	void Initialize(void);
+
+	void ReceivePacket(RakNet::Packet * packets, RakNet::RakPeerInterface * clients);
 };

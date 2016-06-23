@@ -182,8 +182,6 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="nativeCaller.h" />
     <ClInclude Include="natives.h" />
-    <ClInclude Include="nConnect.h" />
-    <ClInclude Include="nPacket.h" />
     <ClInclude Include="Pattern.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="RAGEHelper.h" />
@@ -323,14 +321,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="nConnect.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="nPacket.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="player.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
@@ -443,7 +433,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;_DEBUG;_WINDOWS;_USRDLL;FIVEMP_CLIENT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>H:\GitHub3\FiveMP\Vendor\jitasm;H:\GitHub3\FiveMP\FiveMP_Launcher\FiveMP_Client;H:\GitHub3\FiveMP\Vendor\inih;H:\GitHub3\FiveMP\Vendor\RakNet;H:\GitHub3\FiveMP\Vendor\hooking;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Vendor\jitasm;..\..\FiveMP_Launcher\FiveMP_Client;..\..\Vendor\inih;..\..\Vendor\RakNet;..\..\Vendor\hooking;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <OmitFramePointers>false</OmitFramePointers>
       <StringPooling>true</StringPooling>
@@ -453,7 +443,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>ScriptHookV.lib %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalLibraryDirectories>H:\GitHub3\FiveMP\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -480,7 +470,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;NDEBUG;_WINDOWS;_USRDLL;FIVEMP_CLIENT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>H:\GitHub3\FiveMP\Vendor\jitasm;H:\GitHub3\FiveMP\FiveMP_Launcher\FiveMP_Client;H:\GitHub3\FiveMP\Vendor\inih;H:\GitHub3\FiveMP\Vendor\RakNet;H:\GitHub3\FiveMP\Vendor\hooking;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Vendor\jitasm;..\..\FiveMP_Launcher\FiveMP_Client;..\..\Vendor\inih;..\..\Vendor\RakNet;..\..\Vendor\hooking;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <OmitFramePointers>false</OmitFramePointers>
       <StringPooling>true</StringPooling>
@@ -492,7 +482,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>ws2_32.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>ScriptHookV.lib %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalLibraryDirectories>H:\GitHub3\FiveMP\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

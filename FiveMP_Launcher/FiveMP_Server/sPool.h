@@ -4,11 +4,10 @@ class UserPool
 public:
 	int UserAmount;
 
-	int AddToUserPool(char * username, RakNet::RakNetGUID * guid);
-
-	void RemoveFromUserPool(RakNet::RakNetGUID * guid);
+	bool AddToUserPool(char *username, const char *guid);
+	bool RemoveFromUserPool(const char *guid);
 	
-	int GetPlayerID(char *username);
-	char *GetPlayerUsername(RakNet::RakNetGUID * guid);
-	RakNet::RakNetGUID *GetPlayerGUID(char *username);
+	int GetPlayerID(const char *guid);
+	char *GetPlayerUsername(const char *guid);
+	const char *GetPlayerGUID(char *username);
 };

@@ -177,9 +177,7 @@
     <ClInclude Include="..\..\Vendor\RakNet\_FindFirst.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="sConfig.h" />
-    <ClInclude Include="sConnect.h" />
     <ClInclude Include="server.h" />
-    <ClInclude Include="sPacket.h" />
     <ClInclude Include="sPool.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="stdafx_raknet.h" />
@@ -298,12 +296,10 @@
     <ClCompile Include="..\..\Vendor\RakNet\WSAStartupSingleton.cpp" />
     <ClCompile Include="..\..\Vendor\RakNet\_FindFirst.cpp" />
     <ClCompile Include="sConfig.cpp" />
-    <ClCompile Include="sConnect.cpp" />
     <ClCompile Include="server.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="sPacket.cpp" />
     <ClCompile Include="sPool.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -411,7 +407,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>H:\GitHub3\FiveMP\Vendor\inih;H:\GitHub3\FiveMP\Vendor\RakNet;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Vendor\inih;..\..\Vendor\RakNet;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -445,7 +442,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>H:\GitHub3\FiveMP\Vendor\inih;H:\GitHub3\FiveMP\Vendor\RakNet;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Vendor\inih;..\..\Vendor\RakNet;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>

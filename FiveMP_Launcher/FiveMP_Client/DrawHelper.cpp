@@ -74,7 +74,7 @@ void draw_text(float x, float y, char* chSampleText, color_t color)
 	UI::SET_TEXT_EDGE(0, 0, 0, 0, 0);
 	UI::_SET_TEXT_ENTRY("STRING");
 	UI::_ADD_TEXT_COMPONENT_STRING(chSampleText);
-	UI::_DRAW_TEXT(y, x);
+	UI::_DRAW_TEXT(x, y);
 }
 
 void draw_rect(float A_0, float A_1, float A_2, float A_3, int A_4, int A_5, int A_6, int A_7)

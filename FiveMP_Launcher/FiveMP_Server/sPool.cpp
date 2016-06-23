@@ -5,7 +5,7 @@ struct playerPool {
 
 	char *username;					// Player Username (socialclub)
 
-	RakNet::RakNetGUID *playerguid;	// Player GUID (client side)
+	const char *playerguid;	// Player GUID (client side)
 
 	float x;						// Position X coord
 	float y;						// Position Y coord
@@ -16,7 +16,7 @@ struct playerPool {
 };
 playerPool playerData[100];
 
-int UserPool::AddToUserPool(char *username, RakNet::RakNetGUID *guid)
+bool UserPool::AddToUserPool(char *username, const char *guid)
 {
 	for (int i; i < sizeof(playerData); i++)
 	{
@@ -26,12 +26,12 @@ int UserPool::AddToUserPool(char *username, RakNet::RakNetGUID *guid)
 			playerData[i].playerguid	= guid;
 			
 			playerData[i].used = true;
-			return i;
+			return true;
 		}
 	}
 }
 
-void UserPool::RemoveFromUserPool(RakNet::RakNetGUID * guid)
+bool UserPool::RemoveFromUserPool(const char *guid)
 {
 	for (int i; i < sizeof(playerData); i++)
 	{
@@ -41,21 +41,22 @@ void UserPool::RemoveFromUserPool(RakNet::RakNetGUID * guid)
 			playerData[i].playerguid = NULL;
 
 			playerData[i].used = false;
+			return true;
 		}
 	}
 }
 
-int UserPool::GetPlayerID(char * username)
+int UserPool::GetPlayerID(const char *guid)
 {
 	for (int i; i < sizeof(playerData); i++)
 	{
-		if (playerData[i].username == username) {
+		if (playerData[i].playerguid == guid) {
 			return playerData[i].playerid;
 		}
 	}
 }
 
-char * UserPool::GetPlayerUsername(RakNet::RakNetGUID * guid)
+char *UserPool::GetPlayerUsername(const char *guid)
 {
 	for (int i; i < sizeof(playerData); i++)
 	{
@@ -65,7 +66,7 @@ char * UserPool::GetPlayerUsername(RakNet::RakNetGUID * guid)
 	}
 }
 
-RakNet::RakNetGUID * UserPool::GetPlayerGUID(char * username)
+const char *UserPool::GetPlayerGUID(char *username)
 {
 	for (int i; i < sizeof(playerData); i++)
 	{
