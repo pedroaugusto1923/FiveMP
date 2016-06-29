@@ -80,7 +80,7 @@ int main(void) {
 	bool Injected_ScriptHook	= false;
 	bool Injected_FiveMP		= false;
 
-	while (GameThread != true) {
+	/*while (GameThread != true) {
 		HWND hWnds = FindWindowA(NULL, "Grand Theft Auto V");
 
 		if (hWnds != NULL) {
@@ -88,22 +88,26 @@ int main(void) {
 				printf("SCAN: GTA5.exe has successfully started!\n\n");
 				GameStarted = true;
 			} else {
-				Sleep(2500);
-				if (InjectDLL("GTA5.exe", dllname2) == true && GameStarted == true && Injected_ScriptHook == false) {
+				Sleep(2500);*/
+	while (GameThread == false) {
+		if (_kbhit()) {
+			if (_getch() == 'g') {
+
+				if (InjectDLL("GTA5.exe", dllname2) == true) {
 					printf("INJECT: Successfully injected %s into Grand Theft Auto V!\n\n", dllname2);
 					Injected_ScriptHook = true;
 				}
-				if (InjectDLL("GTA5.exe", dllname) == true && GameStarted == true && Injected_ScriptHook == true) {
+				if (InjectDLL("GTA5.exe", dllname) == true) {
 					printf("INJECT: Successfully injected %s into Grand Theft Auto V!\n\n", dllname);
 
 					Injected_FiveMP = true;
-					GameThread		= true;
+					GameThread = true;
 				}
 			}
+			Sleep(500);
 		}
-		Sleep(500);
 	}
 	Sleep(5000);
 	//FindNativeTableAddress();
-	//getch();
+	getch();
 }
