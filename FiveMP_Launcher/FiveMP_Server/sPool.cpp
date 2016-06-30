@@ -1,54 +1,39 @@
 #include "stdafx.h"
 
-struct playerPool {
-	int playerid;					// Player/Client ID
-
-	char *username;					// Player Username (socialclub)
-
-	const char *playerguid;			// Player GUID (client side)
-
-	float x;						// Position X coord
-	float y;						// Position Y coord
-	float z;						// Position Z coord
-	float r;						// Rotation (0-360)
-
-	bool used = false;				// Whether the player slot is in use or not.
-};
-playerPool playerData[100];
-
-void UserPool::AddToUserPool(char *username, const char *guid)
+int UserPool::AddToUserPool(char *username, RakNet::RakNetGUID guid)
 {
 	for (int i = 0; i < sizeof(playerData); i++)
 	{
 		if (playerData[i].used == false) {
-			playerData[i].playerid		= i;
-			playerData[i].username		= username;
-			playerData[i].playerguid	= guid;
-			
-			playerData[i].used = true;
-			return;
+			playerData[i].playerid				= i;
+			playerData[i].playerusername		= username;
+			playerData[i].playerguid			= guid;
+			playerData[i].used					= true;
+
+			printf("%s - %s\n", playerData[i].playerguid.ToString(), guid.ToString());
+			return i;
 		}
 	}
-	return;
+	return -1;
 }
 
-void UserPool::RemoveFromUserPool(const char *guid)
+void UserPool::RemoveFromUserPool(RakNet::RakNetGUID guid)
 {
 	for (int i = 0; i < sizeof(playerData); i++)
 	{
+		printf("pls - %d\n", i);
 		if (playerData[i].playerguid == guid) {
-			playerData[i].playerid		= -1;
-			playerData[i].username		= NULL;
-			playerData[i].playerguid	= NULL;
+			printf("yes - %d\n", i);
+			playerData[i].playerid			= -1;
+			playerData[i].playerusername	= NULL;
 
 			playerData[i].used = false;
 			return;
 		}
 	}
-	return;
 }
 
-int UserPool::GetPlayerID(const char *guid)
+int UserPool::GetPlayerID(RakNet::RakNetGUID guid)
 {
 	for (int i = 0; i < sizeof(playerData); i++)
 	{
@@ -59,21 +44,21 @@ int UserPool::GetPlayerID(const char *guid)
 	return -1;
 }
 
-char *UserPool::GetPlayerUsername(const char *guid)
+char *UserPool::GetPlayerUsername(RakNet::RakNetGUID guid)
 {
 	for (int i = 0; i < sizeof(playerData); i++)
 	{
 		if (playerData[i].playerguid == guid) {
-			return playerData[i].username;
+			return playerData[i].playerusername;
 		}
 	}
 }
 
-const char *UserPool::GetPlayerGUID(char *username)
+RakNet::RakNetGUID UserPool::GetPlayerGUID(char *username)
 {
 	for (int i = 0; i < sizeof(playerData); i++)
 	{
-		if (playerData[i].username == username) {
+		if (playerData[i].playerusername == username) {
 			return playerData[i].playerguid;
 		}
 	}

@@ -4,10 +4,26 @@ class UserPool
 public:
 	int UserAmount;
 
-	void AddToUserPool(char *username, const char *guid);
-	void RemoveFromUserPool(const char *guid);
+	int AddToUserPool(char *username, RakNet::RakNetGUID guid);
+	void RemoveFromUserPool(RakNet::RakNetGUID guid);
 	
-	int GetPlayerID(const char *guid);
-	char *GetPlayerUsername(const char *guid);
-	const char *GetPlayerGUID(char *username);
+	int GetPlayerID(RakNet::RakNetGUID guid);
+	char *GetPlayerUsername(RakNet::RakNetGUID guid);
+	RakNet::RakNetGUID GetPlayerGUID(char *username);
 };
+
+struct playerPool {
+	int playerid;					// Player/Client ID
+
+	char *playerusername;					// Player Username (socialclub)
+
+	RakNet::RakNetGUID playerguid;			// Player GUID (client side)
+
+	float x;						// Position X coord
+	float y;						// Position Y coord
+	float z;						// Position Z coord
+	float r;						// Rotation (0-360)
+
+	bool used = false;				// Whether the player slot is in use or not.
+};
+extern playerPool playerData[100];

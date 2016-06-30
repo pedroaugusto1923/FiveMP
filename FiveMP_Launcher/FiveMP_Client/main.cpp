@@ -45,14 +45,14 @@ void RunGameScript() {
 		//STREAMING::LOAD_SCENE(391.4746f, -1637.9750f, 22.4998f);
 
 		if (HasInitialized == false) {
-			float groundz;
+			//float groundz;
 
 			player.DisableScripts();
 			SCRIPT::SHUTDOWN_LOADING_SCREEN();
 			CAM::DO_SCREEN_FADE_IN(500);
 
-			GAMEPLAY::GET_GROUND_Z_FOR_3D_COORD(391.4746f, -1637.9750f, 22.4998f, &groundz, 1);
-			ENTITY::SET_ENTITY_COORDS(playerPed, 391.4746f, -1637.9750f, groundz + 1.0f, true, true, true, true);
+			//GAMEPLAY::GET_GROUND_Z_FOR_3D_COORD(391.4746f, -1637.9750f, 22.4998f, &groundz, 1);
+			ENTITY::SET_ENTITY_COORDS(playerPed, 391.4746f, -1637.9750f, 225.0, true, true, true, true);
 			
 			ENTITY::FREEZE_ENTITY_POSITION(playerPed, 0);
 			ENTITY::SET_ENTITY_VISIBLE(playerPed, true, 0);
@@ -90,7 +90,7 @@ void RunGameScript() {
 		sprintf(alphadata, "FiveMP Alpha | %s - %s", __DATE__, __TIME__);
 
 		draw_text(0.002f, 0.002f, alphadata, { 255, 255, 255, 255 });
-		draw_text(0.750f, 0.975f, coorddata, { 255, 255, 255, 255 });
+		draw_text(0.755f, 0.975f, coorddata, { 255, 255, 255, 255 });
 
 		if (IsKeyDown(VK_F10)) {
 			Vector3 playerOffsetLocation = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(playerPed, 0.0, 3.0, 0.0);
@@ -202,12 +202,13 @@ void RunGameScript() {
 					playerClientID.Read(Server_Time_Minute);
 					playerClientID.Read(Server_Time_Pause);
 
-					printf("%d - %d - %d", Server_Time_Hour, Server_Time_Minute, Server_Time_Pause);
-
-					sprintf(testmessage, "Client ID: %d\n", Player_ClientID);
+					printf("TIME: Hour %d - Minute %d - Freeze Time %d\n", Server_Time_Hour, Server_Time_Minute, Server_Time_Pause);
 					player.ShowMessageAboveMap(testmessage);
 
-					TIME::SET_CLOCK_TIME(Server_Time_Hour, Server_Time_Minute, 00);
+					sprintf(testmessage, "CLIENTID: %d\n", Player_ClientID);
+					player.ShowMessageAboveMap(testmessage);
+
+					TIME::ADVANCE_CLOCK_TIME_TO(Server_Time_Hour, Server_Time_Minute, 00);
 					TIME::PAUSE_CLOCK(Server_Time_Pause);
 					break;
 

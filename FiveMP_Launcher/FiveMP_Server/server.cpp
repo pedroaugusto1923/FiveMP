@@ -3,6 +3,8 @@
 int userAmount, vehicleAmount;
 char userGuid;
 
+playerPool playerData[100];
+
 int main(void)
 {
 	unsigned char GetPacketIdentifier(RakNet::Packet * p);
@@ -62,6 +64,7 @@ int main(void)
 	puts("'quit' to quit. 'stat' to show stats. 'ping' to ping.\n'pingip' to ping an ip address\n'ban' to ban an IP from connecting.\n'kick to kick the first connected player.\nType to talk.");
 
 	char message[2048];
+	int tempid;
 
 	while (1)
 	{
@@ -79,7 +82,7 @@ int main(void)
 			case ID_DISCONNECTION_NOTIFICATION:
 				printf("ID_DISCONNECTION_NOTIFICATION from %s\n", p->systemAddress.ToString(true));;
 
-				netPool.RemoveFromUserPool(p->guid.ToString());
+				netPool.RemoveFromUserPool(p->guid);
 
 				netPool.UserAmount--;
 				break;
@@ -88,12 +91,11 @@ int main(void)
 				printf("Incoming connection (IP|PORT: %s - GUID: %s)\n", p->systemAddress.ToString(true), p->guid.ToString());
 				clientID = p->systemAddress;
 
+				netPool.UserAmount++;
+
 				printf("%s - %d\n", p->guid.ToString(), netPool.UserAmount);
-				//PlayerInfo[userAmount][name] = userAmount;
 
 				//callback.OnPlayerConnect(netPool.UserAmount);
-
-				netPool.UserAmount++;
 				break;
 
 			case ID_REQUEST_SERVER_SYNC:
@@ -101,18 +103,17 @@ int main(void)
 
 				pid_request.Read(tempname);
 
-				netPool.AddToUserPool(tempname, p->guid.ToString());
+				tempid = netPool.AddToUserPool(tempname, p->guid);
 
 				pid_bitStream.Write((unsigned char)ID_REQUEST_SERVER_SYNC);
 
-				pid_bitStream.Write(netPool.GetPlayerID(p->guid.ToString()));
+				pid_bitStream.Write(tempid);
 
 				pid_bitStream.Write(netConfig.ServerTimeHour);
 				pid_bitStream.Write(netConfig.ServerTimeMinute);
 				pid_bitStream.Write(netConfig.ServerTimeFreeze);
 
 				server->Send(&pid_bitStream, HIGH_PRIORITY, RELIABLE_ORDERED, 0, p->systemAddress, false);
-
 				break;
 
 			case ID_INCOMPATIBLE_PROTOCOL_VERSION:
@@ -146,6 +147,12 @@ int main(void)
 			if (strcmp(message, "quit") == 0)
 			{
 				puts("Quitting.");
+				break;
+			}
+
+			if (strcmp(message, "playertest") == 0)
+			{
+				printf("%d - %s - %s", playerData[0].playerid, playerData[0].playerusername, playerData[0].playerguid);
 				break;
 			}
 
