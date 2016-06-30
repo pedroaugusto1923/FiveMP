@@ -1,5 +1,20 @@
 #include "stdafx.h"
 
+RPC4 rpc;
+RakNet::RakPeerInterface *client;
+RakNet::Packet* packet;
+RakNet::SystemAddress clientID;
+RakNet::ConnectionAttemptResult car;
+
+bool Player_IsConnected = false;
+bool Player_NetListen = false;
+bool Player_Synchronized = false;
+
+int Player_ClientID;
+int Server_Time_Hour;
+int Server_Time_Minute;
+bool Server_Time_Pause;
+
 void InitGameScript() {
 	CIniReader iniReader(".\\FiveMP.ini");
 
@@ -20,22 +35,8 @@ void InitGameScript() {
 void RunGameScript() {
 	bool HasInitialized = false;
 
-	RakNet::RakPeerInterface *client = RakNet::RakPeerInterface::GetInstance();
-	RakNet::Packet* packet;
-	RakNet::SystemAddress clientID = RakNet::UNASSIGNED_SYSTEM_ADDRESS;;
-	RakNet::ConnectionAttemptResult car;
-
-	bool Player_IsConnected = false;
-	bool Player_HasID = false;
-	bool Player_ShouldDisconnect = false;
-	bool Player_NetListen = false;
-	bool Player_Disconnected = false;
-	bool Player_Synchronized = false;
-
-	int Player_ClientID;
-	int Server_Time_Hour;
-	int Server_Time_Minute;
-	bool Server_Time_Pause;
+	client = RakNet::RakPeerInterface::GetInstance();
+	clientID = RakNet::UNASSIGNED_SYSTEM_ADDRESS;
 
 	while (true)
 	{
@@ -82,12 +83,14 @@ void RunGameScript() {
 
 		CONTROLS::DISABLE_CONTROL_ACTION(2, 19, true);
 
-		char coorddata[128];
+		char coorddata[64];
+		char alphadata[128];
 
 		sprintf(coorddata, "X = %f | Y = %f | Z = %f", playerCoords.x, playerCoords.y, playerCoords.z);
+		sprintf(alphadata, "FiveMP Alpha | %s - %s", __DATE__, __TIME__);
 
-		draw_text(0.002f, 0.002f, "FiveMP Alpha - 22-6-16", { 255, 255, 255, 255 });
-		draw_text(0.750f, 0.900f, coorddata, { 255, 255, 255, 255 });
+		draw_text(0.002f, 0.002f, alphadata, { 255, 255, 255, 255 });
+		draw_text(0.750f, 0.975f, coorddata, { 255, 255, 255, 255 });
 
 		if (IsKeyDown(VK_F10)) {
 			Vector3 playerOffsetLocation = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(playerPed, 0.0, 3.0, 0.0);
@@ -112,34 +115,35 @@ void RunGameScript() {
 		}
 
 		if (Player_Synchronized == false && Player_IsConnected == true) {
-			RakNet::BitStream RequestID;
+			RakNet::BitStream requestid;
 
-			char playerUsernamePacket[64];
+			RakNet::RakString playerUsername("%s", client_username);
 
-			sprintf(playerUsernamePacket, "%s", client_username);
+			requestid.Write((MessageID)ID_REQUEST_SERVER_SYNC);
+			requestid.Write(playerUsername);
 
-			RequestID.Write((unsigned char)ID_REQUEST_SERVER_SYNC);
-			RequestID.Write(playerUsernamePacket);
-
-			client->Send(&RequestID, IMMEDIATE_PRIORITY, RELIABLE, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, false);
+			client->Send(&requestid, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
 
 			player.ShowMessageAboveMap("Synchronizing with the server...");
 
 			Player_Synchronized = true;
+
+			//RakNet::BitStream bsPlayerSpawn;
+			//bsPlayerSpawn.Write(bPause);
+			//rpc.Call("PlayerSpawn", &bsPlayerSpawn, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, UNASSIGNED_SYSTEM_ADDRESS, TRUE);
 		}
 
 		if (Player_NetListen == true) {
 			for (packet = client->Receive(); packet; client->DeallocatePacket(packet), packet = client->Receive()) {
 				unsigned char packetIdentifier = GetPacketIdentifier(packet);
 
-				RakNet::BitStream playerClientID(packet->data + 1, 32, false);
+				RakNet::BitStream playerClientID(packet->data + 1, 64, false);
 
 				char testmessage[128];
 
 				switch (packetIdentifier) {
 				case ID_CONNECTION_REQUEST_ACCEPTED:
 					Player_IsConnected = true;
-					Player_ShouldDisconnect = false;
 
 					sprintf(testmessage, "Hi %s, you have successfully connected to the server!", player.GetPlayerSocialClubName());
 					player.ShowMessageAboveMap(testmessage);
@@ -150,7 +154,7 @@ void RunGameScript() {
 
 				case ID_CONNECTION_ATTEMPT_FAILED:
 					Player_IsConnected = false;
-					Player_ShouldDisconnect = true;
+					Player_Synchronized = false;
 
 					player.ShowMessageAboveMap("Failed to connect!");
 					Player_NetListen = false;
@@ -158,7 +162,7 @@ void RunGameScript() {
 
 				case ID_NO_FREE_INCOMING_CONNECTIONS:
 					Player_IsConnected = false;
-					Player_ShouldDisconnect = true;
+					Player_Synchronized = false;
 
 					player.ShowMessageAboveMap("Server is full!");
 					Player_NetListen = false;
@@ -166,7 +170,7 @@ void RunGameScript() {
 
 				case ID_DISCONNECTION_NOTIFICATION:
 					Player_IsConnected = false;
-					Player_ShouldDisconnect = true;
+					Player_Synchronized = false;
 
 					player.ShowMessageAboveMap("Disconnected!");
 					Player_NetListen = false;
@@ -174,7 +178,7 @@ void RunGameScript() {
 
 				case ID_CONNECTION_LOST:
 					Player_IsConnected = false;
-					Player_ShouldDisconnect = true;
+					Player_Synchronized = false;
 
 					player.ShowMessageAboveMap("Connection Lost!");
 					Player_NetListen = false;
@@ -182,7 +186,7 @@ void RunGameScript() {
 
 				case ID_CONNECTION_BANNED:
 					Player_IsConnected = false;
-					Player_ShouldDisconnect = true;
+					Player_Synchronized = false;
 
 					player.ShowMessageAboveMap("You're banned from the server!");
 					Player_NetListen = false;
@@ -205,9 +209,6 @@ void RunGameScript() {
 
 					TIME::SET_CLOCK_TIME(Server_Time_Hour, Server_Time_Minute, 00);
 					TIME::PAUSE_CLOCK(Server_Time_Pause);
-
-					Player_HasID = true;
-					Player_ShouldDisconnect = false;
 					break;
 
 				default:
@@ -216,8 +217,6 @@ void RunGameScript() {
 
 					sprintf(testmessage, "Exception from %s\n", packet->data);
 					client->Send(testmessage, (int)strlen(testmessage) + 1, IMMEDIATE_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, false);
-
-					Player_ShouldDisconnect = false;
 					break;
 				}
 			}
@@ -225,6 +224,8 @@ void RunGameScript() {
 
 		if (IsKeyDown(VK_F8)) {
 			RakNet::SocketDescriptor socketDescriptor(atoi(client_port), 0);
+
+			client->AttachPlugin(&rpc);
 
 			socketDescriptor.socketFamily = AF_INET;
 			client->Startup(8, &socketDescriptor, 1);
@@ -240,19 +241,14 @@ void RunGameScript() {
 				client->Shutdown(300);
 
 				Player_IsConnected = false;
-				Player_HasID = false;
-				Player_ShouldDisconnect = false;
 				Player_NetListen = false;
-				Player_Disconnected = true;
 				Player_Synchronized = false;
 
 				player.ShowMessageAboveMap("Successfully disconnected!");
 			}
-
-			Player_NetListen = false;
 		}
 
-		WAIT(0); // Don't remove or you'll crash your game. :x
+		WAIT(0);
 	}
 }
 

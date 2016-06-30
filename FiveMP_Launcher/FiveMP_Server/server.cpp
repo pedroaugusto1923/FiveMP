@@ -34,7 +34,7 @@ int main(void)
 	clientID = RakNet::UNASSIGNED_SYSTEM_ADDRESS;
 
 	server->SetIncomingPassword("fivemp_dev", (int)strlen("fivemp_dev"));
-	server->SetTimeoutTime(30000, RakNet::UNASSIGNED_SYSTEM_ADDRESS);
+	server->SetTimeoutTime(15000, RakNet::UNASSIGNED_SYSTEM_ADDRESS);
 
 
 	puts("Starting server.");
@@ -79,10 +79,7 @@ int main(void)
 			case ID_DISCONNECTION_NOTIFICATION:
 				printf("ID_DISCONNECTION_NOTIFICATION from %s\n", p->systemAddress.ToString(true));;
 
-				if (netPool.RemoveFromUserPool(p->guid.ToString()) == false) {
-					printf("exception 2");
-					break;
-				}
+				netPool.RemoveFromUserPool(p->guid.ToString());
 
 				netPool.UserAmount--;
 				break;
@@ -100,26 +97,21 @@ int main(void)
 				break;
 
 			case ID_REQUEST_SERVER_SYNC:
-				char notused[64];
+				char tempname[64];
 
-				pid_request.Read("fivemp");
+				pid_request.Read(tempname);
 
-				printf("%s is username from syncrequest\n", notused);
+				netPool.AddToUserPool(tempname, p->guid.ToString());
 
-				if (netPool.AddToUserPool(notused, p->guid.ToString()) == true) {
+				pid_bitStream.Write((unsigned char)ID_REQUEST_SERVER_SYNC);
 
-					pid_bitStream.Write((unsigned char)ID_REQUEST_SERVER_SYNC);
+				pid_bitStream.Write(netPool.GetPlayerID(p->guid.ToString()));
 
-					pid_bitStream.Write(netPool.GetPlayerID(p->guid.ToString()));
+				pid_bitStream.Write(netConfig.ServerTimeHour);
+				pid_bitStream.Write(netConfig.ServerTimeMinute);
+				pid_bitStream.Write(netConfig.ServerTimeFreeze);
 
-					pid_bitStream.Write(netConfig.ServerTimeHour);
-					pid_bitStream.Write(netConfig.ServerTimeMinute);
-					pid_bitStream.Write(netConfig.ServerTimeFreeze);
-
-					server->Send(&pid_bitStream, IMMEDIATE_PRIORITY, RELIABLE, 0, p->systemAddress, false);
-				} else {
-					printf("exception");
-				}
+				server->Send(&pid_bitStream, HIGH_PRIORITY, RELIABLE_ORDERED, 0, p->systemAddress, false);
 
 				break;
 
@@ -240,7 +232,7 @@ int main(void)
 
 	server->Shutdown(300);
 	RakNet::RakPeerInterface::DestroyInstance(server);
-	Sleep(5000);
+	Sleep(1000);
 	return 0;
 }
 

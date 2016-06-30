@@ -102,12 +102,12 @@ int main(void) {
 
 					Injected_FiveMP = true;
 					GameThread = true;
+					break;
 				}
 			}
 			Sleep(500);
 		}
 	}
-	Sleep(5000);
+	Sleep(2500);
 	//FindNativeTableAddress();
-	getch();
 }

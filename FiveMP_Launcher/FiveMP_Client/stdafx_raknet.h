@@ -11,3 +11,6 @@
 #include "Gets.h"
 #include "WindowsIncludes.h"
 #include "GetTime.h"
+#include "RPC4Plugin.h"
+
+using namespace RakNet;
