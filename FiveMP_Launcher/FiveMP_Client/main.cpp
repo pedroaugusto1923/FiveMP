@@ -46,6 +46,7 @@ void RunGameScript() {
 		Hash	playerModel		= ENTITY::GET_ENTITY_MODEL(playerPed);
 		Vector3 playerCoords	= ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(playerPed, 0.0, 0.0, 0.0);
 		int		playerType		= PED::GET_PED_TYPE(playerPed);
+		int		playerHealth	= ENTITY::GET_ENTITY_HEALTH(playerPed);
 
 		ENTITY::GET_ENTITY_QUATERNION(playerPed, &rotation_x, &rotation_y, &rotation_z, &rotation_w);
 
@@ -105,6 +106,7 @@ void RunGameScript() {
 
 				PlayerBitStream.Write(playerType);
 				PlayerBitStream.Write(playerModel);
+				PlayerBitStream.Write(playerHealth);
 
 				PlayerBitStream.Write(playerCoords.x);
 				PlayerBitStream.Write(playerCoords.y);

@@ -125,6 +125,7 @@ int main(void)
 
 				PlayerBitStream.Read(playerData[tempplyrid].pedType);
 				PlayerBitStream.Read(playerData[tempplyrid].pedModel);
+				PlayerBitStream.Read(playerData[tempplyrid].pedHealth);
 
 				PlayerBitStream.Read(playerData[tempplyrid].x);
 				PlayerBitStream.Read(playerData[tempplyrid].y);

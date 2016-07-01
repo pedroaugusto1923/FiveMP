@@ -20,7 +20,8 @@ struct playerPool {
 	RakNet::RakNetGUID playerguid;			// Player GUID (client side)
 
 	int pedType;							// Ped Type
-	Hash pedModel;							// Player Model in hash
+	Hash pedModel;							// PedModel in hash
+	int pedHealth;							// Ped Health
 
 	float x;								// Position X coord
 	float y;								// Position Y coord
