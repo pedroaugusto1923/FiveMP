@@ -20,12 +20,12 @@ playerPool playerData[100];
 void InitGameScript() {
 	CIniReader iniReader(".\\FiveMP.ini");
 
-	server_ipaddress = iniReader.ReadString("Connection", "ip", "");
-	server_port = iniReader.ReadString("Connection", "port", "");
-	client_port = iniReader.ReadString("Connection", "clientport", "");
+	server_ipaddress	= iniReader.ReadString("Connection", "ip", "");
+	server_port			= iniReader.ReadString("Connection", "port", "");
+	client_port			= iniReader.ReadString("Connection", "clientport", "");
 
-	client_username = iniReader.ReadString("Details", "username", "");
-	client_steam_def = iniReader.ReadBoolean("Details", "steam", "");
+	client_username		= iniReader.ReadString("Details", "username", "");
+	client_steam_def	= iniReader.ReadBoolean("Details", "steam", "");
 
 	printf("\nIP: %s\nPort: %s\nClient Port: %s\n\n", server_ipaddress, server_port, client_port);
 	printf("Username: %s\nUsing Steam: %d\n\n", client_username, client_steam_def);
@@ -135,7 +135,7 @@ void RunGameScript() {
 				case ID_CONNECTION_REQUEST_ACCEPTED:
 					Player_IsConnected = true;
 
-					sprintf(testmessage, "Hi %s, you have successfully connected to the server!", player.GetPlayerSocialClubName());
+					sprintf(testmessage, "Hi %s, you have successfully connected to the server!", client_username);
 					player.ShowMessageAboveMap(testmessage);
 
 					sprintf(testmessage, "GUID is: #%s", client->GetGuidFromSystemAddress(RakNet::UNASSIGNED_SYSTEM_ADDRESS).ToString());
