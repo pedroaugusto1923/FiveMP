@@ -151,6 +151,8 @@ int main(void)
 			case ID_CONNECTION_LOST:
 				printf("ID_CONNECTION_LOST from %s\n", p->systemAddress.ToString(true));;
 				netPool.UserAmount--;
+
+				netPool.RemoveFromUserPool(p->guid);
 				break;
 
 			default:
