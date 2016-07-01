@@ -45,9 +45,15 @@ extern MODULEINFO g_MainModuleInfo;
 // Game Functions
 #include "player.h"
 
+// Net
+#include "cPool.h"
+
 namespace {
 	// Classes (scripthook)
 	class ScriptHook hook;
+
+	// Classes (net)
+	class UserPool netPool;
 
 	// Classes (scripts)
 	class GamePlayer player;

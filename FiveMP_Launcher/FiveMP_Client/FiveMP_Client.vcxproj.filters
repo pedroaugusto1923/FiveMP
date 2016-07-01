@@ -31,6 +31,9 @@
     <Filter Include="Include\Rockstar\Licenses">
       <UniqueIdentifier>{51ae91b2-5a1d-426e-9437-dcbe4d82e5d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Net">
+      <UniqueIdentifier>{ee181eb5-e84f-4464-b0f3-e13b40cc5ca6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -391,6 +394,9 @@
     </ClCompile>
     <ClCompile Include="ScriptHook.cpp">
       <Filter>Include\ScriptHook</Filter>
+    </ClCompile>
+    <ClCompile Include="cPool.cpp">
+      <Filter>Net</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -904,6 +910,9 @@
     </ClInclude>
     <ClInclude Include="Pattern.h">
       <Filter>Include\Rockstar\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="cPool.h">
+      <Filter>Net</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

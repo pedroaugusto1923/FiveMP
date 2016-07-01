@@ -187,6 +187,7 @@
     <ClInclude Include="RAGEHelper.h" />
     <ClInclude Include="ScriptHook.h" />
     <ClInclude Include="sh_main.h" />
+    <ClInclude Include="cPool.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="stdafx_raknet.h" />
     <ClInclude Include="Types.h" />
@@ -333,6 +334,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="cPool.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>

@@ -77,7 +77,8 @@ int main(void)
 			RakNet::BitStream pid_bitStream;
 			RakNet::BitStream pid_request(p->data + 1, 128, false);
 
-			RakNet::BitStream PlayerBitStream(p->data + 1, 128, false);
+			RakNet::BitStream PlayerBitStream_send;
+			RakNet::BitStream PlayerBitStream_receive(p->data + 1, 128, false);
 
 			switch (packetIdentifier)
 			{
@@ -119,22 +120,45 @@ int main(void)
 				break;
 
 			case ID_SEND_PLAYER_DATA:
+				// Receive data
+
 				int tempplyrid;
 
-				PlayerBitStream.Read(tempplyrid);
+				PlayerBitStream_receive.Read(tempplyrid);
 
-				PlayerBitStream.Read(playerData[tempplyrid].pedType);
-				PlayerBitStream.Read(playerData[tempplyrid].pedModel);
-				PlayerBitStream.Read(playerData[tempplyrid].pedHealth);
+				PlayerBitStream_receive.Read(playerData[tempplyrid].pedType);
+				PlayerBitStream_receive.Read(playerData[tempplyrid].pedModel);
+				PlayerBitStream_receive.Read(playerData[tempplyrid].pedHealth);
 
-				PlayerBitStream.Read(playerData[tempplyrid].x);
-				PlayerBitStream.Read(playerData[tempplyrid].y);
-				PlayerBitStream.Read(playerData[tempplyrid].z);
+				PlayerBitStream_receive.Read(playerData[tempplyrid].x);
+				PlayerBitStream_receive.Read(playerData[tempplyrid].y);
+				PlayerBitStream_receive.Read(playerData[tempplyrid].z);
 
-				PlayerBitStream.Read(playerData[tempplyrid].rx);
-				PlayerBitStream.Read(playerData[tempplyrid].ry);
-				PlayerBitStream.Read(playerData[tempplyrid].rz);
-				PlayerBitStream.Read(playerData[tempplyrid].rw);
+				PlayerBitStream_receive.Read(playerData[tempplyrid].rx);
+				PlayerBitStream_receive.Read(playerData[tempplyrid].ry);
+				PlayerBitStream_receive.Read(playerData[tempplyrid].rz);
+				PlayerBitStream_receive.Read(playerData[tempplyrid].rw);
+
+				// Send to other users.
+
+				PlayerBitStream_send.Write((unsigned char)ID_SEND_PLAYER_DATA);
+
+				PlayerBitStream_send.Write(tempplyrid);
+
+				PlayerBitStream_send.Write(playerData[tempplyrid].pedType);
+				PlayerBitStream_send.Write(playerData[tempplyrid].pedModel);
+				PlayerBitStream_send.Write(playerData[tempplyrid].pedHealth);
+
+				PlayerBitStream_send.Write(playerData[tempplyrid].x);
+				PlayerBitStream_send.Write(playerData[tempplyrid].y);
+				PlayerBitStream_send.Write(playerData[tempplyrid].z);
+
+				PlayerBitStream_send.Write(playerData[tempplyrid].rx);
+				PlayerBitStream_send.Write(playerData[tempplyrid].ry);
+				PlayerBitStream_send.Write(playerData[tempplyrid].rz);
+				PlayerBitStream_send.Write(playerData[tempplyrid].rw);
+
+				server->Send(&PlayerBitStream_send, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
 
 				//printf("%s | %d - %x | %f, %f, %f | %f, %f, %f, %f\n", playerData[tempplyrid].playerusername, playerData[tempplyrid].pedType, playerData[tempplyrid].pedModel, playerData[tempplyrid].x, playerData[tempplyrid].y, playerData[tempplyrid].z, playerData[tempplyrid].rx, playerData[tempplyrid].ry, playerData[tempplyrid].rz, playerData[tempplyrid].rw);
 				break;

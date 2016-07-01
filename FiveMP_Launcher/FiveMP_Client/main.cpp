@@ -15,6 +15,8 @@ int Server_Time_Hour;
 int Server_Time_Minute;
 bool Server_Time_Pause;
 
+playerPool playerData[100];
+
 void InitGameScript() {
 	CIniReader iniReader(".\\FiveMP.ini");
 
@@ -98,32 +100,34 @@ void RunGameScript() {
 
 		if (Player_NetListen) {
 			if (Player_IsConnected && Player_Synchronized) {
-				RakNet::BitStream PlayerBitStream;
+				RakNet::BitStream PlayerBitStream_send;
 
-				PlayerBitStream.Write((MessageID)ID_SEND_PLAYER_DATA);
+				PlayerBitStream_send.Write((MessageID)ID_SEND_PLAYER_DATA);
 				
-				PlayerBitStream.Write(Player_ClientID);
+				PlayerBitStream_send.Write(Player_ClientID);
 
-				PlayerBitStream.Write(playerType);
-				PlayerBitStream.Write(playerModel);
-				PlayerBitStream.Write(playerHealth);
+				PlayerBitStream_send.Write(playerType);
+				PlayerBitStream_send.Write(playerModel);
+				PlayerBitStream_send.Write(playerHealth);
 
-				PlayerBitStream.Write(playerCoords.x);
-				PlayerBitStream.Write(playerCoords.y);
-				PlayerBitStream.Write(playerCoords.z);
+				PlayerBitStream_send.Write(playerCoords.x);
+				PlayerBitStream_send.Write(playerCoords.y);
+				PlayerBitStream_send.Write(playerCoords.z);
 
-				PlayerBitStream.Write(rotation_x);
-				PlayerBitStream.Write(rotation_y);
-				PlayerBitStream.Write(rotation_z);
-				PlayerBitStream.Write(rotation_w);
+				PlayerBitStream_send.Write(rotation_x);
+				PlayerBitStream_send.Write(rotation_y);
+				PlayerBitStream_send.Write(rotation_z);
+				PlayerBitStream_send.Write(rotation_w);
 
-				client->Send(&PlayerBitStream, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
+				client->Send(&PlayerBitStream_send, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
 			}
 
 			for (packet = client->Receive(); packet; client->DeallocatePacket(packet), packet = client->Receive()) {
 				unsigned char packetIdentifier = GetPacketIdentifier(packet);
 
 				RakNet::BitStream playerClientID(packet->data + 1, 64, false);
+
+				RakNet::BitStream PlayerBitStream_receive(packet->data + 1, 128, false);
 
 				char testmessage[128];
 
@@ -196,6 +200,54 @@ void RunGameScript() {
 
 					TIME::ADVANCE_CLOCK_TIME_TO(Server_Time_Hour, Server_Time_Minute, 00);
 					TIME::PAUSE_CLOCK(Server_Time_Pause);
+					break;
+
+				case ID_SEND_PLAYER_DATA:
+					int tempplyrid;
+
+					PlayerBitStream_receive.Read(tempplyrid);
+
+					PlayerBitStream_receive.Read(playerData[tempplyrid].pedType);
+					PlayerBitStream_receive.Read(playerData[tempplyrid].pedModel);
+					PlayerBitStream_receive.Read(playerData[tempplyrid].pedHealth);
+
+					PlayerBitStream_receive.Read(playerData[tempplyrid].x);
+					PlayerBitStream_receive.Read(playerData[tempplyrid].y);
+					PlayerBitStream_receive.Read(playerData[tempplyrid].z);
+
+					PlayerBitStream_receive.Read(playerData[tempplyrid].rx);
+					PlayerBitStream_receive.Read(playerData[tempplyrid].ry);
+					PlayerBitStream_receive.Read(playerData[tempplyrid].rz);
+					PlayerBitStream_receive.Read(playerData[tempplyrid].rw);
+
+					if (tempplyrid != Player_ClientID) {
+						//printf("%s | %d - %x | %f, %f, %f | %f, %f, %f, %f\n", playerData[tempplyrid].playerusername, playerData[tempplyrid].pedType, playerData[tempplyrid].pedModel, playerData[tempplyrid].x, playerData[tempplyrid].y, playerData[tempplyrid].z, playerData[tempplyrid].rx, playerData[tempplyrid].ry, playerData[tempplyrid].rz, playerData[tempplyrid].rw);
+
+						if (ENTITY::DOES_ENTITY_EXIST(playerData[tempplyrid].pedPed)) {
+							ENTITY::SET_ENTITY_COORDS(playerData[tempplyrid].pedPed, playerData[tempplyrid].x, playerData[tempplyrid].y, playerData[tempplyrid].z, 0, 0, 0, 0);
+							ENTITY::SET_ENTITY_QUATERNION(playerData[tempplyrid].pedPed, playerData[tempplyrid].rx, playerData[tempplyrid].ry, playerData[tempplyrid].rz, playerData[tempplyrid].rw);
+						}
+						else {
+							if (STREAMING::IS_MODEL_IN_CDIMAGE(playerData[tempplyrid].pedModel) && STREAMING::IS_MODEL_VALID(playerData[tempplyrid].pedModel))
+
+								STREAMING::REQUEST_MODEL(playerData[tempplyrid].pedModel);
+							while (!STREAMING::HAS_MODEL_LOADED(playerData[tempplyrid].pedModel))
+								WAIT(0);
+							playerData[tempplyrid].pedPed = PED::CREATE_PED(playerData[tempplyrid].pedType, playerData[tempplyrid].pedModel, playerData[tempplyrid].x, playerData[tempplyrid].y, playerData[tempplyrid].z, 0.0f, false, true);
+							STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(playerData[tempplyrid].pedModel);
+
+							PED::SET_PED_FLEE_ATTRIBUTES(playerData[tempplyrid].pedPed, 0, 0);
+							PED::SET_PED_COMBAT_ATTRIBUTES(playerData[tempplyrid].pedPed, 17, 1);
+							PED::SET_PED_CAN_RAGDOLL(playerData[tempplyrid].pedPed, false);
+
+							AI::TASK_SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(playerData[tempplyrid].pedPed, true);
+
+							playerData[tempplyrid].pedBlip = UI::ADD_BLIP_FOR_ENTITY(playerData[tempplyrid].pedPed);
+							UI::SET_BLIP_AS_FRIENDLY(playerData[tempplyrid].pedBlip, true);
+							UI::SET_BLIP_COLOUR(playerData[tempplyrid].pedBlip, 0);
+							UI::SET_BLIP_SCALE(playerData[tempplyrid].pedBlip, 1.0f);
+						}
+					}
 					break;
 
 				default:
