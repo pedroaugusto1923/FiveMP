@@ -77,6 +77,8 @@ int main(void)
 			RakNet::BitStream pid_bitStream;
 			RakNet::BitStream pid_request(p->data + 1, 128, false);
 
+			RakNet::BitStream PlayerBitStream(p->data + 1, 128, false);
+
 			switch (packetIdentifier)
 			{
 			case ID_DISCONNECTION_NOTIFICATION:
@@ -114,6 +116,26 @@ int main(void)
 				pid_bitStream.Write(netConfig.ServerTimeFreeze);
 
 				server->Send(&pid_bitStream, HIGH_PRIORITY, RELIABLE_ORDERED, 0, p->systemAddress, false);
+				break;
+
+			case ID_SEND_PLAYER_DATA:
+				int tempplyrid;
+
+				PlayerBitStream.Read(tempplyrid);
+
+				PlayerBitStream.Read(playerData[tempplyrid].pedType);
+				PlayerBitStream.Read(playerData[tempplyrid].pedModel);
+
+				PlayerBitStream.Read(playerData[tempplyrid].x);
+				PlayerBitStream.Read(playerData[tempplyrid].y);
+				PlayerBitStream.Read(playerData[tempplyrid].z);
+
+				PlayerBitStream.Read(playerData[tempplyrid].rx);
+				PlayerBitStream.Read(playerData[tempplyrid].ry);
+				PlayerBitStream.Read(playerData[tempplyrid].rz);
+				PlayerBitStream.Read(playerData[tempplyrid].rw);
+
+				//printf("%s | %d - %x | %f, %f, %f | %f, %f, %f, %f\n", playerData[tempplyrid].playerusername, playerData[tempplyrid].pedType, playerData[tempplyrid].pedModel, playerData[tempplyrid].x, playerData[tempplyrid].y, playerData[tempplyrid].z, playerData[tempplyrid].rx, playerData[tempplyrid].ry, playerData[tempplyrid].rz, playerData[tempplyrid].rw);
 				break;
 
 			case ID_INCOMPATIBLE_PROTOCOL_VERSION:

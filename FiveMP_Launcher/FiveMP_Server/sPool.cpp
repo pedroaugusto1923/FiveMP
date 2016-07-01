@@ -21,9 +21,7 @@ void UserPool::RemoveFromUserPool(RakNet::RakNetGUID guid)
 {
 	for (int i = 0; i < sizeof(playerData); i++)
 	{
-		printf("pls - %d\n", i);
 		if (playerData[i].playerguid == guid) {
-			printf("yes - %d\n", i);
 			playerData[i].playerid			= -1;
 			playerData[i].playerusername	= NULL;
 

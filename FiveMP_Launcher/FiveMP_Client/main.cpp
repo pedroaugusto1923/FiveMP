@@ -35,24 +35,29 @@ void InitGameScript() {
 void RunGameScript() {
 	bool HasInitialized = false;
 
-	client = RakNet::RakPeerInterface::GetInstance();
-	clientID = RakNet::UNASSIGNED_SYSTEM_ADDRESS;
+	client		= RakNet::RakPeerInterface::GetInstance();
+	clientID	= RakNet::UNASSIGNED_SYSTEM_ADDRESS;
 
 	while (true)
 	{
-		Ped playerPed = PLAYER::PLAYER_PED_ID();
-		Vector3 playerCoords = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(playerPed, 0.0, 0.0, 0.0);
-		//STREAMING::LOAD_SCENE(391.4746f, -1637.9750f, 22.4998f);
+		float rotation_x, rotation_y, rotation_z, rotation_w;
 
-		if (HasInitialized == false) {
-			//float groundz;
+		Ped		playerPed		= PLAYER::PLAYER_PED_ID();
+		Hash	playerModel		= ENTITY::GET_ENTITY_MODEL(playerPed);
+		Vector3 playerCoords	= ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(playerPed, 0.0, 0.0, 0.0);
+		int		playerType		= PED::GET_PED_TYPE(playerPed);
+
+		ENTITY::GET_ENTITY_QUATERNION(playerPed, &rotation_x, &rotation_y, &rotation_z, &rotation_w);
+
+		if (!HasInitialized) {
+			float groundz;
 
 			player.DisableScripts();
 			SCRIPT::SHUTDOWN_LOADING_SCREEN();
 			CAM::DO_SCREEN_FADE_IN(500);
 
-			//GAMEPLAY::GET_GROUND_Z_FOR_3D_COORD(391.4746f, -1637.9750f, 22.4998f, &groundz, 1);
-			ENTITY::SET_ENTITY_COORDS(playerPed, 391.4746f, -1637.9750f, 225.0, true, true, true, true);
+			GAMEPLAY::GET_GROUND_Z_FOR_3D_COORD(391.4746f, -1637.9750f, 22.4998f, &groundz, 1);
+			ENTITY::SET_ENTITY_COORDS(playerPed, 391.4746f, -1637.9750f, groundz+1.0f, true, true, true, true);
 			
 			ENTITY::FREEZE_ENTITY_POSITION(playerPed, 0);
 			ENTITY::SET_ENTITY_VISIBLE(playerPed, true, 0);
@@ -62,8 +67,6 @@ void RunGameScript() {
 
 			HasInitialized = true;
 		}
-
-		//GAMEPLAY::SET_TIME_SCALE(1.0);
 
 		VEHICLE::SET_GARBAGE_TRUCKS(false);
 		VEHICLE::SET_RANDOM_BOATS(false);
@@ -92,48 +95,29 @@ void RunGameScript() {
 		draw_text(0.002f, 0.002f, alphadata, { 255, 255, 255, 255 });
 		draw_text(0.755f, 0.975f, coorddata, { 255, 255, 255, 255 });
 
-		if (IsKeyDown(VK_F10)) {
-			Vector3 playerOffsetLocation = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(playerPed, 0.0, 3.0, 0.0);
-			Hash playermodel1 = GAMEPLAY::GET_HASH_KEY("a_f_y_skater_01");
-			Ped player33;
+		if (Player_NetListen) {
+			if (Player_IsConnected && Player_Synchronized) {
+				RakNet::BitStream PlayerBitStream;
 
-			PED::CREATE_RANDOM_PED(playerOffsetLocation.x, playerOffsetLocation.y, playerOffsetLocation.z);
+				PlayerBitStream.Write((MessageID)ID_SEND_PLAYER_DATA);
+				
+				PlayerBitStream.Write(Player_ClientID);
 
-			if (STREAMING::IS_MODEL_IN_CDIMAGE(playermodel1) && STREAMING::IS_MODEL_VALID(playermodel1))
+				PlayerBitStream.Write(playerType);
+				PlayerBitStream.Write(playerModel);
 
-				STREAMING::REQUEST_MODEL(playermodel1);
-			while (!STREAMING::HAS_MODEL_LOADED(playermodel1))
-				WAIT(0);
-			player33 = PED::CREATE_PED(4, playermodel1, playerOffsetLocation.x, playerOffsetLocation.y, playerOffsetLocation.z, 0.0f, true, true);
-			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(playermodel1);
+				PlayerBitStream.Write(playerCoords.x);
+				PlayerBitStream.Write(playerCoords.y);
+				PlayerBitStream.Write(playerCoords.z);
 
-			PED::SET_PED_FLEE_ATTRIBUTES(player33, 0, 0);
-			PED::SET_PED_COMBAT_ATTRIBUTES(player33, 17, 1);
-			PED::SET_PED_CAN_RAGDOLL(player33, false);
+				PlayerBitStream.Write(rotation_x);
+				PlayerBitStream.Write(rotation_y);
+				PlayerBitStream.Write(rotation_z);
+				PlayerBitStream.Write(rotation_w);
 
-			AI::TASK_SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(player33, true);
-		}
+				client->Send(&PlayerBitStream, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
+			}
 
-		if (Player_Synchronized == false && Player_IsConnected == true) {
-			RakNet::BitStream requestid;
-
-			RakNet::RakString playerUsername("%s", client_username);
-
-			requestid.Write((MessageID)ID_REQUEST_SERVER_SYNC);
-			requestid.Write(playerUsername);
-
-			client->Send(&requestid, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
-
-			player.ShowMessageAboveMap("Synchronizing with the server...");
-
-			Player_Synchronized = true;
-
-			//RakNet::BitStream bsPlayerSpawn;
-			//bsPlayerSpawn.Write(bPause);
-			//rpc.Call("PlayerSpawn", &bsPlayerSpawn, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, UNASSIGNED_SYSTEM_ADDRESS, TRUE);
-		}
-
-		if (Player_NetListen == true) {
 			for (packet = client->Receive(); packet; client->DeallocatePacket(packet), packet = client->Receive()) {
 				unsigned char packetIdentifier = GetPacketIdentifier(packet);
 
@@ -223,6 +207,25 @@ void RunGameScript() {
 			}
 		}
 
+		if (!Player_Synchronized && Player_IsConnected) {
+			RakNet::BitStream requestid;
+
+			RakNet::RakString playerUsername("%s", client_username);
+
+			requestid.Write((MessageID)ID_REQUEST_SERVER_SYNC);
+			requestid.Write(playerUsername);
+
+			client->Send(&requestid, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
+
+			player.ShowMessageAboveMap("Synchronizing with the server...");
+
+			Player_Synchronized = true;
+
+			//RakNet::BitStream bsPlayerSpawn;
+			//bsPlayerSpawn.Write(bPause);
+			//rpc.Call("PlayerSpawn", &bsPlayerSpawn, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, UNASSIGNED_SYSTEM_ADDRESS, TRUE);
+		}
+
 		if (IsKeyDown(VK_F8)) {
 			RakNet::SocketDescriptor socketDescriptor(atoi(client_port), 0);
 
@@ -247,6 +250,27 @@ void RunGameScript() {
 
 				player.ShowMessageAboveMap("Successfully disconnected!");
 			}
+		}
+		if (IsKeyDown(VK_F10)) {
+			Vector3 playerOffsetLocation = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(playerPed, 0.0, 3.0, 0.0);
+			Hash playermodel1 = GAMEPLAY::GET_HASH_KEY("a_f_y_skater_01");
+			Ped player33;
+
+			//PED::CREATE_RANDOM_PED(playerOffsetLocation.x, playerOffsetLocation.y, playerOffsetLocation.z);
+
+			if (STREAMING::IS_MODEL_IN_CDIMAGE(playermodel1) && STREAMING::IS_MODEL_VALID(playermodel1))
+
+				STREAMING::REQUEST_MODEL(playermodel1);
+			while (!STREAMING::HAS_MODEL_LOADED(playermodel1))
+				WAIT(0);
+			player33 = PED::CREATE_PED(4, playermodel1, playerOffsetLocation.x, playerOffsetLocation.y, playerOffsetLocation.z, 0.0f, true, true);
+			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(playermodel1);
+
+			PED::SET_PED_FLEE_ATTRIBUTES(player33, 0, 0);
+			PED::SET_PED_COMBAT_ATTRIBUTES(player33, 17, 1);
+			PED::SET_PED_CAN_RAGDOLL(player33, false);
+
+			AI::TASK_SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(player33, true);
 		}
 
 		WAIT(0);
