@@ -17,6 +17,16 @@ bool Server_Time_Pause;
 
 playerPool playerData[100];
 
+void ShowMessageToPlayer(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
+	int playerid;
+	char string[128];
+
+	bitStream->Read(playerid);
+	bitStream->Read(string);
+
+	player.ShowMessageAboveMap(string);
+}
+
 void InitGameScript() {
 	CIniReader iniReader(".\\FiveMP.ini");
 
@@ -129,6 +139,8 @@ void RunGameScript() {
 
 				RakNet::BitStream PlayerBitStream_receive(packet->data + 1, 128, false);
 
+				RakNet::BitStream bsPlayerSpawn;
+
 				char testmessage[128];
 
 				switch (packetIdentifier) {
@@ -200,6 +212,9 @@ void RunGameScript() {
 
 					TIME::ADVANCE_CLOCK_TIME_TO(Server_Time_Hour, Server_Time_Minute, 00);
 					TIME::PAUSE_CLOCK(Server_Time_Pause);
+
+					bsPlayerSpawn.Write(Player_ClientID);
+					rpc.Signal("PlayerSpawn", &bsPlayerSpawn, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 					break;
 
 				case ID_SEND_PLAYER_DATA:
@@ -274,16 +289,13 @@ void RunGameScript() {
 			player.ShowMessageAboveMap("Synchronizing with the server...");
 
 			Player_Synchronized = true;
-
-			//RakNet::BitStream bsPlayerSpawn;
-			//bsPlayerSpawn.Write(bPause);
-			//rpc.Call("PlayerSpawn", &bsPlayerSpawn, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, UNASSIGNED_SYSTEM_ADDRESS, TRUE);
 		}
 
-		if (IsKeyDown(VK_F8)) {
+		if (IsKeyDown(VK_F8) && Player_NetListen == true) {
 			RakNet::SocketDescriptor socketDescriptor(atoi(client_port), 0);
 
 			client->AttachPlugin(&rpc);
+			rpc.RegisterSlot("ShowMessageToPlayer", ShowMessageToPlayer, 0);
 
 			socketDescriptor.socketFamily = AF_INET;
 			client->Startup(8, &socketDescriptor, 1);

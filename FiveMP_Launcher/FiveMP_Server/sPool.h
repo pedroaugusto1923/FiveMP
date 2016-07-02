@@ -10,13 +10,14 @@ public:
 	int GetPlayerID(RakNet::RakNetGUID guid);
 	char *GetPlayerUsername(RakNet::RakNetGUID guid);
 	RakNet::RakNetGUID GetPlayerGUID(char *username);
+	RakNet::RakNetGUID GetPlayerGUIDd(int playerid);
 };
 
 typedef DWORD Hash;
 
 struct playerPool {
 	int playerid;							// Player/Client ID
-	char *playerusername;					// Player Username (socialclub)
+	char *playerusername;					// Player Username (set from client config)
 	RakNet::RakNetGUID playerguid;			// Player GUID (client side)
 
 	int pedType;							// Ped Type

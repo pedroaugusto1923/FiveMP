@@ -33,6 +33,9 @@ extern MODULEINFO g_MainModuleInfo;
 #include "Gets.h"
 #include "WindowsIncludes.h"
 #include "GetTime.h"
+#include "RPC4Plugin.h"
+
+using namespace RakNet;
 
 // Netcode
 #include "sPool.h"
@@ -51,9 +54,13 @@ extern "C" {
 
 // Scripting (LUA-Functions)
 #include "functions_main.h"
+#include "functions_hud.h"
+#include "functions_player.h"
 
 // Scripting (LUA-Callbacks)
 #include "callbacks.h"
+
+extern RPC4 rpc;
 
 namespace {
 	// Classes (net)

@@ -22,9 +22,6 @@ void UserPool::RemoveFromUserPool(RakNet::RakNetGUID guid)
 	for (int i = 0; i < sizeof(playerData); i++)
 	{
 		if (playerData[i].playerguid == guid) {
-			playerData[i].playerid			= -1;
-			playerData[i].playerusername	= NULL;
-
 			playerData[i].used = false;
 			return;
 		}
@@ -57,6 +54,16 @@ RakNet::RakNetGUID UserPool::GetPlayerGUID(char *username)
 	for (int i = 0; i < sizeof(playerData); i++)
 	{
 		if (playerData[i].playerusername == username) {
+			return playerData[i].playerguid;
+		}
+	}
+}
+
+RakNet::RakNetGUID UserPool::GetPlayerGUIDd(int playerid)
+{
+	for (int i = 0; i < sizeof(playerData); i++)
+	{
+		if (playerData[i].playerid == playerid) {
 			return playerData[i].playerguid;
 		}
 	}

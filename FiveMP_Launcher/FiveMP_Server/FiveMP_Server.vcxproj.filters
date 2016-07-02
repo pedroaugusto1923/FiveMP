@@ -491,6 +491,12 @@
     <ClInclude Include="callbacks.h">
       <Filter>Scripting %28LUA%29</Filter>
     </ClInclude>
+    <ClInclude Include="functions_hud.h">
+      <Filter>Scripting %28LUA%29</Filter>
+    </ClInclude>
+    <ClInclude Include="functions_player.h">
+      <Filter>Scripting %28LUA%29</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="server.cpp" />
@@ -843,6 +849,12 @@
       <Filter>Scripting %28LUA%29</Filter>
     </ClCompile>
     <ClCompile Include="callbacks.cpp">
+      <Filter>Scripting %28LUA%29</Filter>
+    </ClCompile>
+    <ClCompile Include="functions_hud.cpp">
+      <Filter>Scripting %28LUA%29</Filter>
+    </ClCompile>
+    <ClCompile Include="functions_player.cpp">
       <Filter>Scripting %28LUA%29</Filter>
     </ClCompile>
   </ItemGroup>
