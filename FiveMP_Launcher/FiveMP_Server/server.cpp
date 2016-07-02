@@ -42,13 +42,13 @@ int main(void)
 
 	puts("Starting server.");
 
-	//char *tempgamemode;
+	char tempgamemode[64];
 
-	//sprintf(tempgamemode, "gamemodes/%s.lua", netConfig.ScriptGameMode);
+	sprintf(tempgamemode, "gamemodes//%s.lua", netConfig.ScriptGameMode);
 
 	sLUA = luaL_newstate();
 	luaL_openlibs(sLUA);
-	luaL_dofile(sLUA, "gamemodes//main.lua");
+	luaL_dofile(sLUA, tempgamemode);
 	lua_register(sLUA, "SetPlayerUsername", SetPlayerUsername);
 
 	OnGameModeInit(sLUA);
