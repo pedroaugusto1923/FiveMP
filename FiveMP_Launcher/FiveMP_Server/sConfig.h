@@ -7,6 +7,8 @@ public:
 	char *ServerName;
 	char *MsgLength;
 
+	char *ScriptGameMode;
+
 	int MaxPlayers;
 	int ServerTimeHour;
 	int ServerTimeMinute;

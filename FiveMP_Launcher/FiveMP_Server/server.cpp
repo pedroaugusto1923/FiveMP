@@ -20,15 +20,17 @@ int main(void)
 	CIniReader iniReader(".\\FiveMP.ini");
 
 	netConfig.ServerPort		= iniReader.ReadString("Connection", "port", "");
-	netConfig.ServerName		= iniReader.ReadString("Details", "servername", "");
 
+	netConfig.ScriptGameMode	= iniReader.ReadString("Scripts", "gamemode", "");
+
+	netConfig.ServerName		= iniReader.ReadString("Details", "servername", "");
 	netConfig.MaxPlayers		= iniReader.ReadInteger("Details", "maxplayers", 32);
 
 	netConfig.ServerTimeHour	= iniReader.ReadInteger("Details", "hour", 12);
 	netConfig.ServerTimeMinute	= iniReader.ReadInteger("Details", "min", 00);
 	netConfig.ServerTimeFreeze	= iniReader.ReadBoolean("Details", "freeze", false);
 
-	printf("\n%s running on Port: %s - time: %d - %d - %d\n", netConfig.ServerName, netConfig.ServerPort, netConfig.ServerTimeHour, netConfig.ServerTimeMinute, netConfig.ServerTimeFreeze);
+	printf("\n%s starting on Port: %s - time: %d - %d - %d\n", netConfig.ServerName, netConfig.ServerPort, netConfig.ServerTimeHour, netConfig.ServerTimeMinute, netConfig.ServerTimeFreeze);
 
 	SetConsoleTitle("FiveMP - Server Console");
 
@@ -38,8 +40,18 @@ int main(void)
 	server->SetIncomingPassword("fivemp_dev", (int)strlen("fivemp_dev"));
 	server->SetTimeoutTime(15000, RakNet::UNASSIGNED_SYSTEM_ADDRESS);
 
-
 	puts("Starting server.");
+
+	//char *tempgamemode;
+
+	//sprintf(tempgamemode, "gamemodes/%s.lua", netConfig.ScriptGameMode);
+
+	sLUA = luaL_newstate();
+	luaL_openlibs(sLUA);
+	luaL_dofile(sLUA, "gamemodes//main.lua");
+	lua_register(sLUA, "SetPlayerUsername", SetPlayerUsername);
+
+	OnGameModeInit(sLUA);
 
 	socketDescriptors[0].port = atoi(netConfig.ServerPort);
 	socketDescriptors[0].socketFamily = AF_INET; // Test out IPV4

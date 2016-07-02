@@ -485,6 +485,12 @@
     <ClInclude Include="sConfig.h">
       <Filter>Net</Filter>
     </ClInclude>
+    <ClInclude Include="functions_main.h">
+      <Filter>Scripting %28LUA%29</Filter>
+    </ClInclude>
+    <ClInclude Include="callbacks.h">
+      <Filter>Scripting %28LUA%29</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="server.cpp" />
@@ -833,6 +839,12 @@
     <ClCompile Include="sConfig.cpp">
       <Filter>Net</Filter>
     </ClCompile>
+    <ClCompile Include="functions_main.cpp">
+      <Filter>Scripting %28LUA%29</Filter>
+    </ClCompile>
+    <ClCompile Include="callbacks.cpp">
+      <Filter>Scripting %28LUA%29</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Include">
@@ -849,6 +861,9 @@
     </Filter>
     <Filter Include="Net">
       <UniqueIdentifier>{9b0a8672-adc5-4563-aaef-8668e236b3e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting %28LUA%29">
+      <UniqueIdentifier>{faec295e-8b95-48fb-b9e1-842e04d4e79a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

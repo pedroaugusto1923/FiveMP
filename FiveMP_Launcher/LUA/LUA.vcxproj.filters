@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lapi.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lauxlib.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lbaselib.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lbitlib.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lcode.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lcorolib.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lctype.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\ldblib.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\ldebug.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\ldo.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\ldump.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lfunc.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lgc.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\linit.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\liolib.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\llex.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lmathlib.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lmem.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\loadlib.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lobject.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lopcodes.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\loslib.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lparser.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lstate.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lstring.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lstrlib.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\ltable.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\ltablib.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\ltm.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lua.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lundump.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lutf8lib.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lvm.c" />
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lzio.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lapi.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lauxlib.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lcode.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lctype.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\ldebug.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\ldo.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lfunc.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lgc.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\llex.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\llimits.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lmem.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lobject.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lopcodes.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lparser.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lprefix.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lstate.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lstring.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\ltable.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\ltm.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lua.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lua.hpp" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\luaconf.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lualib.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lundump.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lvm.h" />
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lzio.h" />
+  </ItemGroup>
+</Project>

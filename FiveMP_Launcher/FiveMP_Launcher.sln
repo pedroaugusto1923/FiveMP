@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FiveMP_Client", "FiveMP_Cli
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FiveMP_Server", "FiveMP_Server\FiveMP_Server.vcxproj", "{11DAC5C3-DF35-4E52-BCA3-65FE3FC08884}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LUA", "LUA\LUA.vcxproj", "{E27DEB82-20F2-4A07-AEAC-48D8FB118DC6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,14 @@ Global
 		{11DAC5C3-DF35-4E52-BCA3-65FE3FC08884}.Release|x64.Build.0 = Release|x64
 		{11DAC5C3-DF35-4E52-BCA3-65FE3FC08884}.Release|x86.ActiveCfg = Release|Win32
 		{11DAC5C3-DF35-4E52-BCA3-65FE3FC08884}.Release|x86.Build.0 = Release|Win32
+		{E27DEB82-20F2-4A07-AEAC-48D8FB118DC6}.Debug|x64.ActiveCfg = Debug|x64
+		{E27DEB82-20F2-4A07-AEAC-48D8FB118DC6}.Debug|x64.Build.0 = Debug|x64
+		{E27DEB82-20F2-4A07-AEAC-48D8FB118DC6}.Debug|x86.ActiveCfg = Debug|Win32
+		{E27DEB82-20F2-4A07-AEAC-48D8FB118DC6}.Debug|x86.Build.0 = Debug|Win32
+		{E27DEB82-20F2-4A07-AEAC-48D8FB118DC6}.Release|x64.ActiveCfg = Release|x64
+		{E27DEB82-20F2-4A07-AEAC-48D8FB118DC6}.Release|x64.Build.0 = Release|x64
+		{E27DEB82-20F2-4A07-AEAC-48D8FB118DC6}.Release|x86.ActiveCfg = Release|Win32
+		{E27DEB82-20F2-4A07-AEAC-48D8FB118DC6}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
