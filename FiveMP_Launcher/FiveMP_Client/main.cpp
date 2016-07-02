@@ -50,6 +50,9 @@ void RunGameScript() {
 	client		= RakNet::RakPeerInterface::GetInstance();
 	clientID	= RakNet::UNASSIGNED_SYSTEM_ADDRESS;
 
+	client->AttachPlugin(&rpc);
+	rpc.RegisterSlot("ShowMessageToPlayer", ShowMessageToPlayer, 0);
+
 	while (true)
 	{
 		float rotation_x, rotation_y, rotation_z, rotation_w;
@@ -106,7 +109,7 @@ void RunGameScript() {
 		sprintf(alphadata, "FiveMP Alpha | %s - %s", __DATE__, __TIME__);
 
 		draw_text(0.002f, 0.002f, alphadata, { 255, 255, 255, 255 });
-		draw_text(0.755f, 0.975f, coorddata, { 255, 255, 255, 255 });
+		draw_text(0.750f, 0.975f, coorddata, { 255, 255, 255, 255 });
 
 		if (Player_NetListen) {
 			if (Player_IsConnected && Player_Synchronized) {
@@ -291,11 +294,8 @@ void RunGameScript() {
 			Player_Synchronized = true;
 		}
 
-		if (IsKeyDown(VK_F8) && Player_NetListen == false) {
+		if (IsKeyDown(VK_F8) && !Player_NetListen) {
 			RakNet::SocketDescriptor socketDescriptor(atoi(client_port), 0);
-
-			client->AttachPlugin(&rpc);
-			rpc.RegisterSlot("ShowMessageToPlayer", ShowMessageToPlayer, 0);
 
 			socketDescriptor.socketFamily = AF_INET;
 			client->Startup(8, &socketDescriptor, 1);
@@ -307,7 +307,7 @@ void RunGameScript() {
 			Player_NetListen = true;
 		}
 		if (IsKeyDown(VK_F9)) {
-			if (Player_NetListen == true) {
+			if (Player_NetListen) {
 				client->Shutdown(300);
 
 				Player_IsConnected = false;
