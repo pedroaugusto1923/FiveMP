@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <intrin.h>
 #include <string>
+#include <string.h>
 #include <vector>
 #include <sstream>
 #include <Psapi.h>
@@ -16,6 +17,7 @@
 #include <timeapi.h>
 #include <time.h>
 #include <tlhelp32.h>
+#include <math.h>
 
 #pragma comment(lib, "winmm.lib")
 
@@ -44,6 +46,10 @@ extern MODULEINFO g_MainModuleInfo;
 
 // Game Functions
 #include "player.h"
+
+// Math
+#include "CMath.h"
+#include "CVector3.h"
 
 // Net
 #include "cPool.h"

@@ -175,6 +175,8 @@
     <ClInclude Include="..\..\Vendor\RakNet\WSAStartupSingleton.h" />
     <ClInclude Include="..\..\Vendor\RakNet\XBox360Includes.h" />
     <ClInclude Include="..\..\Vendor\RakNet\_FindFirst.h" />
+    <ClInclude Include="CMath.h" />
+    <ClInclude Include="CVector3.h" />
     <ClInclude Include="DrawHelper.h" />
     <ClInclude Include="enums.h" />
     <ClInclude Include="keyboard.h" />

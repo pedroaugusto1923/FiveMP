@@ -34,6 +34,9 @@
     <Filter Include="Net">
       <UniqueIdentifier>{ee181eb5-e84f-4464-b0f3-e13b40cc5ca6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Include\Math">
+      <UniqueIdentifier>{82212307-0094-4117-96c9-fa0263624f33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -913,6 +916,12 @@
     </ClInclude>
     <ClInclude Include="cPool.h">
       <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="CMath.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="CVector3.h">
+      <Filter>Include\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

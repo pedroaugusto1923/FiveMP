@@ -217,7 +217,7 @@ void RunGameScript() {
 					TIME::PAUSE_CLOCK(Server_Time_Pause);
 
 					bsPlayerSpawn.Write(Player_ClientID);
-					rpc.Signal("PlayerSpawn", &bsPlayerSpawn, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+					rpc.Signal("PlayerConnect", &bsPlayerSpawn, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 					break;
 
 				case ID_SEND_PLAYER_DATA:

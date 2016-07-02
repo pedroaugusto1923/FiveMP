@@ -13,11 +13,11 @@ RPC4 rpc;
 
 playerPool playerData[100];
 
-void PlayerSpawn(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
+void PlayerConnect(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
 	int tempplayer;
 	bitStream->Read(tempplayer);
 
-	OnPlayerSpawn(sLUA, tempplayer);
+	OnPlayerConnect(sLUA, tempplayer);
 };
 
 int main(void)
@@ -82,7 +82,7 @@ int main(void)
 	
 	server->AttachPlugin(&rpc);
 
-	rpc.RegisterSlot("PlayerSpawn", PlayerSpawn, 0);
+	rpc.RegisterSlot("PlayerConnect", PlayerConnect, 0);
 
 	server->SetOccasionalPing(true);
 	server->SetUnreliableTimeout(1000);
@@ -92,7 +92,7 @@ int main(void)
 
 	while (1)
 	{
-		RakSleep(30);
+		RakSleep(100);
 
 		for (p = server->Receive(); p; server->DeallocatePacket(p), p = server->Receive())
 		{
