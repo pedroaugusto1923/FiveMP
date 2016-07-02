@@ -42,6 +42,9 @@ extern MODULEINFO g_MainModuleInfo;
 #include "IniWriter.h"
 #include "IniReader.h"
 
+// scripting (LUA)
+#include <lua-5.3.3/lua.hpp>
+
 namespace {
 	// Classes (net)
 	class sConfig	netConfig;
