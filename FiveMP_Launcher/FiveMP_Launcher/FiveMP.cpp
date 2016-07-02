@@ -69,10 +69,6 @@ int main(void) {
 		}
 	}
 
-	if (kill(0) == 0) {
-
-	}
-
 	printf("START: Successfully started Grand Theft Auto V!\n\n");
 
 	printf("SCAN: Waiting for GTA5.exe to start.\n");

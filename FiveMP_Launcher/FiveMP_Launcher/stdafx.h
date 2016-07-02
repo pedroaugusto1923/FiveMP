@@ -13,7 +13,6 @@
 #include <algorithm>
 #include <fstream>
 #include <tchar.h>
-#include <signal.h>
 
 #include "SharedUtils.h"
 #include "InjectBase.h"
