@@ -291,7 +291,7 @@ void RunGameScript() {
 			Player_Synchronized = true;
 		}
 
-		if (IsKeyDown(VK_F8) && Player_NetListen == true) {
+		if (IsKeyDown(VK_F8) && Player_NetListen == false) {
 			RakNet::SocketDescriptor socketDescriptor(atoi(client_port), 0);
 
 			client->AttachPlugin(&rpc);
