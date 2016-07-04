@@ -185,7 +185,7 @@ void RunGameScript() {
 					}
 				}*/
 
-				for (int i; i < sizeof(playerData); i++) {
+				for (int i; i < 1000; i++) {
 					if (ENTITY::IS_ENTITY_OCCLUDED(playerData[i].pedPed)) {
 						draw_text(playerData[i].screen_x, playerData[i].screen_y, "User", { 255, 255, 255, 255 });
 					}
