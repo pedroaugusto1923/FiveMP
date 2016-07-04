@@ -49,3 +49,21 @@ int OnPlayerConnect(lua_State * state, int playerid)
 
 	return result;
 }
+
+int OnPlayerDisconnect(lua_State * state, int playerid)
+{
+	int result;
+
+	printf("OnPlayerDisconnect() was called with %d\n", playerid);
+
+	lua_getglobal(state, "OnPlayerDisonnect");
+
+	lua_pushnumber(state, playerid);
+
+	lua_call(state, 1, 1);
+
+	result = (int)lua_tointeger(state, -1);
+	lua_pop(state, 1);
+
+	return result;
+}

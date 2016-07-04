@@ -401,6 +401,9 @@
     <ClCompile Include="cPool.cpp">
       <Filter>Net</Filter>
     </ClCompile>
+    <ClCompile Include="weapon.cpp">
+      <Filter>Functions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -922,6 +925,9 @@
     </ClInclude>
     <ClInclude Include="CVector3.h">
       <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="weapon.h">
+      <Filter>Functions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

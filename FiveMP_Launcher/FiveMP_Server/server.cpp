@@ -61,6 +61,10 @@ int main(void)
 
 	lua_register(sLUA, "SetPlayerUsername", SetPlayerUsername);
 	lua_register(sLUA, "ShowMessageToPlayer", ShowMessageToPlayer);
+	lua_register(sLUA, "GivePlayerWeapon", GivePlayerWeapon);
+	lua_register(sLUA, "RemovePlayerWeapon", RemovePlayerWeapon);
+	lua_register(sLUA, "GivePlayerAmmo", GivePlayerAmmo);
+	lua_register(sLUA, "RemovePlayerAmmo", RemovePlayerAmmo);
 
 	OnGameModeInit(sLUA);
 
@@ -108,9 +112,9 @@ int main(void)
 			{
 			case ID_DISCONNECTION_NOTIFICATION:
 				printf("ID_DISCONNECTION_NOTIFICATION from %s\n", p->systemAddress.ToString(true));;
+				OnPlayerDisconnect(sLUA, netPool.GetPlayerID(p->guid));
 
 				netPool.RemoveFromUserPool(p->guid);
-
 				netPool.UserAmount--;
 				break;
 
@@ -212,6 +216,7 @@ int main(void)
 
 			case ID_CONNECTION_LOST:
 				printf("ID_CONNECTION_LOST from %s\n", p->systemAddress.ToString(true));;
+				OnPlayerDisconnect(sLUA, netPool.GetPlayerID(p->guid));
 				netPool.UserAmount--;
 
 				netPool.RemoveFromUserPool(p->guid);

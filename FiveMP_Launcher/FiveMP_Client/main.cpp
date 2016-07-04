@@ -27,6 +27,52 @@ void ShowMessageToPlayer(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
 	player.ShowMessageAboveMap(string);
 }
 
+void GivePlayerWeapon(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
+	int playerid;
+	char weaponid[20];
+	int ammo;
+
+	bitStream->Read(playerid);
+	bitStream->Read(weaponid);
+	bitStream->Read(ammo);
+
+	weapon.GiveWeapon(weaponid, ammo);
+}
+
+void RemovePlayerWeapon(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
+	int playerid;
+	char weaponid[20];
+
+	bitStream->Read(playerid);
+	bitStream->Read(weaponid);
+
+	weapon.RemoveWeapon(weaponid);
+}
+
+void GivePlayerAmmo(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
+	int playerid;
+	char weaponid[20];
+	int ammo;
+
+	bitStream->Read(playerid);
+	bitStream->Read(weaponid);
+	bitStream->Read(ammo);
+
+	weapon.GiveAmmo(weaponid, ammo);
+}
+
+void RemovePlayerAmmo(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
+	int playerid;
+	char weaponid[20];
+	int ammo;
+
+	bitStream->Read(playerid);
+	bitStream->Read(weaponid);
+	bitStream->Read(ammo);
+
+	weapon.RemoveAmmo(weaponid, ammo);
+}
+
 void InitGameScript() {
 	CIniReader iniReader(".\\FiveMP.ini");
 
@@ -77,6 +123,10 @@ void RunGameScript() {
 
 	client->AttachPlugin(&rpc);
 	rpc.RegisterSlot("ShowMessageToPlayer", ShowMessageToPlayer, 0);
+	rpc.RegisterSlot("GivePlayerWeapon", GivePlayerWeapon, 0);
+	rpc.RegisterSlot("RemovePlayerWeapon", RemovePlayerWeapon, 0);
+	rpc.RegisterSlot("GivePlayerAmmo", GivePlayerAmmo, 0);
+	rpc.RegisterSlot("RemovePlayerAmmo", RemovePlayerAmmo, 0);
 
 	while (true)
 	{
