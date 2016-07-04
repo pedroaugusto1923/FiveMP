@@ -90,29 +90,6 @@ void InitGameScript() {
 	RunGameScript();
 }
 
-Vector3 lerp(float oldx, float newx, float oldy, float newy, float oldz, float newz, float t) {
-	Vector3 test;
-
-	test.x = (1 - t)*oldx + t*newx;
-	test.y = (1 - t)*oldy + t*newy;
-	test.z = (1 - t)*oldz + t*newz;
-
-	return test;
-}
-
-void UpdatePlayerPositionData(int clientid) {
-	if (playerData[clientid].lerp < 1.0f) {
-
-		//Vector3 calcpos = lerp(playerData[clientid].old_x, playerData[clientid].x, playerData[clientid].old_y, playerData[clientid].y, playerData[clientid].old_z, playerData[clientid].z, playerData[clientid].lerp);
-
-		//ENTITY::SET_ENTITY_COORDS(playerData[clientid].pedPed, calcpos.x, calcpos.y, calcpos.z, 0, 0, 0, 0);
-
-		playerData[clientid].lerp += 0.003f;
-	} else {
-		printf("escape\n");
-	}
-}
-
 void RunGameScript() {
 	bool HasInitialized = false;
 
@@ -184,21 +161,18 @@ void RunGameScript() {
 
 		char alphadata[128];
 
-		char animdata[32];
 		char blenddata[32];
 		char velocitydata[64];
 		char coorddata[64];
 
 		sprintf(alphadata, "FiveMP Alpha | %s - %s", __DATE__, __TIME__);
 
-		sprintf(animdata, "%f - %s - %s", playerAnimTime, animDicti, animNamei);
 		sprintf(blenddata, "%f", AI::GET_PED_DESIRED_MOVE_BLEND_RATIO(playerPed));
 		sprintf(velocitydata, "X = %f | Y = %f | Z = %f", playerVelocity.x, playerVelocity.y, playerVelocity.z);
 		sprintf(coorddata, "X = %f | Y = %f | Z = %f", playerCoords.x, playerCoords.y, playerCoords.z);
 
 		draw_text(0.002f, 0.002f, alphadata, { 255, 255, 255, 255 });
 
-		draw_text(0.750f, 0.900f, animdata, { 255, 255, 255, 255 });
 		draw_text(0.750f, 0.925f, blenddata, { 255, 255, 255, 255 });
 		draw_text(0.750f, 0.950f, velocitydata, { 255, 255, 255, 255 });
 		draw_text(0.750f, 0.975f, coorddata, { 255, 255, 255, 255 });
@@ -211,7 +185,7 @@ void RunGameScript() {
 					}
 				}*/
 
-				for (int i; i < 10; i++) {
+				for (int i; i < sizeof(playerData); i++) {
 					if (ENTITY::IS_ENTITY_OCCLUDED(playerData[i].pedPed)) {
 						draw_text(playerData[i].screen_x, playerData[i].screen_y, "User", { 255, 255, 255, 255 });
 					}
