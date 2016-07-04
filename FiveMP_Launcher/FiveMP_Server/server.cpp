@@ -119,8 +119,6 @@ int main(void)
 				clientID = p->systemAddress;
 
 				netPool.UserAmount++;
-
-				//callback.OnPlayerConnect(netPool.UserAmount);
 				break;
 
 			case ID_REQUEST_SERVER_SYNC:
@@ -145,6 +143,8 @@ int main(void)
 				// Receive data
 
 				int tempplyrid;
+				
+				time_t temptimestamp;
 
 				PlayerBitStream_receive.Read(tempplyrid);
 
@@ -156,10 +156,18 @@ int main(void)
 				PlayerBitStream_receive.Read(playerData[tempplyrid].y);
 				PlayerBitStream_receive.Read(playerData[tempplyrid].z);
 
+				PlayerBitStream_receive.Read(playerData[tempplyrid].r);
 				PlayerBitStream_receive.Read(playerData[tempplyrid].rx);
 				PlayerBitStream_receive.Read(playerData[tempplyrid].ry);
 				PlayerBitStream_receive.Read(playerData[tempplyrid].rz);
 				PlayerBitStream_receive.Read(playerData[tempplyrid].rw);
+
+				PlayerBitStream_receive.Read(playerData[tempplyrid].v);
+				PlayerBitStream_receive.Read(playerData[tempplyrid].vx);
+				PlayerBitStream_receive.Read(playerData[tempplyrid].vy);
+				PlayerBitStream_receive.Read(playerData[tempplyrid].vz);
+
+				PlayerBitStream_receive.Read(temptimestamp);
 
 				// Send to other users.
 
@@ -175,10 +183,18 @@ int main(void)
 				PlayerBitStream_send.Write(playerData[tempplyrid].y);
 				PlayerBitStream_send.Write(playerData[tempplyrid].z);
 
+				PlayerBitStream_send.Write(playerData[tempplyrid].r);
 				PlayerBitStream_send.Write(playerData[tempplyrid].rx);
 				PlayerBitStream_send.Write(playerData[tempplyrid].ry);
 				PlayerBitStream_send.Write(playerData[tempplyrid].rz);
 				PlayerBitStream_send.Write(playerData[tempplyrid].rw);
+
+				PlayerBitStream_send.Write(playerData[tempplyrid].v);
+				PlayerBitStream_send.Write(playerData[tempplyrid].vx);
+				PlayerBitStream_send.Write(playerData[tempplyrid].vy);
+				PlayerBitStream_send.Write(playerData[tempplyrid].vz);
+
+				PlayerBitStream_send.Write(temptimestamp);
 
 				server->Send(&PlayerBitStream_send, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
 

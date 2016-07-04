@@ -18,8 +18,11 @@
 #include <time.h>
 #include <tlhelp32.h>
 #include <math.h>
+#include <iostream>
 
 #pragma comment(lib, "winmm.lib")
+
+using namespace std;
 
 extern MODULEINFO g_MainModuleInfo;
 
