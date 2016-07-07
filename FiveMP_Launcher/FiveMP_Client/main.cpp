@@ -1,77 +1,7 @@
 #include "stdafx.h"
 
-RPC4 rpc;
-RakNet::RakPeerInterface *client;
-RakNet::Packet* packet;
-RakNet::SystemAddress clientID;
-RakNet::ConnectionAttemptResult car;
-
-bool Player_IsConnected = false;
-bool Player_NetListen = false;
-bool Player_Synchronized = false;
-
-int Player_ClientID;
-int Server_Time_Hour;
-int Server_Time_Minute;
-bool Server_Time_Pause;
-
 playerPool playerData[100];
-
-void ShowMessageToPlayer(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
-	int playerid;
-	char string[128];
-
-	bitStream->Read(playerid);
-	bitStream->Read(string);
-
-	player.ShowMessageAboveMap(string);
-}
-
-void GivePlayerWeapon(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
-	int playerid;
-	char weaponid[20];
-	int ammo;
-
-	bitStream->Read(playerid);
-	bitStream->Read(weaponid);
-	bitStream->Read(ammo);
-
-	weapon.GiveWeapon(weaponid, ammo);
-}
-
-void RemovePlayerWeapon(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
-	int playerid;
-	char weaponid[20];
-
-	bitStream->Read(playerid);
-	bitStream->Read(weaponid);
-
-	weapon.RemoveWeapon(weaponid);
-}
-
-void GivePlayerAmmo(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
-	int playerid;
-	char weaponid[20];
-	int ammo;
-
-	bitStream->Read(playerid);
-	bitStream->Read(weaponid);
-	bitStream->Read(ammo);
-
-	weapon.GiveAmmo(weaponid, ammo);
-}
-
-void RemovePlayerAmmo(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
-	int playerid;
-	char weaponid[20];
-	int ammo;
-
-	bitStream->Read(playerid);
-	bitStream->Read(weaponid);
-	bitStream->Read(ammo);
-
-	weapon.RemoveAmmo(weaponid, ammo);
-}
+CNetworkManager *NetworkManager;
 
 void InitGameScript() {
 	CIniReader iniReader(".\\FiveMP.ini");
@@ -86,6 +16,8 @@ void InitGameScript() {
 	printf("\nIP: %s\nPort: %s\nClient Port: %s\n\n", server_ipaddress, server_port, client_port);
 	printf("Username: %s\nUsing Steam: %d\n\n", client_username, client_steam_def);
 
+	NetworkManager = new CNetworkManager;
+
 	srand(GetTickCount());
 	RunGameScript();
 }
@@ -93,23 +25,11 @@ void InitGameScript() {
 void RunGameScript() {
 	bool HasInitialized = false;
 
-	client		= RakNet::RakPeerInterface::GetInstance();
-	clientID	= RakNet::UNASSIGNED_SYSTEM_ADDRESS;
-
 	time_t lasttime;
-
-	client->AttachPlugin(&rpc);
-	rpc.RegisterSlot("ShowMessageToPlayer", ShowMessageToPlayer, 0);
-	rpc.RegisterSlot("GivePlayerWeapon", GivePlayerWeapon, 0);
-	rpc.RegisterSlot("RemovePlayerWeapon", RemovePlayerWeapon, 0);
-	rpc.RegisterSlot("GivePlayerAmmo", GivePlayerAmmo, 0);
-	rpc.RegisterSlot("RemovePlayerAmmo", RemovePlayerAmmo, 0);
 
 	while (true)
 	{
 		float rotation_x, rotation_y, rotation_z, rotation_w;
-		char animDicti[24];
-		char animNamei[24];
 
 		Ped		playerPed		= PLAYER::PLAYER_PED_ID();
 		Hash	playerModel		= ENTITY::GET_ENTITY_MODEL(playerPed);
@@ -118,7 +38,6 @@ void RunGameScript() {
 		int		playerType		= PED::GET_PED_TYPE(playerPed);
 		int		playerHealth	= ENTITY::GET_ENTITY_HEALTH(playerPed);
 		float	playerHeading	= ENTITY::GET_ENTITY_HEADING(playerPed);
-		float	playerAnimTime	= ENTITY::_GET_ANIM_DURATION(animDicti, animNamei);
 
 		ENTITY::GET_ENTITY_QUATERNION(playerPed, &rotation_x, &rotation_y, &rotation_z, &rotation_w);
 
@@ -177,14 +96,8 @@ void RunGameScript() {
 		draw_text(0.750f, 0.950f, velocitydata, { 255, 255, 255, 255 });
 		draw_text(0.750f, 0.975f, coorddata, { 255, 255, 255, 255 });
 
-		if (Player_NetListen) {
-			if (Player_IsConnected && Player_Synchronized) {	
-				/*for (int i = 0; i < 100; i++) {
-					if (playerData[i].pedPed != playerPed && playerData[i].playerid < 2 && playerData[i].playerid != Player_ClientID) {
-						UpdatePlayerPositionData(i);
-					}
-				}*/
-
+		if (NetworkManager->Listening) {
+			if (NetworkManager->Connected && NetworkManager->Synchronized) {
 				for (int i; i < sizeof(playerData) / sizeof(*playerData); i++) {
 					if (ENTITY::IS_ENTITY_OCCLUDED(playerData[i].pedPed)) {
 						draw_text(playerData[i].screen_x, playerData[i].screen_y, "User", { 255, 255, 255, 255 });
@@ -195,7 +108,7 @@ void RunGameScript() {
 
 				PlayerBitStream_send.Write((MessageID)ID_SEND_PLAYER_DATA);
 				
-				PlayerBitStream_send.Write(Player_ClientID);
+				PlayerBitStream_send.Write(NetworkManager->playerid);
 
 				PlayerBitStream_send.Write(playerType);
 				PlayerBitStream_send.Write(playerModel);
@@ -218,15 +131,15 @@ void RunGameScript() {
 
 				PlayerBitStream_send.Write(time(0));
 
-				client->Send(&PlayerBitStream_send, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
+				NetworkManager->client->Send(&PlayerBitStream_send, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
 			}
 
-			for (packet = client->Receive(); packet; client->DeallocatePacket(packet), packet = client->Receive()) {
-				unsigned char packetIdentifier = GetPacketIdentifier(packet);
+			for (NetworkManager->packet = NetworkManager->client->Receive(); NetworkManager->packet; NetworkManager->client->DeallocatePacket(NetworkManager->packet), NetworkManager->packet = NetworkManager->client->Receive()) {
+				unsigned char packetIdentifier = GetPacketIdentifier(NetworkManager->packet);
 
-				RakNet::BitStream playerClientID(packet->data + 1, 64, false);
+				RakNet::BitStream playerClientID(NetworkManager->packet->data + 1, 64, false);
 
-				RakNet::BitStream PlayerBitStream_receive(packet->data + 1, 128, false);
+				RakNet::BitStream PlayerBitStream_receive(NetworkManager->packet->data + 1, 128, false);
 
 				RakNet::BitStream bsPlayerSpawn;
 
@@ -234,76 +147,76 @@ void RunGameScript() {
 
 				switch (packetIdentifier) {
 				case ID_CONNECTION_REQUEST_ACCEPTED:
-					Player_IsConnected = true;
+					NetworkManager->Connected = true;
 
-					sprintf(testmessage, "Hi ~r~%s~w~, you have successfully connected to the server!", client_username);
+					sprintf(testmessage, "Hi ~b~%s~w~, you have successfully connected to the server!", client_username);
 					player.ShowMessageAboveMap(testmessage);
 
-					sprintf(testmessage, "GUID is: ~r~#%s", client->GetGuidFromSystemAddress(RakNet::UNASSIGNED_SYSTEM_ADDRESS).ToString());
+					sprintf(testmessage, "GUID is: ~b~#%s", NetworkManager->client->GetGuidFromSystemAddress(RakNet::UNASSIGNED_SYSTEM_ADDRESS).ToString());
 					player.ShowMessageAboveMap(testmessage);
 					break;
 
 				case ID_CONNECTION_ATTEMPT_FAILED:
-					Player_IsConnected = false;
-					Player_Synchronized = false;
+					NetworkManager->Connected = false;
+					NetworkManager->Synchronized = false;
 
 					player.ShowMessageAboveMap("~r~Could not connect to the server");
-					Player_NetListen = false;
+					NetworkManager->Listening = false;
 					break;
 
 				case ID_NO_FREE_INCOMING_CONNECTIONS:
-					Player_IsConnected = false;
-					Player_Synchronized = false;
+					NetworkManager->Connected = false;
+					NetworkManager->Synchronized = false;
 
 					player.ShowMessageAboveMap("~r~Server is full!");
-					Player_NetListen = false;
+					NetworkManager->Listening = false;
 					break;
 
 				case ID_DISCONNECTION_NOTIFICATION:
-					Player_IsConnected = false;
-					Player_Synchronized = false;
+					NetworkManager->Connected = false;
+					NetworkManager->Synchronized = false;
 
 					player.ShowMessageAboveMap("~r~Connection closed!");
-					Player_NetListen = false;
+					NetworkManager->Listening = false;
 					break;
 
 				case ID_CONNECTION_LOST:
-					Player_IsConnected = false;
-					Player_Synchronized = false;
+					NetworkManager->Connected = false;
+					NetworkManager->Synchronized = false;
 
 					player.ShowMessageAboveMap("~r~Connection Lost!");
-					Player_NetListen = false;
+					NetworkManager->Listening = false;
 					break;
 
 				case ID_CONNECTION_BANNED:
-					Player_IsConnected = false;
-					Player_Synchronized = false;
+					NetworkManager->Connected = false;
+					NetworkManager->Synchronized = false;
 
 					player.ShowMessageAboveMap("~r~You're banned from this server!");
-					Player_NetListen = false;
+					NetworkManager->Listening = false;
 					break;
 
 				case ID_REQUEST_SERVER_SYNC:
 					TIME::SET_CLOCK_TIME(20, 00, 00);
 					TIME::PAUSE_CLOCK(false);
 
-					playerClientID.Read(Player_ClientID);
+					playerClientID.Read(NetworkManager->playerid);
 
-					playerClientID.Read(Server_Time_Hour);
-					playerClientID.Read(Server_Time_Minute);
-					playerClientID.Read(Server_Time_Pause);
+					playerClientID.Read(NetworkManager->time_hour);
+					playerClientID.Read(NetworkManager->time_minute);
+					playerClientID.Read(NetworkManager->time_pause);
 
-					printf("TIME: Hour %d - Minute %d - Freeze Time %d\n", Server_Time_Hour, Server_Time_Minute, Server_Time_Pause);
+					printf("TIME: Hour ~b~%d ~w~- Minute ~b~%d ~w~- Freeze Time ~b~%d", NetworkManager->time_hour, NetworkManager->time_minute, NetworkManager->time_pause);
 					player.ShowMessageAboveMap(testmessage);
 
-					sprintf(testmessage, "CLIENTID: %d\n", Player_ClientID);
+					sprintf(testmessage, "CLIENTID: ~b~%d", NetworkManager->playerid);
 					player.ShowMessageAboveMap(testmessage);
 
-					TIME::ADVANCE_CLOCK_TIME_TO(Server_Time_Hour, Server_Time_Minute, 00);
-					TIME::PAUSE_CLOCK(Server_Time_Pause);
+					TIME::ADVANCE_CLOCK_TIME_TO(NetworkManager->time_hour, NetworkManager->time_minute, 00);
+					TIME::PAUSE_CLOCK(NetworkManager->time_pause);
 
-					bsPlayerSpawn.Write(Player_ClientID);
-					rpc.Signal("PlayerConnect", &bsPlayerSpawn, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+					bsPlayerSpawn.Write(NetworkManager->playerid);
+					NetworkManager->rpc.Signal("PlayerConnect", &bsPlayerSpawn, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 					break;
 
 				case ID_SEND_PLAYER_DATA:
@@ -316,15 +229,6 @@ void RunGameScript() {
 					tempplyrid++;
 					
 					playerData[tempplyrid].playerid = tempplyrid;
-
-					/*playerData[tempplyrid].old_x = playerData[tempplyrid].x;
-					playerData[tempplyrid].old_y = playerData[tempplyrid].y;
-					playerData[tempplyrid].old_z = playerData[tempplyrid].z;
-
-					playerData[tempplyrid].old_rx = playerData[tempplyrid].rx;
-					playerData[tempplyrid].old_ry = playerData[tempplyrid].ry;
-					playerData[tempplyrid].old_rz = playerData[tempplyrid].rz;
-					playerData[tempplyrid].old_rw = playerData[tempplyrid].rw;*/
 
 					PlayerBitStream_receive.Read(playerData[tempplyrid].pedType);
 					PlayerBitStream_receive.Read(playerData[tempplyrid].pedModel);
@@ -391,22 +295,23 @@ void RunGameScript() {
 							UI::SET_BLIP_AS_FRIENDLY(playerData[tempplyrid].pedBlip, true);
 							UI::SET_BLIP_COLOUR(playerData[tempplyrid].pedBlip, 0);
 							UI::SET_BLIP_SCALE(playerData[tempplyrid].pedBlip, 1.0f);
+							UI::SET_BLIP_NAME_FROM_TEXT_FILE(playerData[tempplyrid].pedBlip, "FiveMP placeholder");
 						}
 					//}
 					break;
 
 				default:
-					sprintf(testmessage, "%s", packet->data);
+					sprintf(testmessage, "%s", NetworkManager->packet->data);
 					player.ShowMessageAboveMap(testmessage);
 
-					sprintf(testmessage, "Exception from %s\n", packet->data);
-					client->Send(testmessage, (int)strlen(testmessage) + 1, IMMEDIATE_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, false);
+					sprintf(testmessage, "Exception from %s\n", NetworkManager->packet->data);
+					NetworkManager->client->Send(testmessage, (int)strlen(testmessage) + 1, IMMEDIATE_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, false);
 					break;
 				}
 			}
 		}
 
-		if (!Player_Synchronized && Player_IsConnected) {
+		if (!NetworkManager->Synchronized && NetworkManager->Connected) {
 			RakNet::BitStream requestid;
 
 			RakNet::RakString playerUsername("%s", client_username);
@@ -414,34 +319,21 @@ void RunGameScript() {
 			requestid.Write((MessageID)ID_REQUEST_SERVER_SYNC);
 			requestid.Write(playerUsername);
 
-			client->Send(&requestid, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
+			NetworkManager->client->Send(&requestid, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
 
 			player.ShowMessageAboveMap("Synchronizing with the server...");
 
-			Player_Synchronized = true;
+			NetworkManager->Synchronized = true;
 		}
 
-		if (IsKeyDown(VK_F8) && !Player_NetListen) {
-			RakNet::SocketDescriptor socketDescriptor(atoi(client_port), 0);
-
-			socketDescriptor.socketFamily = AF_INET;
-			client->Startup(8, &socketDescriptor, 1);
-			client->SetOccasionalPing(true);
-
-			car = client->Connect(server_ipaddress, atoi(server_port), "fivemp_dev", (int)strlen("fivemp_dev"));
-			RakAssert(car == RakNet::CONNECTION_ATTEMPT_STARTED);
-
-			Player_NetListen = true;
+		if (IsKeyDown(VK_F8) && !NetworkManager->Listening) {
+			if (!NetworkManager->Connect(server_ipaddress, server_port, client_port)) {
+				player.ShowMessageAboveMap("An error occured while calling the ~r~connect ~w~function");
+			}
 		}
 		if (IsKeyDown(VK_F9)) {
-			if (Player_NetListen) {
-				client->Shutdown(300);
-
-				Player_IsConnected = false;
-				Player_NetListen = false;
-				Player_Synchronized = false;
-
-				player.ShowMessageAboveMap("Successfully disconnected!");
+			if (!NetworkManager->Disconnect()) {
+				player.ShowMessageAboveMap("Could not disconnect: ~r~Not connected");
 			}
 		}
 		if (IsKeyDown(VK_F10)) {

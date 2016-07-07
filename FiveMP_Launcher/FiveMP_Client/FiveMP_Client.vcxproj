@@ -176,22 +176,25 @@
     <ClInclude Include="..\..\Vendor\RakNet\XBox360Includes.h" />
     <ClInclude Include="..\..\Vendor\RakNet\_FindFirst.h" />
     <ClInclude Include="CMath.h" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="CVector3.h" />
     <ClInclude Include="DrawHelper.h" />
     <ClInclude Include="enums.h" />
     <ClInclude Include="keyboard.h" />
+    <ClInclude Include="LocalPlayer.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="nativeCaller.h" />
     <ClInclude Include="natives.h" />
+    <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="Pattern.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="PlayerPed.h" />
     <ClInclude Include="RAGEHelper.h" />
     <ClInclude Include="ScriptHook.h" />
     <ClInclude Include="sh_main.h" />
     <ClInclude Include="cPool.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="stdafx_raknet.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="weapon.h" />
   </ItemGroup>
@@ -308,6 +311,7 @@
     <ClCompile Include="..\..\Vendor\RakNet\VitaIncludes.cpp" />
     <ClCompile Include="..\..\Vendor\RakNet\WSAStartupSingleton.cpp" />
     <ClCompile Include="..\..\Vendor\RakNet\_FindFirst.cpp" />
+    <ClCompile Include="Config.cpp" />
     <ClCompile Include="dllmain.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
@@ -317,6 +321,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="keyboard.cpp" />
+    <ClCompile Include="LocalPlayer.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Log.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
@@ -325,9 +333,17 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="NetworkManager.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="player.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="PlayerPed.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="RAGEHelper.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
@@ -337,7 +353,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="cPool.cpp" />
+    <ClCompile Include="cPool.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>

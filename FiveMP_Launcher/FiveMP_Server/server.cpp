@@ -145,9 +145,7 @@ int main(void)
 
 			case ID_SEND_PLAYER_DATA:
 				// Receive data
-
 				int tempplyrid;
-				
 				time_t temptimestamp;
 
 				PlayerBitStream_receive.Read(tempplyrid);
@@ -178,6 +176,10 @@ int main(void)
 				PlayerBitStream_send.Write((unsigned char)ID_SEND_PLAYER_DATA);
 
 				PlayerBitStream_send.Write(tempplyrid);
+
+				//RakNet::RakString tempusername = netPool.GetPlayerUsername(p->guid);
+
+				//PlayerBitStream_send.Write(tempusername);
 
 				PlayerBitStream_send.Write(playerData[tempplyrid].pedType);
 				PlayerBitStream_send.Write(playerData[tempplyrid].pedModel);

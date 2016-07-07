@@ -20,12 +20,24 @@
 #include <tlhelp32.h>
 #include <math.h>
 #include <iostream>
+using namespace std;
 
 #pragma comment(lib, "winmm.lib")
 
-using namespace std;
-
-extern MODULEINFO g_MainModuleInfo;
+// RakNet
+#include "MessageIdentifiers.h"
+#include "RakPeerInterface.h"
+#include "RakNetStatistics.h"
+#include "RakNetTypes.h"
+#include "BitStream.h"
+#include "RakSleep.h"
+#include "PacketLogger.h"
+#include "Kbhit.h"
+#include "Gets.h"
+#include "WindowsIncludes.h"
+#include "GetTime.h"
+#include "RPC4Plugin.h"
+using namespace RakNet;
 
 // ScriptHook
 #include "natives.h"
@@ -57,6 +69,9 @@ extern MODULEINFO g_MainModuleInfo;
 #include "CVector3.h"
 
 // Net
+#include "NetworkManager.h"
+#include "PlayerPed.h"
+#include "LocalPlayer.h"
 #include "cPool.h"
 
 namespace {
@@ -79,3 +94,6 @@ namespace {
 	char *client_username;
 	bool client_steam_def;
 }
+
+extern MODULEINFO g_MainModuleInfo;
+extern CNetworkManager *NetworkManager;
