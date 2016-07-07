@@ -497,6 +497,84 @@
     <ClInclude Include="functions_player.h">
       <Filter>Scripting %28LUA%29</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lstring.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\ltable.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\ltm.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lua.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lua.hpp">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\luaconf.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lualib.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lundump.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lvm.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lzio.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lapi.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lauxlib.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lcode.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lctype.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\ldebug.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\ldo.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lfunc.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lgc.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\llex.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\llimits.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lmem.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lobject.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lopcodes.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lparser.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lprefix.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Vendor\lua-5.3.3\lstate.h">
+      <Filter>Include\LUA</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="server.cpp" />
@@ -857,6 +935,105 @@
     <ClCompile Include="functions_player.cpp">
       <Filter>Scripting %28LUA%29</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lstring.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lstrlib.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\ltable.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\ltablib.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\ltm.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lundump.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lutf8lib.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lvm.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lzio.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lapi.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lauxlib.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lbaselib.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lbitlib.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lcode.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lcorolib.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lctype.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\ldblib.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\ldebug.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\ldo.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\ldump.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lfunc.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lgc.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\linit.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\liolib.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\llex.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lmathlib.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lmem.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\loadlib.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lobject.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lopcodes.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\loslib.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lparser.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Vendor\lua-5.3.3\lstate.c">
+      <Filter>Include\LUA</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Include">
@@ -876,6 +1053,9 @@
     </Filter>
     <Filter Include="Scripting %28LUA%29">
       <UniqueIdentifier>{faec295e-8b95-48fb-b9e1-842e04d4e79a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\LUA">
+      <UniqueIdentifier>{0f2dd8cc-de59-4d76-a96e-88a25b850c84}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

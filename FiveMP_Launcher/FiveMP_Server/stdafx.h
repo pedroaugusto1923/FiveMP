@@ -46,11 +46,7 @@ using namespace RakNet;
 #include "IniReader.h"
 
 // Scripting (LUA)
-extern "C" {
-#include "lua-5.3.3/lua.h"
-#include "lua-5.3.3/lualib.h"
-#include "lua-5.3.3/lauxlib.h"
-}
+#include "lua-5.3.3/lua.hpp"
 
 // Scripting (LUA-Functions)
 #include "functions_main.h"
