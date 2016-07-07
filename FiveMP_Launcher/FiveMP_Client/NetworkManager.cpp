@@ -225,7 +225,7 @@ void CNetworkManager::HandlePlayerSync(Packet * p)
 
 	PlayerBitStream_receive.Read(tempplyrid);
 
-	tempplyrid++;
+	//tempplyrid++;
 
 	playerData[tempplyrid].playerid = tempplyrid;
 
