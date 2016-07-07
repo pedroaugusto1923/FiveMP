@@ -118,12 +118,10 @@ int main(void) {
 					printf("INJECT: Successfully injected %s into Grand Theft Auto V!\n\n", dllname2);
 					Injected_ScriptHook = true;
 				}
-				if (InjectDLL("GTA5.exe", dllname) == true) {
+				if (InjectDLL("GTA5.exe", dllname) && Injected_ScriptHook) {
 					printf("INJECT: Successfully injected %s into Grand Theft Auto V!\n\n", dllname);
-
 					Injected_FiveMP = true;
 					GameThread = true;
-					break;
 				}
 
 				Sleep(2500);

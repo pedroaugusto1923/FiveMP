@@ -89,6 +89,8 @@ void RunGameScript() {
 		draw_text(0.750f, 0.975f, coorddata, { 255, 255, 255, 255 });
 
 		if (NetworkManager->Listening) {
+			NetworkManager->Handle();
+
 			if (NetworkManager->Connected && NetworkManager->Synchronized) {
 				for (int i = 0; i < sizeof(playerData) / sizeof(*playerData); i++) {
 					if (ENTITY::IS_ENTITY_OCCLUDED(playerData[i].pedPed)) {
@@ -125,7 +127,6 @@ void RunGameScript() {
 
 				NetworkManager->client->Send(&PlayerBitStream_send, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
 			}
-			NetworkManager->Handle();
 		}
 
 		if (!NetworkManager->Synchronized && NetworkManager->Connected) {

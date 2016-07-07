@@ -121,7 +121,7 @@ void CNetworkManager::Handle()
 	for (packet = client->Receive(); packet; client->DeallocatePacket(packet), packet = client->Receive()) {
 		unsigned char packetIdentifier = GetPacketIdentifier(packet);
 
-		RakNet::BitStream playerClientID(packet->data, packet->length, false);
+		RakNet::BitStream playerClientID(packet->data+1, packet->length, false);
 
 		RakNet::BitStream bsPlayerSpawn;
 
@@ -189,7 +189,6 @@ void CNetworkManager::Handle()
 			playerClientID.Read(time_pause);
 
 			printf("TIME: Hour ~b~%d ~w~- Minute ~b~%d ~w~- Freeze Time ~b~%d", time_hour, time_minute, time_pause);
-			player.ShowMessageAboveMap(testmessage);
 
 			sprintf(testmessage, "CLIENTID: ~b~%d", playerid);
 			player.ShowMessageAboveMap(testmessage);
@@ -218,7 +217,7 @@ void CNetworkManager::Handle()
 
 void CNetworkManager::HandlePlayerSync(Packet * p)
 {
-	RakNet::BitStream PlayerBitStream_receive(p->data, p->length, false);
+	RakNet::BitStream PlayerBitStream_receive(p->data+1, p->length, false);
 
 	int tempplyrid;
 
