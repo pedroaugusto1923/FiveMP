@@ -165,7 +165,7 @@ void RunGameScript() {
 		char velocitydata[64];
 		char coorddata[64];
 
-		sprintf(alphadata, "FiveMP Alpha | %s - %s", __DATE__, __TIME__);
+		sprintf(alphadata, "Five~r~MP~w~ Alpha | %s - %s", __DATE__, __TIME__);
 
 		sprintf(blenddata, "%f", AI::GET_PED_DESIRED_MOVE_BLEND_RATIO(playerPed));
 		sprintf(velocitydata, "X = %f | Y = %f | Z = %f", playerVelocity.x, playerVelocity.y, playerVelocity.z);
@@ -185,7 +185,7 @@ void RunGameScript() {
 					}
 				}*/
 
-				for (int i; i < 1000; i++) {
+				for (int i; i < sizeof(playerData) / sizeof(*playerData); i++) {
 					if (ENTITY::IS_ENTITY_OCCLUDED(playerData[i].pedPed)) {
 						draw_text(playerData[i].screen_x, playerData[i].screen_y, "User", { 255, 255, 255, 255 });
 					}
@@ -236,10 +236,10 @@ void RunGameScript() {
 				case ID_CONNECTION_REQUEST_ACCEPTED:
 					Player_IsConnected = true;
 
-					sprintf(testmessage, "Hi %s, you have successfully connected to the server!", client_username);
+					sprintf(testmessage, "Hi ~r~%s~w~, you have successfully connected to the server!", client_username);
 					player.ShowMessageAboveMap(testmessage);
 
-					sprintf(testmessage, "GUID is: #%s", client->GetGuidFromSystemAddress(RakNet::UNASSIGNED_SYSTEM_ADDRESS).ToString());
+					sprintf(testmessage, "GUID is: ~r~#%s", client->GetGuidFromSystemAddress(RakNet::UNASSIGNED_SYSTEM_ADDRESS).ToString());
 					player.ShowMessageAboveMap(testmessage);
 					break;
 
@@ -247,7 +247,7 @@ void RunGameScript() {
 					Player_IsConnected = false;
 					Player_Synchronized = false;
 
-					player.ShowMessageAboveMap("Failed to connect!");
+					player.ShowMessageAboveMap("~r~Could not connect to the server");
 					Player_NetListen = false;
 					break;
 
@@ -255,7 +255,7 @@ void RunGameScript() {
 					Player_IsConnected = false;
 					Player_Synchronized = false;
 
-					player.ShowMessageAboveMap("Server is full!");
+					player.ShowMessageAboveMap("~r~Server is full!");
 					Player_NetListen = false;
 					break;
 
@@ -263,7 +263,7 @@ void RunGameScript() {
 					Player_IsConnected = false;
 					Player_Synchronized = false;
 
-					player.ShowMessageAboveMap("Disconnected!");
+					player.ShowMessageAboveMap("~r~Connection closed!");
 					Player_NetListen = false;
 					break;
 
@@ -271,7 +271,7 @@ void RunGameScript() {
 					Player_IsConnected = false;
 					Player_Synchronized = false;
 
-					player.ShowMessageAboveMap("Connection Lost!");
+					player.ShowMessageAboveMap("~r~Connection Lost!");
 					Player_NetListen = false;
 					break;
 
@@ -279,7 +279,7 @@ void RunGameScript() {
 					Player_IsConnected = false;
 					Player_Synchronized = false;
 
-					player.ShowMessageAboveMap("You're banned from the server!");
+					player.ShowMessageAboveMap("~r~You're banned from this server!");
 					Player_NetListen = false;
 					break;
 
@@ -353,7 +353,17 @@ void RunGameScript() {
 						//printf("%s | %d - %x | %f, %f, %f | %f, %f, %f, %f\n", playerData[tempplyrid].playerusername, playerData[tempplyrid].pedType, playerData[tempplyrid].pedModel, playerData[tempplyrid].x, playerData[tempplyrid].y, playerData[tempplyrid].z, playerData[tempplyrid].rx, playerData[tempplyrid].ry, playerData[tempplyrid].rz, playerData[tempplyrid].rw);
 
 						if (ENTITY::DOES_ENTITY_EXIST(playerData[tempplyrid].pedPed)) {
-							ENTITY::SET_ENTITY_COORDS(playerData[tempplyrid].pedPed, playerData[tempplyrid].x, playerData[tempplyrid].y, playerData[tempplyrid].z, 0, 0, 0, 0);
+							float tempz;
+
+							GAMEPLAY::GET_GROUND_Z_FOR_3D_COORD(playerData[tempplyrid].x, playerData[tempplyrid].y, playerData[tempplyrid].z, &tempz, 1);
+
+							if (SYSTEM::VDIST(playerData[tempplyrid].x, playerData[tempplyrid].y, playerData[tempplyrid].z, playerData[tempplyrid].x, playerData[tempplyrid].y, tempz) > 5.0f) {
+								ENTITY::SET_ENTITY_COORDS(playerData[tempplyrid].pedPed, playerData[tempplyrid].x, playerData[tempplyrid].y, playerData[tempplyrid].z, 0, 0, 0, 0);
+							}
+							else {
+								ENTITY::SET_ENTITY_COORDS(playerData[tempplyrid].pedPed, playerData[tempplyrid].x, playerData[tempplyrid].y, tempz, 0, 0, 0, 0);
+								//AI::TASK_GO_STRAIGHT_TO_COORD(playerData[tempplyrid].pedPed, playerData[tempplyrid].x, playerData[tempplyrid].y, playerData[tempplyrid].z, playerData[tempplyrid].v, 1, playerData[tempplyrid].r, 0.0f);
+							}
 							ENTITY::SET_ENTITY_QUATERNION(playerData[tempplyrid].pedPed, playerData[tempplyrid].rx, playerData[tempplyrid].ry, playerData[tempplyrid].rz, playerData[tempplyrid].rw);
 
 							GRAPHICS::_WORLD3D_TO_SCREEN2D(playerData[tempplyrid].x, playerData[tempplyrid].y, playerData[tempplyrid].z, &playerData[tempplyrid].screen_x, &playerData[tempplyrid].screen_y);
@@ -438,8 +448,6 @@ void RunGameScript() {
 			Vector3 playerOffsetLocation = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(playerPed, 0.0, 3.0, 0.0);
 			Hash playermodel1 = GAMEPLAY::GET_HASH_KEY("a_f_y_skater_01");
 			Ped player33;
-
-			//PED::CREATE_RANDOM_PED(playerOffsetLocation.x, playerOffsetLocation.y, playerOffsetLocation.z);
 
 			if (STREAMING::IS_MODEL_IN_CDIMAGE(playermodel1) && STREAMING::IS_MODEL_VALID(playermodel1))
 

@@ -765,7 +765,7 @@ ScriptInfo scriptnames[] = {
 
 void GamePlayer::ShowMessageAboveMap(char* msg) {
 	UI::_SET_NOTIFICATION_TEXT_ENTRY("STRING");
-	UI::_ADD_TEXT_COMPONENT_STRING(msg);
+	UI::_ADD_TEXT_COMPONENT_STRING3(msg);
 	UI::_DRAW_NOTIFICATION(FALSE, FALSE);
 
 	printf("%s\n", msg);

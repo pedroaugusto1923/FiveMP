@@ -2,6 +2,28 @@
 
 using namespace std;
 
+bool ProcessRunning(const char* name)
+{
+	HANDLE SnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+
+	if (SnapShot == INVALID_HANDLE_VALUE)
+		return false;
+
+	PROCESSENTRY32 procEntry;
+	procEntry.dwSize = sizeof(PROCESSENTRY32);
+
+	if (!Process32First(SnapShot, &procEntry))
+		return false;
+
+	do
+	{
+		if (strcmp(procEntry.szExeFile, name) == 0)
+			return true;
+	} while (Process32Next(SnapShot, &procEntry));
+
+	return false;
+}
+
 //Entry
 int main(void) {
 	SetConsoleTitle("FiveMP - Launcher Console");
@@ -80,19 +102,35 @@ int main(void) {
 	bool Injected_ScriptHook	= false;
 	bool Injected_FiveMP		= false;
 
-	/*while (GameThread != true) {
+	while (GameThread == false) {
 		HWND hWnds = FindWindowA(NULL, "Grand Theft Auto V");
 
-		if (hWnds != NULL) {
+		bool yes = ProcessRunning("GTA5.exe");
+
+		if (yes != NULL) {
+			Sleep(10000);
 			if (GameStarted == false) {
 				printf("SCAN: GTA5.exe has successfully started!\n\n");
 				GameStarted = true;
-			} else {
-				Sleep(2500);*/
-	while (GameThread == false) {
-		if (_kbhit()) {
-			if (_getch() == 'g') {
+			}
+			else {
+				if (InjectDLL("GTA5.exe", dllname2) == true) {
+					printf("INJECT: Successfully injected %s into Grand Theft Auto V!\n\n", dllname2);
+					Injected_ScriptHook = true;
+				}
+				if (InjectDLL("GTA5.exe", dllname) == true) {
+					printf("INJECT: Successfully injected %s into Grand Theft Auto V!\n\n", dllname);
 
+					Injected_FiveMP = true;
+					GameThread = true;
+					break;
+				}
+
+				Sleep(2500);
+			}
+		}
+		/*if (_kbhit()) {
+			if (_getch() == 'g') {
 				if (InjectDLL("GTA5.exe", dllname2) == true) {
 					printf("INJECT: Successfully injected %s into Grand Theft Auto V!\n\n", dllname2);
 					Injected_ScriptHook = true;
@@ -106,7 +144,7 @@ int main(void) {
 				}
 			}
 			Sleep(500);
-		}
+		}*/
 	}
 	Sleep(2500);
 	//FindNativeTableAddress();

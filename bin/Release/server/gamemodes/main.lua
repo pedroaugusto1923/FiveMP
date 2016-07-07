@@ -11,12 +11,12 @@ end
 function OnPlayerConnect(playerid)
 	
 	GivePlayerWeapon(playerid, "Firework", 10);
-	ShowMessageToPlayer(playerid, "welcome to fivemp");
+	ShowMessageToPlayer(playerid, "Welcome to this ~b~FiveMP ~w~server!");
 	return 1;
 end
 
 function OnPlayerDisonnect(playerid)
-    print(playerid .. " disconnected");
+    print(playerid .. " has disconnected");
     return 1;
 end
 
