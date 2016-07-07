@@ -93,60 +93,60 @@ void RunGameScript() {
 		if (NetworkManager->Listening) {
 			NetworkManager->Handle();
 
-			if (NetworkManager->Connected && NetworkManager->Synchronized) {
-				for (int i = 0; i < sizeof(playerData) / sizeof(*playerData); i++) {
-					if (ENTITY::DOES_ENTITY_EXIST(playerData[i].pedPed)) {
-						if (ENTITY::IS_ENTITY_VISIBLE(playerData[i].pedPed)) {
-							GRAPHICS::_WORLD3D_TO_SCREEN2D(playerData[i].x, playerData[i].y, playerData[i].z, &playerData[i].screen_x, &playerData[i].screen_y);
-							draw_text(playerData[i].screen_x, playerData[i].screen_y, "User", { 255, 255, 255, 255 });
+			if (NetworkManager->Connected) {
+				if (!NetworkManager->Synchronized) {
+					RakNet::BitStream requestid;
+
+					RakNet::RakString playerUsername("%s", Config->client_username);
+
+					requestid.Write((MessageID)ID_REQUEST_SERVER_SYNC);
+					requestid.Write(playerUsername);
+
+					NetworkManager->client->Send(&requestid, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
+
+					player.ShowMessageAboveMap("Synchronizing with the server...");
+
+					NetworkManager->Synchronized = true;
+				} else {
+					for (int i = 0; i < sizeof(playerData) / sizeof(*playerData); i++) {
+						if (ENTITY::DOES_ENTITY_EXIST(playerData[i].pedPed)) {
+							//if (ENTITY::IS_ENTITY_VISIBLE(playerData[i].pedPed)) {
+								GRAPHICS::_WORLD3D_TO_SCREEN2D(playerData[i].x, playerData[i].y, playerData[i].z, &playerData[i].screen_x, &playerData[i].screen_y);
+								draw_text(playerData[i].screen_x, playerData[i].screen_y, "User", { 255, 255, 255, 255 });
+							//}
 						}
 					}
+
+					RakNet::BitStream PlayerBitStream_send;
+
+					PlayerBitStream_send.Write((MessageID)ID_SEND_PLAYER_DATA);
+
+					PlayerBitStream_send.Write(NetworkManager->playerid);
+
+					PlayerBitStream_send.Write(LocalPlayer->GetType());
+					PlayerBitStream_send.Write(LocalPlayer->GetModel());
+					PlayerBitStream_send.Write(LocalPlayer->GetHealth());
+
+					PlayerBitStream_send.Write(LocalPlayer->GetCoords().x);
+					PlayerBitStream_send.Write(LocalPlayer->GetCoords().y);
+					PlayerBitStream_send.Write(LocalPlayer->GetCoords().z);
+
+					PlayerBitStream_send.Write(LocalPlayer->GetHeading());
+					PlayerBitStream_send.Write(rotation_x);
+					PlayerBitStream_send.Write(rotation_y);
+					PlayerBitStream_send.Write(rotation_z);
+					PlayerBitStream_send.Write(rotation_w);
+
+					PlayerBitStream_send.Write(AI::GET_PED_DESIRED_MOVE_BLEND_RATIO(LocalPlayer->playerPed));
+					PlayerBitStream_send.Write(LocalPlayer->GetVelocity().x);
+					PlayerBitStream_send.Write(LocalPlayer->GetVelocity().y);
+					PlayerBitStream_send.Write(LocalPlayer->GetVelocity().z);
+
+					PlayerBitStream_send.Write(time(0));
+
+					NetworkManager->client->Send(&PlayerBitStream_send, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
 				}
-
-				RakNet::BitStream PlayerBitStream_send;
-
-				PlayerBitStream_send.Write((MessageID)ID_SEND_PLAYER_DATA);
-				
-				PlayerBitStream_send.Write(NetworkManager->playerid);
-
-				PlayerBitStream_send.Write(LocalPlayer->GetType());
-				PlayerBitStream_send.Write(LocalPlayer->GetModel());
-				PlayerBitStream_send.Write(LocalPlayer->GetHealth());
-
-				PlayerBitStream_send.Write(LocalPlayer->GetCoords().x);
-				PlayerBitStream_send.Write(LocalPlayer->GetCoords().y);
-				PlayerBitStream_send.Write(LocalPlayer->GetCoords().z);
-
-				PlayerBitStream_send.Write(LocalPlayer->GetHeading());
-				PlayerBitStream_send.Write(rotation_x);
-				PlayerBitStream_send.Write(rotation_y);
-				PlayerBitStream_send.Write(rotation_z);
-				PlayerBitStream_send.Write(rotation_w);
-
-				PlayerBitStream_send.Write(AI::GET_PED_DESIRED_MOVE_BLEND_RATIO(LocalPlayer->playerPed));
-				PlayerBitStream_send.Write(LocalPlayer->GetVelocity().x);
-				PlayerBitStream_send.Write(LocalPlayer->GetVelocity().y);
-				PlayerBitStream_send.Write(LocalPlayer->GetVelocity().z);
-
-				PlayerBitStream_send.Write(time(0));
-
-				NetworkManager->client->Send(&PlayerBitStream_send, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
 			}
-		}
-
-		if (!NetworkManager->Synchronized && NetworkManager->Connected) {
-			RakNet::BitStream requestid;
-
-			RakNet::RakString playerUsername("%s", Config->client_username);
-
-			requestid.Write((MessageID)ID_REQUEST_SERVER_SYNC);
-			requestid.Write(playerUsername);
-
-			NetworkManager->client->Send(&requestid, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
-
-			player.ShowMessageAboveMap("Synchronizing with the server...");
-
-			NetworkManager->Synchronized = true;
 		}
 
 		if (IsKeyJustUp(VK_F8) && !NetworkManager->Listening) {

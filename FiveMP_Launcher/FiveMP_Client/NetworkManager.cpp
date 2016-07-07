@@ -217,7 +217,7 @@ void CNetworkManager::Handle()
 
 void CNetworkManager::HandlePlayerSync(Packet * p)
 {
-	RakNet::BitStream PlayerBitStream_receive(p->data+1, p->length, false);
+	RakNet::BitStream PlayerBitStream_receive(p->data+1, p->length+1, false);
 
 	int tempplyrid;
 
