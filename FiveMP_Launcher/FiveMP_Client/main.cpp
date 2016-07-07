@@ -326,17 +326,17 @@ void RunGameScript() {
 			NetworkManager->Synchronized = true;
 		}
 
-		if (IsKeyDown(VK_F8) && !NetworkManager->Listening) {
+		if (IsKeyJustUp(VK_F8) && !NetworkManager->Listening) {
 			if (!NetworkManager->Connect(server_ipaddress, server_port, client_port)) {
-				player.ShowMessageAboveMap("An error occured while calling the ~r~connect ~w~function");
+				player.ShowMessageAboveMap("An error occured while calling the ~~connect ~w~function");
 			}
 		}
-		if (IsKeyDown(VK_F9)) {
+		if (IsKeyJustUp(VK_F9)) {
 			if (!NetworkManager->Disconnect()) {
 				player.ShowMessageAboveMap("Could not disconnect: ~r~Not connected");
 			}
 		}
-		if (IsKeyDown(VK_F10)) {
+		if (IsKeyJustUp(VK_F10)) {
 			Vector3 playerOffsetLocation = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(playerPed, 0.0, 3.0, 0.0);
 			Hash playermodel1 = GAMEPLAY::GET_HASH_KEY("a_f_y_skater_01");
 			Ped player33;
