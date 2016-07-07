@@ -268,8 +268,6 @@ void CNetworkManager::HandlePlayerSync(Packet * p)
 			//AI::TASK_GO_STRAIGHT_TO_COORD(playerData[tempplyrid].pedPed, playerData[tempplyrid].x, playerData[tempplyrid].y, playerData[tempplyrid].z, playerData[tempplyrid].v, 1, playerData[tempplyrid].r, 0.0f);
 		}
 		ENTITY::SET_ENTITY_QUATERNION(playerData[tempplyrid].pedPed, playerData[tempplyrid].rx, playerData[tempplyrid].ry, playerData[tempplyrid].rz, playerData[tempplyrid].rw);
-
-		GRAPHICS::_WORLD3D_TO_SCREEN2D(playerData[tempplyrid].x, playerData[tempplyrid].y, playerData[tempplyrid].z, &playerData[tempplyrid].screen_x, &playerData[tempplyrid].screen_y);
 	}
 	else {
 		if (STREAMING::IS_MODEL_IN_CDIMAGE(playerData[tempplyrid].pedModel) && STREAMING::IS_MODEL_VALID(playerData[tempplyrid].pedModel))
