@@ -68,6 +68,9 @@ using namespace RakNet;
 #include "CMath.h"
 #include "CVector3.h"
 
+// Modification (FiveMP)
+#include "Config.h"
+
 // Net
 #include "NetworkManager.h"
 #include "PlayerPed.h"
@@ -84,16 +87,10 @@ namespace {
 	// Classes (scripts)
 	class GamePlayer player;
 	class GameWeapon weapon;
-
-	// INI (server)
-	char *server_ipaddress;
-	char *server_port;
-
-	// INI (client)
-	char *client_port;
-	char *client_username;
-	bool client_steam_def;
 }
 
 extern MODULEINFO g_MainModuleInfo;
+
 extern CNetworkManager *NetworkManager;
+extern CLocalPlayer *LocalPlayer;
+extern CConfig *Config;

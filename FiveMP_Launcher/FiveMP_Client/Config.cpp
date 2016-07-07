@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include "Config.h"
 
+void CConfig::Read() {
+	CIniReader iniReader(".\\FiveMP.ini");
 
-CConfig::CConfig()
-{
-}
+	server_ipaddress	= iniReader.ReadString("Connection", "ip", "");
+	server_port			= iniReader.ReadString("Connection", "port", "");
+	client_port			= iniReader.ReadString("Connection", "clientport", "");
 
-
-CConfig::~CConfig()
-{
+	client_username		= iniReader.ReadString("Details", "username", "");
+	client_steam_def	= iniReader.ReadBoolean("Details", "steam", "");
 }

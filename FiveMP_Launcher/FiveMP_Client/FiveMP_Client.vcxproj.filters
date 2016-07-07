@@ -432,7 +432,12 @@
     <ClCompile Include="NetworkManager.cpp">
       <Filter>Source Files\Net</Filter>
     </ClCompile>
-    <ClCompile Include="Config.cpp" />
+    <ClCompile Include="RPCManager.cpp">
+      <Filter>Source Files\Net</Filter>
+    </ClCompile>
+    <ClCompile Include="Config.cpp">
+      <Filter>Source Files\Modification</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="player.h">
@@ -966,7 +971,12 @@
     <ClInclude Include="NetworkManager.h">
       <Filter>Source Files\Net</Filter>
     </ClInclude>
-    <ClInclude Include="Config.h" />
+    <ClInclude Include="RPCManager.h">
+      <Filter>Source Files\Net</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>Source Files\Modification</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Vendor\RakNet\RakNet.vcproj">

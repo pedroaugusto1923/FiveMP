@@ -7,6 +7,8 @@ public:
 
 	bool Connect(char *serveraddress, char *port, char *clientport);
 	bool Disconnect();
+	void Handle();
+	void HandlePlayerSync(Packet *p);
 
 	RPC4 rpc;
 	RakNet::RakPeerInterface *client;
