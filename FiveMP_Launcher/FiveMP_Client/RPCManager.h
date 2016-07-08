@@ -1,8 +1,11 @@
 #pragma once
-class RPCManager
+class CRPCManager
 {
 public:
-	RPCManager();
-	~RPCManager();
+	CRPCManager();
+	~CRPCManager();
+
+	void RegisterRPCs();
+	void UnRegisterRPCs();
 };
 

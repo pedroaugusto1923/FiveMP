@@ -98,6 +98,7 @@ namespace {
 extern MODULEINFO g_MainModuleInfo;
 
 extern CNetworkManager	*NetworkManager;
+extern CRPCManager		*RPCManager;
 extern CLocalPlayer		*LocalPlayer;
 extern CConfig			*Config;
 extern CRenderDebug		*RenderDebug;

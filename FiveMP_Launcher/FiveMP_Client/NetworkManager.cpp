@@ -5,12 +5,7 @@ CNetworkManager::CNetworkManager()
 	client = RakNet::RakPeerInterface::GetInstance();
 	clientID = RakNet::UNASSIGNED_SYSTEM_ADDRESS;
 
-	client->AttachPlugin(&rpc);
-	rpc.RegisterSlot("ShowMessageToPlayer", ShowMessageToPlayer, 0);
-	rpc.RegisterSlot("GivePlayerWeapon", GivePlayerWeapon, 0);
-	rpc.RegisterSlot("RemovePlayerWeapon", RemovePlayerWeapon, 0);
-	rpc.RegisterSlot("GivePlayerAmmo", GivePlayerAmmo, 0);
-	rpc.RegisterSlot("RemovePlayerAmmo", RemovePlayerAmmo, 0);
+	RPCManager->RegisterRPCs();
 }
 
 CNetworkManager::~CNetworkManager()
@@ -23,6 +18,8 @@ CNetworkManager::~CNetworkManager()
 	time_hour = NULL;
 	time_minute = NULL;
 	time_pause = NULL;
+
+	RPCManager->UnRegisterRPCs();
 }
 
 bool CNetworkManager::Connect(char *serveraddress, char *port, char *clientport)
