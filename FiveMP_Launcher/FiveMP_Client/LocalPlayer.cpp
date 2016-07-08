@@ -12,8 +12,6 @@ CLocalPlayer::~CLocalPlayer()
 void CLocalPlayer::Initialize()
 {
 	if (!playerInitialized) {
-		LocalPlayer = new CLocalPlayer;
-
 		float groundz;
 
 		player.DisableScripts();

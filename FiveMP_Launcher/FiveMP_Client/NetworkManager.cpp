@@ -4,9 +4,6 @@ CNetworkManager::CNetworkManager()
 {
 	client = RakNet::RakPeerInterface::GetInstance();
 	clientID = RakNet::UNASSIGNED_SYSTEM_ADDRESS;
-
-	RPCManager = new CRPCManager;
-	RPCManager->RegisterRPCs();
 }
 
 CNetworkManager::~CNetworkManager()
