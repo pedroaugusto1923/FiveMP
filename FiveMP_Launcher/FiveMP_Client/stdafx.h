@@ -61,8 +61,8 @@ using namespace RakNet;
 #include "ScriptHook.h"
 
 // Game Functions
-#include "player.h"
-#include "weapon.h"
+#include "Player.h"
+#include "Weapon.h"
 
 // Math
 #include "CMath.h"
@@ -102,3 +102,4 @@ extern CLocalPlayer		*LocalPlayer;
 extern CConfig			*Config;
 extern CRenderDebug		*RenderDebug;
 extern CRender			*Render;
+extern CScript			*Script;

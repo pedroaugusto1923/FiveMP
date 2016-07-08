@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Functions">
-      <UniqueIdentifier>{5007e35e-439f-4c74-9beb-587d930a78d7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{75ff3dcf-4365-4667-8d92-7cb5faaaf9c2}</UniqueIdentifier>
     </Filter>
@@ -52,11 +49,11 @@
     <Filter Include="Source Files\Modification">
       <UniqueIdentifier>{22572701-4f86-47d0-ac68-b8dd5f445136}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Function">
+      <UniqueIdentifier>{5007e35e-439f-4c74-9beb-587d930a78d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="player.cpp">
-      <Filter>Functions</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Vendor\RakNet\_FindFirst.cpp">
       <Filter>Vendor\RakNet</Filter>
     </ClCompile>
@@ -411,9 +408,6 @@
     <ClCompile Include="cPool.cpp">
       <Filter>Source Files\Net</Filter>
     </ClCompile>
-    <ClCompile Include="weapon.cpp">
-      <Filter>Functions</Filter>
-    </ClCompile>
     <ClCompile Include="dllmain.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
@@ -444,12 +438,17 @@
     <ClCompile Include="RenderDebug.cpp">
       <Filter>Source Files\Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Render.cpp" />
+    <ClCompile Include="Render.cpp">
+      <Filter>Source Files\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Function</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Source Files\Function</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="player.h">
-      <Filter>Functions</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Vendor\RakNet\_FindFirst.h">
       <Filter>Vendor\RakNet</Filter>
     </ClInclude>
@@ -960,9 +959,6 @@
     <ClInclude Include="CVector3.h">
       <Filter>Vendor\Math</Filter>
     </ClInclude>
-    <ClInclude Include="weapon.h">
-      <Filter>Functions</Filter>
-    </ClInclude>
     <ClInclude Include="main.h">
       <Filter>Source Files\Common</Filter>
     </ClInclude>
@@ -990,7 +986,15 @@
     <ClInclude Include="RenderDebug.h">
       <Filter>Source Files\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Render.h" />
+    <ClInclude Include="Render.h">
+      <Filter>Source Files\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Source Files\Function</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Source Files\Function</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Vendor\RakNet\RakNet.vcproj">
