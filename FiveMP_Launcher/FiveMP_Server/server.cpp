@@ -103,10 +103,10 @@ int main(void)
 			packetIdentifier = GetPacketIdentifier(p);
 
 			RakNet::BitStream pid_bitStream;
-			RakNet::BitStream pid_request(p->data + 1, p->length + 1, false);
+			RakNet::BitStream pid_request(p->data + 1, 128, false);
 
 			RakNet::BitStream PlayerBitStream_send;
-			RakNet::BitStream PlayerBitStream_receive(p->data + 1, p->length+1, false);
+			RakNet::BitStream PlayerBitStream_receive(p->data + 1, 128, false);
 
 			switch (packetIdentifier)
 			{
@@ -202,7 +202,7 @@ int main(void)
 
 				PlayerBitStream_send.Write(temptimestamp);
 
-				server->Send(&PlayerBitStream_send, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
+				server->Send(&PlayerBitStream_send, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 
 				//printf("%s | %d - %x | %f, %f, %f | %f, %f, %f, %f\n", playerData[tempplyrid].playerusername, playerData[tempplyrid].pedType, playerData[tempplyrid].pedModel, playerData[tempplyrid].x, playerData[tempplyrid].y, playerData[tempplyrid].z, playerData[tempplyrid].rx, playerData[tempplyrid].ry, playerData[tempplyrid].rz, playerData[tempplyrid].rw);
 				break;

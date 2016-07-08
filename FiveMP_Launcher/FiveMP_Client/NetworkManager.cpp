@@ -182,9 +182,11 @@ void CNetworkManager::HandlePlayerSync(Packet * p)
 
 	PlayerBitStream_receive.Read(temptimestamp);
 
-	if (tempplyrid != playerid) {
+	playerData[tempplyrid].tickssince = GetTickCount();
+
+	//if (tempplyrid != playerid) {
 		if (ENTITY::DOES_ENTITY_EXIST(playerData[tempplyrid].pedPed)) {
-			float tempz;
+			/*float tempz;
 
 			GAMEPLAY::GET_GROUND_Z_FOR_3D_COORD(playerData[tempplyrid].x, playerData[tempplyrid].y, playerData[tempplyrid].z, &tempz, 1);
 
@@ -195,7 +197,7 @@ void CNetworkManager::HandlePlayerSync(Packet * p)
 				ENTITY::SET_ENTITY_COORDS(playerData[tempplyrid].pedPed, playerData[tempplyrid].x, playerData[tempplyrid].y, tempz, 0, 0, 0, 0);
 				//AI::TASK_GO_STRAIGHT_TO_COORD(playerData[tempplyrid].pedPed, playerData[tempplyrid].x, playerData[tempplyrid].y, playerData[tempplyrid].z, playerData[tempplyrid].v, 1, playerData[tempplyrid].r, 0.0f);
 			}
-			ENTITY::SET_ENTITY_QUATERNION(playerData[tempplyrid].pedPed, playerData[tempplyrid].rx, playerData[tempplyrid].ry, playerData[tempplyrid].rz, playerData[tempplyrid].rw);
+			ENTITY::SET_ENTITY_QUATERNION(playerData[tempplyrid].pedPed, playerData[tempplyrid].rx, playerData[tempplyrid].ry, playerData[tempplyrid].rz, playerData[tempplyrid].rw);*/
 		} else {
 			if (STREAMING::IS_MODEL_IN_CDIMAGE(playerData[tempplyrid].pedModel) && STREAMING::IS_MODEL_VALID(playerData[tempplyrid].pedModel))
 
@@ -218,7 +220,45 @@ void CNetworkManager::HandlePlayerSync(Packet * p)
 			UI::SET_BLIP_AS_FRIENDLY(playerData[tempplyrid].pedBlip, true);
 			UI::SET_BLIP_COLOUR(playerData[tempplyrid].pedBlip, 0);
 			UI::SET_BLIP_SCALE(playerData[tempplyrid].pedBlip, 1.0f);
-			UI::SET_BLIP_NAME_FROM_TEXT_FILE(playerData[tempplyrid].pedBlip, "FiveMP placeholder");
+			UI::BEGIN_TEXT_COMMAND_SET_BLIP_NAME("STRING");
+			UI::_ADD_TEXT_COMPONENT_STRING3("NAME test");
+			UI::END_TEXT_COMMAND_SET_BLIP_NAME(playerData[tempplyrid].pedBlip);
+		}
+	//}
+}
+
+float ttlerp(float v0, float v1, float t) {
+	return (1 - t)*v0 + t*v1;
+}
+
+void CNetworkManager::SyncOnFoot()
+{
+	for (int i = 0; i < 10; i++) {
+		if (ENTITY::DOES_ENTITY_EXIST(playerData[i].pedPed)) {
+			Vector3 curpos = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(playerData[i].pedPed, 0.0, 0.0, 0.0);
+			CVector3 curpos1;
+			curpos1.fX = curpos.x;
+			curpos1.fY = curpos.y;
+			curpos1.fZ = curpos.z;
+
+			CVector3 newpos;
+			newpos.fX = playerData[i].x;
+			newpos.fY = playerData[i].y;
+			newpos.fZ = playerData[i].z;
+
+			int now = GetTickCount();
+			int elapsedTime = now - playerData[i].tickssince;
+			int duration = playerData[i].tickssince+100 - playerData[i].tickssince;
+			float progress = elapsedTime / duration;
+
+			CVector3 updpos;
+			updpos.fX = ttlerp(curpos1.fX, newpos.fX, progress);
+			updpos.fY = ttlerp(curpos1.fY, newpos.fY, progress);
+			updpos.fZ = ttlerp(curpos1.fZ, newpos.fZ, progress);
+
+			printf("%f - %f/%f/%f\n", progress, updpos.fX, updpos.fY, updpos.fZ);
+
+			ENTITY::SET_ENTITY_COORDS(playerData[i].pedPed, updpos.fX, updpos.fY, updpos.fZ, 0, 0, 0, 0);
 		}
 	}
 }

@@ -10,6 +10,8 @@ public:
 	void Handle();
 	void HandlePlayerSync(Packet *p);
 
+	void SyncOnFoot();
+
 	RPC4 rpc;
 	RakNet::RakPeerInterface *client;
 	RakNet::Packet* packet;

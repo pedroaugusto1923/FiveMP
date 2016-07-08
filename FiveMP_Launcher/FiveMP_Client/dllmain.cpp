@@ -20,6 +20,9 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved )
 		hook.Initialize(hModule);
 	}
 	if (reason == DLL_PROCESS_DETACH) {
+		printf("reach end");
+		scriptUnregister(hModule);
+		printf("reach end 2");
 		hook.StopConsole();
 	}
 	return TRUE;

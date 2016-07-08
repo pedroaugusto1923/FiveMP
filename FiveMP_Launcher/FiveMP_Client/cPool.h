@@ -28,9 +28,12 @@ struct playerPool {
 	float screen_x;							// 2D X coord
 	float screen_y;							// 2D Y coord
 
+	float lastone;
+	int tickssince;
+
 	bool used = false;						// Whether the player slot is in use or not.
 };
-extern playerPool playerData[100];
+extern playerPool playerData[128];
 
 struct vehiclePool {
 	int vehicleid;							// Vehicle ID (server)
