@@ -114,6 +114,11 @@ int main(void)
 				printf("ID_DISCONNECTION_NOTIFICATION from %s\n", p->systemAddress.ToString(true));;
 				OnPlayerDisconnect(sLUA, netPool.GetPlayerID(p->guid));
 
+				pid_bitStream.Write((unsigned char)ID_PLAYER_LEFT);
+				pid_bitStream.Write(netPool.GetPlayerID(p->guid));
+
+				server->Send(&pid_bitStream, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
+
 				netPool.RemoveFromUserPool(p->guid);
 				netPool.UserAmount--;
 				break;
@@ -219,8 +224,13 @@ int main(void)
 			case ID_CONNECTION_LOST:
 				printf("ID_CONNECTION_LOST from %s\n", p->systemAddress.ToString(true));;
 				OnPlayerDisconnect(sLUA, netPool.GetPlayerID(p->guid));
-				netPool.UserAmount--;
+				
+				pid_bitStream.Write((unsigned char)ID_PLAYER_LEFT);
+				pid_bitStream.Write(netPool.GetPlayerID(p->guid));
 
+				server->Send(&pid_bitStream, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
+
+				netPool.UserAmount--;
 				netPool.RemoveFromUserPool(p->guid);
 				break;
 

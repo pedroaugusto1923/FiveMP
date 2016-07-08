@@ -64,6 +64,7 @@ using namespace RakNet;
 #include "Player.h"
 #include "Weapon.h"
 #include "Vehicles.h"
+#include "World.h"
 
 // Math
 #include "CMath.h"
@@ -91,6 +92,7 @@ namespace {
 	// Classes (scripts)
 	class GamePlayer player;
 	class GameWeapon weapon;
+	class GameWorld world;
 }
 
 extern MODULEINFO	g_MainModuleInfo;

@@ -48,6 +48,8 @@ bool CNetworkManager::Disconnect()
 		Synchronized = false;
 		Listening = false;
 
+		world.CleanUp();
+
 		player.ShowMessageAboveMap("Successfully disconnected!");
 		return true;
 	}
@@ -136,6 +138,10 @@ void CNetworkManager::Handle()
 
 		case ID_SEND_PLAYER_DATA:
 			HandlePlayerSync(packet);
+			break;
+
+		case ID_PLAYER_LEFT:
+			DropPlayer(packet);
 			break;
 
 		default:
@@ -260,5 +266,20 @@ void CNetworkManager::SyncOnFoot()
 
 			ENTITY::SET_ENTITY_COORDS(playerData[i].pedPed, updpos.fX, updpos.fY, updpos.fZ, 0, 0, 0, 0);
 		}
+	}
+}
+
+void CNetworkManager::DropPlayer(Packet * p)
+{
+	RakNet::BitStream PlayerBitStream_receive(p->data + 1, p->length + 1, false);
+
+	int tempplyrid;
+
+	PlayerBitStream_receive.Read(tempplyrid);
+
+	if (ENTITY::DOES_ENTITY_EXIST(playerData[tempplyrid].pedPed))
+	{
+		ENTITY::DELETE_ENTITY(&playerData[tempplyrid].pedPed);
+		UI::REMOVE_BLIP(&playerData[tempplyrid].pedBlip);
 	}
 }
