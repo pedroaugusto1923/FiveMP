@@ -438,6 +438,13 @@
     <ClCompile Include="Config.cpp">
       <Filter>Source Files\Modification</Filter>
     </ClCompile>
+    <ClCompile Include="Script.cpp">
+      <Filter>Source Files\Net</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderDebug.cpp">
+      <Filter>Source Files\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Render.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="player.h">
@@ -977,6 +984,13 @@
     <ClInclude Include="Config.h">
       <Filter>Source Files\Modification</Filter>
     </ClInclude>
+    <ClInclude Include="Script.h">
+      <Filter>Source Files\Net</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderDebug.h">
+      <Filter>Source Files\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Render.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Vendor\RakNet\RakNet.vcproj">

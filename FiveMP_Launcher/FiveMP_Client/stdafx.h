@@ -75,7 +75,13 @@ using namespace RakNet;
 #include "NetworkManager.h"
 #include "PlayerPed.h"
 #include "LocalPlayer.h"
+#include "RPCManager.h"
+#include "Script.h"
 #include "cPool.h"
+
+// Interface
+#include "RenderDebug.h"
+#include "Render.h"
 
 namespace {
 	// Classes (scripthook)
