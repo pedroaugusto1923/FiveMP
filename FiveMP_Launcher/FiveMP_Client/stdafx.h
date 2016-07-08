@@ -63,6 +63,7 @@ using namespace RakNet;
 // Game Functions
 #include "Player.h"
 #include "Weapon.h"
+#include "Vehicles.h"
 
 // Math
 #include "CMath.h"
@@ -86,9 +87,6 @@ using namespace RakNet;
 namespace {
 	// Classes (scripthook)
 	class ScriptHook hook;
-
-	// Classes (net)
-	class UserPool netPool;
 
 	// Classes (scripts)
 	class GamePlayer player;

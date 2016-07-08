@@ -1,11 +1,4 @@
 #pragma once
-class UserPool
-{
-public:
-	int UserAmount;
-};
-
-typedef DWORD Hash;
 
 struct playerPool {
 	int playerid;							// Player/Client ID
@@ -27,21 +20,10 @@ struct playerPool {
 	float rz;								// Rotation Z coord
 	float rw;								// Rotation W coord
 
-	/*float old_x;							// Old Position X coord
-	float old_y;							// Old Position Y coord
-	float old_z;							// Old Position Z coord
-
-	float old_rx;							// Old Rotation X coord
-	float old_ry;							// Old Rotation Y coord
-	float old_rz;							// Old Rotation Z coord
-	float old_rw;							// Old Rotation W coord*/
-
 	float v;								// Velocity
 	float vx;								// Velocity X coord
 	float vy;								// Velocity Y coord
 	float vz;								// Velocity Z coord
-
-	float lerp = 0.0;
 
 	float screen_x;							// 2D X coord
 	float screen_y;							// 2D Y coord
@@ -49,3 +31,32 @@ struct playerPool {
 	bool used = false;						// Whether the player slot is in use or not.
 };
 extern playerPool playerData[100];
+
+struct vehiclePool {
+	int vehicleid;							// Vehicle ID (server)
+	int *localvehicleid;					// Vehicle ID (client)
+
+	Vehicle vehicleVehicle;					// Used to spawn the vehicle and such.
+	Blip vehicleBlip;						// Vehicle Blip
+	Hash vehicleModel;						// Vehicle Model in Hash
+	int vehicleHealth;						// Vehicle Health
+
+	int vehicleColor1;						// Vehicle Color 1
+	int vehicleColor2;						// Vehicle Color 2
+
+	float x;								// Position X coord
+	float y;								// Position Y coord
+	float z;								// Position Z coord
+
+	float r;								// Rotation (0-360)
+	float rx;								// Rotation X coord
+	float ry;								// Rotation Y coord
+	float rz;								// Rotation Z coord
+	float rw;								// Rotation W coord
+
+	float screen_x;							// 2D X coord
+	float screen_y;							// 2D Y coord
+
+	bool used = false;						// Whether the vehicle slot is in use or not.
+};
+extern vehiclePool vehicleData[100];

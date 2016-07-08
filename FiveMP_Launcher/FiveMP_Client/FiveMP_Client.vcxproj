@@ -200,6 +200,7 @@
     <ClInclude Include="cPool.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Types.h" />
+    <ClInclude Include="Vehicles.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
@@ -384,6 +385,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Vehicles.cpp" />
     <ClCompile Include="Weapon.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 playerPool playerData[100];
+vehiclePool vehicleData[100];
 
 CNetworkManager *NetworkManager;
 CRPCManager		*RPCManager;

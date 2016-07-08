@@ -103,10 +103,10 @@ int main(void)
 			packetIdentifier = GetPacketIdentifier(p);
 
 			RakNet::BitStream pid_bitStream;
-			RakNet::BitStream pid_request(p->data + 1, 128, false);
+			RakNet::BitStream pid_request(p->data + 1, p->length + 1, false);
 
 			RakNet::BitStream PlayerBitStream_send;
-			RakNet::BitStream PlayerBitStream_receive(p->data + 1, 128, false);
+			RakNet::BitStream PlayerBitStream_receive(p->data + 1, p->length+1, false);
 
 			switch (packetIdentifier)
 			{

@@ -60,7 +60,7 @@ void CNetworkManager::Handle()
 	for (packet = client->Receive(); packet; client->DeallocatePacket(packet), packet = client->Receive()) {
 		unsigned char packetIdentifier = GetPacketIdentifier(packet);
 
-		RakNet::BitStream playerClientID(packet->data+1, packet->length, false);
+		RakNet::BitStream playerClientID(packet->data+1, packet->length+1, false);
 
 		RakNet::BitStream bsPlayerSpawn;
 
@@ -159,8 +159,6 @@ void CNetworkManager::HandlePlayerSync(Packet * p)
 
 	PlayerBitStream_receive.Read(tempplyrid);
 
-	//tempplyrid++;
-
 	playerData[tempplyrid].playerid = tempplyrid;
 
 	PlayerBitStream_receive.Read(playerData[tempplyrid].pedType);
@@ -184,11 +182,7 @@ void CNetworkManager::HandlePlayerSync(Packet * p)
 
 	PlayerBitStream_receive.Read(temptimestamp);
 
-	playerData[tempplyrid].lerp = 0.0f;
-
 	if (tempplyrid != playerid) {
-		//printf("%s | %d - %x | %f, %f, %f | %f, %f, %f, %f\n", playerData[tempplyrid].playerusername, playerData[tempplyrid].pedType, playerData[tempplyrid].pedModel, playerData[tempplyrid].x, playerData[tempplyrid].y, playerData[tempplyrid].z, playerData[tempplyrid].rx, playerData[tempplyrid].ry, playerData[tempplyrid].rz, playerData[tempplyrid].rw);
-
 		if (ENTITY::DOES_ENTITY_EXIST(playerData[tempplyrid].pedPed)) {
 			float tempz;
 
@@ -202,8 +196,7 @@ void CNetworkManager::HandlePlayerSync(Packet * p)
 				//AI::TASK_GO_STRAIGHT_TO_COORD(playerData[tempplyrid].pedPed, playerData[tempplyrid].x, playerData[tempplyrid].y, playerData[tempplyrid].z, playerData[tempplyrid].v, 1, playerData[tempplyrid].r, 0.0f);
 			}
 			ENTITY::SET_ENTITY_QUATERNION(playerData[tempplyrid].pedPed, playerData[tempplyrid].rx, playerData[tempplyrid].ry, playerData[tempplyrid].rz, playerData[tempplyrid].rw);
-		}
-		else {
+		} else {
 			if (STREAMING::IS_MODEL_IN_CDIMAGE(playerData[tempplyrid].pedModel) && STREAMING::IS_MODEL_VALID(playerData[tempplyrid].pedModel))
 
 				STREAMING::REQUEST_MODEL(playerData[tempplyrid].pedModel);
@@ -214,8 +207,6 @@ void CNetworkManager::HandlePlayerSync(Packet * p)
 
 			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(LocalPlayer->playerPed, playerData[tempplyrid].pedPed, false);
 			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(playerData[tempplyrid].pedPed, LocalPlayer->playerPed, false);
-
-			//ENTITY::SET_ENTITY_ALPHA(playerData[tempplyrid].pedPed, 120, false);
 
 			PED::SET_PED_FLEE_ATTRIBUTES(playerData[tempplyrid].pedPed, 0, 0);
 			PED::SET_PED_COMBAT_ATTRIBUTES(playerData[tempplyrid].pedPed, 17, 1);

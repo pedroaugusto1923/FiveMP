@@ -28,15 +28,6 @@
     <Filter Include="Vendor\INI">
       <UniqueIdentifier>{ef948f8b-d04e-4410-9a7c-12e749529e6d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Vendor\Rockstar">
-      <UniqueIdentifier>{c96727ba-32da-4b95-b34e-f7479ffc983e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Vendor\Rockstar\Headers">
-      <UniqueIdentifier>{bd1ed1f8-9f60-4255-acab-ba15cb72ea63}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Vendor\Rockstar\Licenses">
-      <UniqueIdentifier>{51ae91b2-5a1d-426e-9437-dcbe4d82e5d0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Vendor\Math">
       <UniqueIdentifier>{82212307-0094-4117-96c9-fa0263624f33}</UniqueIdentifier>
     </Filter>
@@ -51,6 +42,15 @@
     </Filter>
     <Filter Include="Source Files\Function">
       <UniqueIdentifier>{5007e35e-439f-4c74-9beb-587d930a78d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendor\RAGE">
+      <UniqueIdentifier>{c96727ba-32da-4b95-b34e-f7479ffc983e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendor\RAGE\Headers">
+      <UniqueIdentifier>{bd1ed1f8-9f60-4255-acab-ba15cb72ea63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendor\RAGE\Licenses">
+      <UniqueIdentifier>{51ae91b2-5a1d-426e-9437-dcbe4d82e5d0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -394,13 +394,13 @@
       <Filter>Vendor\ScriptHook\Keyboard</Filter>
     </ClCompile>
     <ClCompile Include="DrawHelper.cpp">
-      <Filter>Vendor\Rockstar</Filter>
+      <Filter>Vendor\RAGE</Filter>
     </ClCompile>
     <ClCompile Include="Log.cpp">
-      <Filter>Vendor\Rockstar</Filter>
+      <Filter>Vendor\RAGE</Filter>
     </ClCompile>
     <ClCompile Include="RAGEHelper.cpp">
-      <Filter>Vendor\Rockstar</Filter>
+      <Filter>Vendor\RAGE</Filter>
     </ClCompile>
     <ClCompile Include="ScriptHook.cpp">
       <Filter>Vendor\ScriptHook</Filter>
@@ -445,6 +445,9 @@
       <Filter>Source Files\Function</Filter>
     </ClCompile>
     <ClCompile Include="Weapon.cpp">
+      <Filter>Source Files\Function</Filter>
+    </ClCompile>
+    <ClCompile Include="Vehicles.cpp">
       <Filter>Source Files\Function</Filter>
     </ClCompile>
   </ItemGroup>
@@ -939,16 +942,16 @@
       <Filter>Vendor\ScriptHook\Headers</Filter>
     </ClInclude>
     <ClInclude Include="RAGEHelper.h">
-      <Filter>Vendor\Rockstar\Headers</Filter>
+      <Filter>Vendor\RAGE\Headers</Filter>
     </ClInclude>
     <ClInclude Include="DrawHelper.h">
-      <Filter>Vendor\Rockstar\Headers</Filter>
+      <Filter>Vendor\RAGE\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Log.h">
-      <Filter>Vendor\Rockstar\Headers</Filter>
+      <Filter>Vendor\RAGE\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Pattern.h">
-      <Filter>Vendor\Rockstar\Headers</Filter>
+      <Filter>Vendor\RAGE\Headers</Filter>
     </ClInclude>
     <ClInclude Include="cPool.h">
       <Filter>Source Files\Net</Filter>
@@ -995,6 +998,9 @@
     <ClInclude Include="Weapon.h">
       <Filter>Source Files\Function</Filter>
     </ClInclude>
+    <ClInclude Include="Vehicles.h">
+      <Filter>Source Files\Function</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Vendor\RakNet\RakNet.vcproj">
@@ -1007,10 +1013,10 @@
       <Filter>Vendor\RakNet</Filter>
     </None>
     <None Include="citizenmp-LICENSE">
-      <Filter>Vendor\Rockstar\Licenses</Filter>
+      <Filter>Vendor\RAGE\Licenses</Filter>
     </None>
     <None Include="LICENSE">
-      <Filter>Vendor\Rockstar\Licenses</Filter>
+      <Filter>Vendor\RAGE\Licenses</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
