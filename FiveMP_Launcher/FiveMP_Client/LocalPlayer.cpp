@@ -11,26 +11,28 @@ CLocalPlayer::~CLocalPlayer()
 
 void CLocalPlayer::Initialize()
 {
-	LocalPlayer = new CLocalPlayer;
+	if (!playerInitialized) {
+		float groundz;
 
-	float groundz;
+		player.DisableScripts();
+		SCRIPT::SHUTDOWN_LOADING_SCREEN();
+		CAM::DO_SCREEN_FADE_IN(500);
 
-	player.DisableScripts();
-	SCRIPT::SHUTDOWN_LOADING_SCREEN();
-	CAM::DO_SCREEN_FADE_IN(500);
+		GAMEPLAY::GET_GROUND_Z_FOR_3D_COORD(391.4746f, -1637.9750f, 22.4998f, &groundz, 1);
+		ENTITY::SET_ENTITY_COORDS(playerPed, 391.4746f, -1637.9750f, groundz + 1.0f, true, true, true, true);
 
-	GAMEPLAY::GET_GROUND_Z_FOR_3D_COORD(391.4746f, -1637.9750f, 22.4998f, &groundz, 1);
-	ENTITY::SET_ENTITY_COORDS(LocalPlayer->playerPed, 391.4746f, -1637.9750f, groundz + 1.0f, true, true, true, true);
+		ENTITY::FREEZE_ENTITY_POSITION(playerPed, 0);
+		ENTITY::SET_ENTITY_VISIBLE(playerPed, true, 0);
 
-	ENTITY::FREEZE_ENTITY_POSITION(LocalPlayer->playerPed, 0);
-	ENTITY::SET_ENTITY_VISIBLE(LocalPlayer->playerPed, true, 0);
+		UI::DISPLAY_RADAR(true);
+		UI::DISPLAY_HUD(true);
 
-	UI::DISPLAY_RADAR(true);
-	UI::DISPLAY_HUD(true);
+		PLAYER::SET_MAX_WANTED_LEVEL(0);
 
-	PLAYER::SET_MAX_WANTED_LEVEL(0);
+		playerInitialized = true;
 
-	playerInitialized = true;
+		printf("initialize called\n");
+	}
 }
 
 void CLocalPlayer::OnTick()

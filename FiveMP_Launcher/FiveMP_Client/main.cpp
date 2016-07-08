@@ -23,11 +23,11 @@ void InitGameScript() {
 }
 
 void RunGameScript() {
+	LocalPlayer = new CLocalPlayer;
+
 	while (true)
 	{
-		if (!LocalPlayer->playerInitialized) {
-			LocalPlayer->Initialize();
-		}
+		LocalPlayer->Initialize();
 
 		LocalPlayer->OnTick();
 
