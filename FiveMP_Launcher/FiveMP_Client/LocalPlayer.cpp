@@ -30,8 +30,6 @@ void CLocalPlayer::Initialize()
 		PLAYER::SET_MAX_WANTED_LEVEL(0);
 
 		playerInitialized = true;
-
-		printf("initialize called\n");
 	}
 }
 
