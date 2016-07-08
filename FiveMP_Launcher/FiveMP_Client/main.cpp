@@ -18,8 +18,6 @@ void InitGameScript() {
 	printf("Username: %s\nUsing Steam: %d\n\n", Config->client_username, Config->client_steam_def);
 
 	NetworkManager	= new CNetworkManager;
-	RPCManager		= new CRPCManager;
-	LocalPlayer		= new CLocalPlayer;
 
 	srand(GetTickCount());
 	RunGameScript();

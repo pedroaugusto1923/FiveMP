@@ -8,6 +8,7 @@ CRPCManager::CRPCManager()
 
 CRPCManager::~CRPCManager()
 {
+	UnRegisterRPCs();
 	NetworkManager->client->DetachPlugin(&NetworkManager->rpc);
 }
 
