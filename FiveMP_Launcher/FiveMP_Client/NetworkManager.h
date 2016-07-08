@@ -9,6 +9,7 @@ public:
 	bool Disconnect();
 	void Handle();
 	void HandlePlayerSync(Packet *p);
+	void DropPlayer(Packet *p);
 
 	RPC4 rpc;
 	RakNet::RakPeerInterface *client;

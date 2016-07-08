@@ -431,7 +431,9 @@ enum DefaultMessageIDTypes
 
 	ID_REQUEST_SERVER_SYNC,
 	
-	ID_SEND_PLAYER_DATA
+	ID_SEND_PLAYER_DATA,
+
+	ID_PLAYER_LEFT
 	//-------------------------------------------------------------------------------------------------------------
  
 };

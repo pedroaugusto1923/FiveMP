@@ -450,6 +450,9 @@
     <ClCompile Include="Vehicles.cpp">
       <Filter>Source Files\Function</Filter>
     </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Source Files\Function</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Vendor\RakNet\_FindFirst.h">
@@ -999,6 +1002,9 @@
       <Filter>Source Files\Function</Filter>
     </ClInclude>
     <ClInclude Include="Vehicles.h">
+      <Filter>Source Files\Function</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
       <Filter>Source Files\Function</Filter>
     </ClInclude>
   </ItemGroup>
