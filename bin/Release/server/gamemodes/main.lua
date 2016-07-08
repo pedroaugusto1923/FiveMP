@@ -12,6 +12,7 @@ function OnPlayerConnect(playerid)
 	
 	GivePlayerWeapon(playerid, "Firework", 10);
 	ShowMessageToPlayer(playerid, "Welcome to this ~b~FiveMP ~w~server!");
+	ShowMessageToPlayer(playerid, "Your player ID is ~b~" .. playerid);
 	return 1;
 end
 

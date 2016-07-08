@@ -16,19 +16,17 @@ void InitGameScript() {
 	printf("\nIP: %s\nPort: %s\nClient Port: %s\n\n", Config->server_ipaddress, Config->server_port, Config->client_port);
 	printf("Username: %s\nUsing Steam: %d\n\n", Config->client_username, Config->client_steam_def);
 
-	NetworkManager = new CNetworkManager;
+	NetworkManager	= new CNetworkManager;
+	LocalPlayer		= new CLocalPlayer;
 
 	srand(GetTickCount());
 	RunGameScript();
 }
 
 void RunGameScript() {
-	LocalPlayer = new CLocalPlayer;
-
 	while (true)
 	{
 		LocalPlayer->Initialize();
-
 		LocalPlayer->OnTick();
 
 		RenderDebug->RenderDate();

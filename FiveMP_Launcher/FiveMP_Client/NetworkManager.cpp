@@ -188,11 +188,6 @@ void CNetworkManager::Handle()
 			playerClientID.Read(time_minute);
 			playerClientID.Read(time_pause);
 
-			printf("TIME: Hour ~b~%d ~w~- Minute ~b~%d ~w~- Freeze Time ~b~%d", time_hour, time_minute, time_pause);
-
-			sprintf(testmessage, "CLIENTID: ~b~%d", playerid);
-			player.ShowMessageAboveMap(testmessage);
-
 			TIME::ADVANCE_CLOCK_TIME_TO(time_hour, time_minute, 00);
 			TIME::PAUSE_CLOCK(time_pause);
 
