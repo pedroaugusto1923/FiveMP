@@ -102,4 +102,3 @@ extern CLocalPlayer		*LocalPlayer;
 extern CConfig			*Config;
 extern CRenderDebug		*RenderDebug;
 extern CRender			*Render;
-extern CScript			*Script;

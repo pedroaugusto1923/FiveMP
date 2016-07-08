@@ -6,11 +6,11 @@ CNetworkManager::CNetworkManager()
 	clientID = RakNet::UNASSIGNED_SYSTEM_ADDRESS;
 
 	client->AttachPlugin(&rpc);
-	rpc.RegisterSlot("ShowMessageToPlayer", Script->ShowMessageToPlayer, 0);
-	rpc.RegisterSlot("GivePlayerWeapon", Script->GivePlayerWeapon, 0);
-	rpc.RegisterSlot("RemovePlayerWeapon", Script->RemovePlayerWeapon, 0);
-	rpc.RegisterSlot("GivePlayerAmmo", Script->GivePlayerAmmo, 0);
-	rpc.RegisterSlot("RemovePlayerAmmo", Script->RemovePlayerAmmo, 0);
+	rpc.RegisterSlot("ShowMessageToPlayer", ShowMessageToPlayer, 0);
+	rpc.RegisterSlot("GivePlayerWeapon", GivePlayerWeapon, 0);
+	rpc.RegisterSlot("RemovePlayerWeapon", RemovePlayerWeapon, 0);
+	rpc.RegisterSlot("GivePlayerAmmo", GivePlayerAmmo, 0);
+	rpc.RegisterSlot("RemovePlayerAmmo", RemovePlayerAmmo, 0);
 }
 
 CNetworkManager::~CNetworkManager()

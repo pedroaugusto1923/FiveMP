@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 // -- WEAPON --
-void CScript::ShowMessageToPlayer(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
+void ShowMessageToPlayer(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
 	int playerid;
 	char string[128];
 
@@ -10,7 +10,7 @@ void CScript::ShowMessageToPlayer(RakNet::BitStream *bitStream, RakNet::Packet *
 
 	player.ShowMessageAboveMap(string);
 }
-void CScript::GivePlayerWeapon(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
+void GivePlayerWeapon(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
 	int playerid;
 	char weaponid[20];
 	int ammo;
@@ -21,7 +21,7 @@ void CScript::GivePlayerWeapon(RakNet::BitStream *bitStream, RakNet::Packet *pac
 
 	weapon.GiveWeapon(weaponid, ammo);
 }
-void CScript::RemovePlayerWeapon(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
+void RemovePlayerWeapon(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
 	int playerid;
 	char weaponid[20];
 
@@ -30,7 +30,7 @@ void CScript::RemovePlayerWeapon(RakNet::BitStream *bitStream, RakNet::Packet *p
 
 	weapon.RemoveWeapon(weaponid);
 }
-void CScript::GivePlayerAmmo(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
+void GivePlayerAmmo(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
 	int playerid;
 	char weaponid[20];
 	int ammo;
@@ -41,7 +41,7 @@ void CScript::GivePlayerAmmo(RakNet::BitStream *bitStream, RakNet::Packet *packe
 
 	weapon.GiveAmmo(weaponid, ammo);
 }
-void CScript::RemovePlayerAmmo(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
+void RemovePlayerAmmo(RakNet::BitStream *bitStream, RakNet::Packet *packet) {
 	int playerid;
 	char weaponid[20];
 	int ammo;
