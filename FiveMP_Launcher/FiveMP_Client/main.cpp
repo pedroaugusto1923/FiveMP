@@ -87,9 +87,6 @@ void RunGameScript() {
 
 			AI::TASK_SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(player33, true);
 		}
-		if (IsKeyJustUp(VK_F11)) {
-			break;
-		}
 		WAIT(0);
 	}
 }

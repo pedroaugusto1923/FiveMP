@@ -188,7 +188,7 @@ void CNetworkManager::HandlePlayerSync(Packet * p)
 
 	PlayerBitStream_receive.Read(temptimestamp);
 
-	playerData[tempplyrid].tickssince = GetTickCount();
+	playerData[tempplyrid].tickssince = GetTickCount64();
 
 	//if (tempplyrid != playerid) {
 		if (ENTITY::DOES_ENTITY_EXIST(playerData[tempplyrid].pedPed)) {
@@ -252,19 +252,23 @@ void CNetworkManager::SyncOnFoot()
 			newpos.fY = playerData[i].y;
 			newpos.fZ = playerData[i].z;
 
-			int now = GetTickCount();
-			int elapsedTime = now - playerData[i].tickssince;
-			int duration = playerData[i].tickssince+100 - playerData[i].tickssince;
-			float progress = elapsedTime / duration;
+			ULONGLONG now = GetTickCount64();
+			float elapsedTime = now - playerData[i].tickssince;
+			float progress = elapsedTime / 100;
 
 			CVector3 updpos;
-			updpos.fX = ttlerp(curpos1.fX, newpos.fX, progress);
-			updpos.fY = ttlerp(curpos1.fY, newpos.fY, progress);
-			updpos.fZ = ttlerp(curpos1.fZ, newpos.fZ, progress);
+			updpos.fX = ttlerp(newpos.fX, curpos1.fX, progress);
+			updpos.fY = ttlerp(newpos.fY, curpos1.fY, progress);
+			updpos.fZ = ttlerp(newpos.fZ, curpos1.fZ, progress);
 
 			printf("%f - %f/%f/%f\n", progress, updpos.fX, updpos.fY, updpos.fZ);
 
-			ENTITY::SET_ENTITY_COORDS(playerData[i].pedPed, updpos.fX, updpos.fY, updpos.fZ, 0, 0, 0, 0);
+			float tempz;
+
+			GAMEPLAY::GET_GROUND_Z_FOR_3D_COORD(playerData[i].x, playerData[i].y, playerData[i].z, &tempz, 1);
+
+			ENTITY::SET_ENTITY_COORDS(playerData[i].pedPed, updpos.fX, updpos.fY, tempz, 0, 0, 0, 0);
+			ENTITY::SET_ENTITY_QUATERNION(playerData[i].pedPed, playerData[i].rx, playerData[i].ry, playerData[i].rz, playerData[i].rw);
 		}
 	}
 }
